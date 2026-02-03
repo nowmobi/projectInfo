@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Categories</title>
+    <link rel="stylesheet" href="../public/style/inpublic.css" />
+  </head>
+  <body class="category-page">
+    <header class="header">
+      <div class="header-content">
+        <p class="page-title" id="categoryPageTitle"></p>
+      </div>
+    </header>
+
+    <main>
+      <div class="category-wrapper">
+        
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar__list" id="sidebarList">
+            
+          </div>
+        </aside>
+
+        
+        <div class="category-content">
+          <div class="category-grid"></div>
+
+          <div
+            class="current-articles"
+            id="currentCategoryArticles"
+            style="display: none"
+          >
+            <div class="articles-container category-articles" id="categoryArticlesContainer">
+              <div class="category-grid" id="categoryArticlesGrid"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <a
+      class="back-home-btn"
+      href="../index.html"
+      title="Back"
+      aria-label="Back to Home"
+    >
+      <img src="../public/images/home.png" alt="Home" width="36" height="36" />
+    </a>
+
+<script type="module" src="../public/js/inpublic.js"></script>
+<script type="module" src="../public/js/category.js"></script>
+
+  </body>
+</html>
