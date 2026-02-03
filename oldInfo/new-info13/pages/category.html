@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>oneirics.site - Categories</title>
+    <link rel="stylesheet" href="../public/style/inpublic.css" />
+  </head>
+  <body class="category-page">
+    <header class="header">
+      <div class="header-content">
+        <a href="../index.html" class="back-button-header" id="smartBackButton">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 18L9 12L15 6"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+
+        <p class="page-title" id="categoryPageTitle"></p>
+      </div>
+    </header>
+
+    <main>
+      <div class="category-page-content">
+        <div class="category-grid"></div>
+
+        <div
+          class="current-category-articles"
+          id="currentCategoryArticles"
+          style="display: none"
+        >
+          <div class="articles-container" id="categoryArticlesContainer">
+            <div class="articles-grid" id="categoryArticlesGrid"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <button class="sidebar-toggle-float" id="sidebarToggle">
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="1.5"
+          y="1.5"
+          width="9"
+          height="9"
+          stroke="currentColor"
+          stroke-width="2.3"
+          fill="none"
+        />
+        <rect
+          x="13.5"
+          y="1.5"
+          width="9"
+          height="9"
+          stroke="currentColor"
+          stroke-width="2.3"
+          fill="none"
+        />
+        <rect
+          x="1.5"
+          y="13.5"
+          width="9"
+          height="9"
+          stroke="currentColor"
+          stroke-width="2.3"
+          fill="none"
+        />
+        <rect
+          x="13.5"
+          y="13.5"
+          width="9"
+          height="9"
+          stroke="currentColor"
+          stroke-width="2.3"
+          fill="none"
+        />
+      </svg>
+    </button>
+
+    <a
+      class="back-home-btn"
+      href="../index.html"
+      title="Back to Home"
+      aria-label="Back to Home"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M4 20V10L12 4L20 10V20H4Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M9 20V12H15V20"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+
+    <div id="sidebarContainer"></div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="about.html">About Us</a>
+          <a href="privacy.html">Privacy Policy</a>
+        </div>
+        <div class="footer-copyright">
+          Copyright © 2026 oneirics.site. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+  </body>
+</html>
+
+<script type="module" src="../public/js/inpublic.js"></script>
+<script type="module" src="../public/js/category.js"></script>
