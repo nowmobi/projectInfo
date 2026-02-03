@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+      <link rel="stylesheet" href="public/style/inpublic.css" />
+    </head>
+    <body class="home-page">
+
+    <header class="header">
+      <div class="header-content">
+
+        <div class="header-search">
+
+          <button class="search-toggle-btn" id="searchToggleBtn" title="Search">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+                stroke="currentColor"
+                stroke-width="3"
+                fill="none"
+              />
+              <path
+                d="M21 21L16.514 16.506L21 21Z"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="logo">
+          <img src="public/logo.png" alt="Logo" class="logo-image" />
+        </div>
+
+        <button class="sidebar-toggle" id="sidebarToggle">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M3 12H21M3 6H21M3 18H21"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <div class="search-bar" id="searchBar" style="display: none">
+      <div class="search-container">
+
+        <button class="search-back-btn" id="searchBackBtn" title="Back">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 18L9 12L15 6"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div class="search-input-wrapper">
+          <input
+            type="text"
+            id="searchInput"
+            placeholder="Search..."
+            class="search-input"
+          />
+          <div class="search-icon">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle
+                cx="11"
+                cy="11"
+                r="8"
+                stroke="currentColor"
+                stroke-width="2"
+                fill="none"
+              />
+              <path
+                d="M21 21L16.514 16.506L21 21Z"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <button class="search-clear" id="searchClear" style="display: none">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div> 
+
+    <div class="ads">
+      <div id="div-gpt-ad-home1"></div>
+    </div>
+
+<main>
+
+      <div
+        class="search-results-bar"
+        id="searchResultsBar"
+        style="display: none"
+      >
+        <div class="search-results-info">
+          <span id="searchResultsCount">0</span> results found for "<span
+            id="searchQuery"
+            >"</span
+          >
+        </div>
+        <button class="clear-search-btn" id="clearSearchBtn">
+          Clear Search
+        </button>
+      </div>
+
+      <div class="category-bar">
+        <div class="category-container">
+
+        </div>
+      </div>
+
+      <div class="articles-container">
+        <div class="articles-grid" id="articlesGrid">
+
+          <div class="home_article-item"></div>
+          <div class="home_article-item"></div>
+
+          <div class="ads">
+            <div id="div-gpt-ad-home2"></div>
+          </div>
+          <div class="home_article-item"></div>
+          <div class="home_article-item"></div>
+        
+          <div class="ads">
+            <div id="div-gpt-ad-home3"></div>
+          </div>
+        
+          <div class="home_article-item"></div>
+          <div class="home_article-item"></div>
+          <div class="ads">
+            <div id="div-gpt-ad-home4"></div>
+          </div>
+          <div class="home_article-item"></div>
+          <div class="home_article-item"></div>
+          <div class="ads">
+            <div id="div-gpt-ad-home5"></div>
+          </div>
+        
+          <div class="home_article-item"></div>
+
+        </div>
+
+        <div class="empty-state dsn" id="emptyState">
+          <div class="empty-state-content">
+            <div class="empty-state-icon">📝</div>
+            <h3 class="empty-state-text">No articles found</h3>
+            <p>Try adjusting your search terms or browse by category</p>
+          </div>
+        </div>
+
+        <div
+          class="random-redirect-notice"
+          id="randomRedirectNotice"
+          style="display: none"
+        >
+          <div class="redirect-content">
+            <div class="redirect-icon">🎯</div>
+            <div class="redirect-text">
+              <h3>Discovering a Random Article...</h3>
+              <p>We're preparing a special article just for you!</p>
+              <div class="redirect-countdown" id="redirectCountdown"></div>
+            </div>
+            <button class="redirect-cancel-btn" id="redirectCancelBtn">
+              Stay on Homepage
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="pages/about.html">About Us</a>
+          <a href="pages/privacy.html">Privacy Policy</a>
+        </div>
+        <div class="footer-copyright">
+          Copyright © 2025 susurrate.site. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <button
+      class="back-to-top-btn"
+      id="backToTopBtn"
+      title="Back to Top"
+      aria-label="Back to Top"
+    >
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <path
+          d="M7 17L12 12L17 17"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <path
+          d="M7 11L12 6L17 11"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
+    <div class="sidebar-menu" id="sidebarMenu">
+      <div class="sidebar-content">
+        <div class="sidebar-header">
+          <h3>Menu</h3>
+          <button class="sidebar-close" id="sidebarClose">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="sidebar-items">
+
+          <a href="index.html" class="sidebar-item" data-page="home">
+            <span>Home</span>
+          </a>
+
+          <div class="sidebar-categories">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  </body>
+</html>
+
+<script  type="module" src="public/js/inpublic.js"></script>
+<script type="module">
+  import { ad_code_identifier } from "./ads.js";
+
+
+  if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
+  
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = "./homegg.js";
+    document.body.appendChild(script);
+  } else {
+   
+    const script = document.createElement("script");
+    script.type = "module";
+    script.src = "./homegg_ads.js";
+    document.body.appendChild(script);
+  }
+</script>
