@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     <meta name="referrer" content="no-referrer" />
+    <title>Article Detail</title>
+    <link rel="stylesheet" href="public/style/inpublic.css" />
+    </head>
+  <body>
+
+    <header class="header">
+      <div class="header-content">
+
+        <a href="#" class="back-button-header" id="smartBackButton">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 18L9 12L15 6"
+              stroke="currentColor"
+              stroke-width="3"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </a>
+
+        <button class="sidebar-toggle" id="sidebarToggle">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="5" cy="12" r="2" fill="currentColor" />
+            <circle cx="12" cy="12" r="2" fill="currentColor" />
+            <circle cx="19" cy="12" r="2" fill="currentColor" />
+          </svg>
+        </button>
+      </div>
+    </header>    
+    <div class="ads">
+      <div id="div-gpt-ad-detail1"></div>
+    </div>
+    <main class="page-content">
+      <div class="article-detail">
+
+        <div class="article-header">
+          <h1 class="article-detail-title" id="articleTitle">Loading...</h1>
+          <div class="article-detail-meta">
+            <span id="articleType">-</span>
+            <span id="articleTime">-</span>
+          </div>
+          <div class="article-detail-source">
+            <span id="articleSource">-</span>
+          </div>
+
+          <div
+            class="article-detail-section"
+            id="articleSection"
+            style="display: none"
+          >
+            <p id="sectionText"></p>
+          </div>
+        </div>
+
+        <div class="article-detail-content" id="articleContent">
+          <div class="loading">
+            <div class="loading-spinner"></div>
+          </div>
+          <div class="article-item"></div>
+
+          <div class="ads">
+            <div id="div-gpt-ad-detail2"></div>
+          </div>
+          <div class="article-item"></div>
+          <div class="ads">
+            <div id="div-gpt-ad-detail3"></div>
+          </div>
+          <div class="article-item"></div>
+
+          <div class="ads">
+            <div id="div-gpt-ad-detail4"></div>
+          </div>
+          <div class="article-item"></div>
+          <div class="ads">
+            <div id="div-gpt-ad-detail5"></div>
+          </div>
+          <div class="article-item"></div>
+
+      </div>
+
+      <div class="recommended-section">
+        <div class="category-section">
+          <div class="category-section-header">
+            <div class="category-section-icon">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  stroke="currentColor"
+                  stroke-width="2"
+                />
+              </svg>
+            </div>
+            <h2 class="category-section-title">Hot</h2>
+          </div>
+          <div class="category-section-articles" id="recommendedArticles">
+
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="pages/sky.lssk.online">About Us</a>
+          <a href="pages/privacy.html">Privacy Policy</a>
+        </div>
+        <div class="footer-copyright">
+          Copyright © 2026 sky.lssk.online. All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <button
+      class="back-to-top-btn"
+      id="backToTopBtn"
+      title="Back to Top"
+      aria-label="Back to Top"
+    >
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+        <path
+          d="M7 17L12 12L17 17"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+
+        <path
+          d="M7 11L12 6L17 11"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
+    <a
+      class="back-home-btn"
+      href="index.html?fromDetail=true"
+      title="Back to Home"
+      aria-label="Back to Home"
+    >
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+          stroke="currentColor"
+          stroke-width="2"
+        />
+        <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" />
+      </svg>
+    </a>
+
+    <div class="sidebar-menu" id="sidebarMenu">
+      <div class="sidebar-content">
+        <div class="sidebar-header">
+          <h3>Menu</h3>
+          <button class="sidebar-close" id="sidebarClose">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="sidebar-items">
+
+          <a
+            href="index.html?fromDetail=true"
+            class="sidebar-item"
+            data-page="home"
+          >
+            <span>Home</span>
+          </a>
+
+          <div class="sidebar-categories">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <script type="module" src="public/js/inpublic.js"></script>
+    <script type="module" src="public/js/detail.js"></script>
+    <script type="module">
+      import { ad_code_identifier } from "./ads.js";
+    
+      if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "./detailgg.js";
+        document.body.appendChild(script);
+      } else {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "./detailgg_ads.js";
+        document.body.appendChild(script);
+      }
+    </script>
+  </body>
+</html>
+    
