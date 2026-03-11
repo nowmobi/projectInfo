@@ -8,7 +8,7 @@ const filesToPack = [
     'pages',
     'public',
     'index.html',
-    'depth.html',
+    'detail.html',
     'robots.txt',
     'homegg_ads.js',
     'detailgg_ads.js',
