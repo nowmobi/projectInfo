@@ -44,17 +44,17 @@ export function getDetailApiPath() {
 }
 
 export function getImgUrl(article) {
- 
+  
   if (!article.img) {
     return "https://news-api.szwyi.com/finance_info_img/default.png";
   }
 
- 
-  let imgFileName = article.img;
-  if (imgFileName.includes("/")) {
-   
-    imgFileName = imgFileName.split("/").pop();
+
+  if (article.img.startsWith('http://') || article.img.startsWith('https://')) {
+    return article.img;
   }
 
-  return `https://news-api.szwyi.com/finance_info_img/${imgFileName}`;
+  
+  return `https://news-api.szwyi.com/finance_info_img/${article.img}`;
 }
+
