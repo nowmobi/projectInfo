@@ -1,24 +1,26 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     
-     <meta name="description" content="A preferred platform for hot news, in-depth analysis and industry trends">
+
+    <meta
+      name="description"
+      content="A preferred platform for hot news, in-depth analysis and industry trends"
+    />
     <title>Index</title>
     <link rel="stylesheet" href="public/style/inpublic.css" />
-
   </head>
 
   <body class="home-page">
     <header class="header">
       <div class="header-content">
         <div class="logo">
-         <p>info.bellwether.cloud</p>
+          <p>info.bellwether.cloud</p>
         </div>
 
         <button class="sidebar-toggle" id="sidebarToggle">
-          <img src="public/images/category.svg" alt="">
+          <img src="public/images/category.svg" alt="" />
         </button>
       </div>
     </header>
@@ -63,10 +65,7 @@
           </div>
         </div>
 
-        <div
-          class="search-results-bar dsn"
-          id="searchResultsBar"
-        >
+        <div class="search-results-bar dsn" id="searchResultsBar">
           <div class="search-results-info">
             <span id="searchResultsCount">0</span> results found for "<span
               id="searchQuery"
@@ -78,20 +77,17 @@
           </button>
         </div>
 
-
         <div class="random-articles-section">
-           <h3 class="random-articles-title">Recommended For You</h3>
-          <div class="random-articles-grid" id="randomArticlesGrid">
-          </div>
+          <h3 class="random-articles-title">Recommended For You</h3>
+          <div class="random-articles-grid" id="randomArticlesGrid"></div>
         </div>
 
         <div class="top-articles-section">
-          <div class="top-articles-list" id="topArticlesList">
-          </div>
+          <div class="top-articles-list" id="topArticlesList"></div>
         </div>
-    <div class="ads">
-              <div id="div-gpt-ad-home2"></div>
-            </div>
+        <div class="ads">
+          <div id="div-gpt-ad-home2"></div>
+        </div>
         <h3 class="categories-title">Categories</h3>
         <div class="category-bar">
           <div class="category-container"></div>
@@ -101,25 +97,25 @@
           <div class="articles-grid" id="articlesGrid">
             <div class="home_article-item"></div>
             <div class="home_article-item"></div>
-      
+
             <div class="ads">
               <div id="div-gpt-ad-home3"></div>
             </div>
-      
+
             <div class="home_article-item"></div>
             <div class="home_article-item"></div>
-      
+
             <div class="ads">
               <div id="div-gpt-ad-home4"></div>
             </div>
-      
+
             <div class="home_article-item"></div>
             <div class="home_article-item"></div>
-      
+
             <div class="ads">
               <div id="div-gpt-ad-home5"></div>
             </div>
-      
+
             <div class="home_article-item"></div>
             <div class="home_article-item"></div>
             <div class="home_article-item"></div>
@@ -134,10 +130,7 @@
             </div>
           </div>
 
-          <div
-            class="random-redirect-notice dsn"
-            id="randomRedirectNotice"
-          >
+          <div class="random-redirect-notice dsn" id="randomRedirectNotice">
             <div class="redirect-content">
               <div class="redirect-icon">🎯</div>
               <div class="redirect-text">
@@ -166,7 +159,7 @@
       </div>
     </footer>
 
-   <div class="sidebar-menu" id="sidebarMenu">
+    <div class="sidebar-menu" id="sidebarMenu">
       <div class="sidebar-content">
         <div class="sidebar-header">
           <h3>Menu</h3>
@@ -197,29 +190,25 @@
             <span>Home</span>
           </a>
 
-          <div class="sidebar-category">
-            
-          </div>
+          <div class="sidebar-category"></div>
         </div>
       </div>
     </div>
 
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
-
     <script type="module" src="public/js/inpublic.js"></script>
     <script type="module">
       import { ad_code_identifier } from "./ads.js";
-    
+
       if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
         console.log("✅ cate is 'adx', loading detailgg.js...");
-    
+
         const script = document.createElement("script");
         script.type = "module";
         script.src = "./homegg.js";
         document.body.appendChild(script);
       } else {
-    
         const script = document.createElement("script");
         script.type = "module";
         script.src = "./homegg_ads.js";

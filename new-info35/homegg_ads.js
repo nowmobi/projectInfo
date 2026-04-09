@@ -54,6 +54,7 @@ const channelParam = storedChannel || urlChannel;
 
 
 const adunits = ad_code_identifier.adunit;
+
 let selectedAdunit = null;
 
 
@@ -108,11 +109,12 @@ function insertAdsToContainers() {
     }
 
     
-    container.innerHTML = "";
-    console.log(`🧹 Cleared content of ads container ${index + 1}`);
+    if (index < homeAds.length) {
+      
+      container.innerHTML = "";
+      console.log(`🧹 Cleared content of ads container ${index + 1}`);
 
-    
-    homeAds.forEach((ad, adIndex) => {
+      const ad = homeAds[index];
       
       const insElement = document.createElement("ins");
       insElement.className = "adsbygoogle";
@@ -126,16 +128,20 @@ function insertAdsToContainers() {
       container.appendChild(insElement);
 
       
-      const script = document.createElement("script");
-      script.textContent = "(adsbygoogle = window.adsbygoogle || []).push({});";
-      container.appendChild(script);
-
-      console.log(
-        `✅ Inserted ad ${adIndex + 1} into container ${index + 1} with slot: ${
-          ad.slot
-        }`
-      );
-    });
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+        console.log(
+          `✅ Inserted ad ${index + 1} into container ${index + 1} with slot: ${
+            ad.slot
+          }`
+        );
+      } catch (error) {
+        console.error(`❌ Error pushing ad ${index + 1}:`, error);
+      }
+    } else {
+      console.log(`⚠️ Container ${index + 1}: no corresponding ad data available`);
+      
+    }
   });
 
   console.log("✅ All ads inserted successfully");
