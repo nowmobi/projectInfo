@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+    <link rel="stylesheet" href="./public/style/inpublic.css">
+</head>
+<body>
+    
+    <header class="header">
+        <a href="index.html" class="logo">
+            <p>volutes.fun</p>
+        </a>
+        <div class="header-icons">
+            <button class="header-icon" id="searchIconBtn" type="button">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="11" cy="11" r="8" stroke="var(--text-primary)" stroke-width="2"/>
+                    <path d="m21 21-4.35-4.35" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <a href="#" class="header-icon" id="menuToggle">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="2" y="2" width="8" height="8" stroke="var(--text-primary)" stroke-width="2" fill="none"/>
+                    <rect x="14" y="2" width="8" height="8" stroke="var(--text-primary)" stroke-width="2" fill="none"/>
+                    <rect x="2" y="14" width="8" height="8" stroke="var(--text-primary)" stroke-width="2" fill="none"/>
+                    <rect x="14" y="14" width="8" height="8" stroke="var(--text-primary)" stroke-width="2" fill="none"/>
+                </svg>
+            </a>
+        </div>
+    </header>
+    
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <div class="categories-menu" id="categoriesMenu">
+        <div class="categories-header">
+            <span class="categories-title">Menu</span>
+            <span class="close-categories" id="closeCategories">✕</span>
+        </div>
+        <div class="category-item active" data-category="home">
+            <span class="category-name">Home</span>
+        </div>
+        <div id="categoryItems">
+            
+        </div>
+    </div>
+    
+    <main class="main-content">
+        <div class="ads">
+            <div id="div-gpt-ad-home1">11</div>
+        </div>
+        
+        
+        <div class="search-section" id="searchOverlay">
+            <div class="search-bar">
+                <input type="text" id="searchInput" placeholder="Search...">
+                <button class="search-btn" type="button">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="11" cy="11" r="8" stroke="var(--text-primary)" stroke-width="2"/>
+                        <path d="m21 21-4.35-4.35" stroke="var(--text-primary)" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+
+
+        
+        <div class="carousel-container">
+            <div class="carousel-wrapper" id="carouselWrapper">
+                
+            </div>
+            <div class="carousel-indicators" id="carouselIndicators">
+                
+            </div>
+        </div>
+        <div class="popular-games-section">
+            <div class="section-header">
+                <h2 class="section-title">Popular Games</h2>
+            </div>
+            <div class="popular-games-container">
+                <div class="popular-games-wrapper" id="popularGamesWrapper">
+                   
+                </div>
+            </div>
+        </div>
+        <div class="ads">
+            <div id="div-gpt-ad-home2">22</div>
+          </div>
+        <section class="category-section">  </section>
+        <div class="ads">
+            <div id="div-gpt-ad-home3">33</div>
+          </div>
+        <section class="category-section"></section>
+        <div class="ads">
+            <div id="div-gpt-ad-home4">44</div>
+          </div>
+        <section class="category-section">  </section>
+        <div class="ads">
+            <div id="div-gpt-ad-home5">55</div>
+          </div> 
+        <section class="category-section">
+            <div class="game-grid game-grid-three-columns">
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+            </div>
+        </section>
+        <section class="category-section">
+            <div class="game-grid game-grid-three-columns">
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+                <div class="game-card"></div>
+            </div>
+        </section>
+    </main>
+    
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="pages/privacy.html">Privacy Policy</a>
+            <a href="pages/terms.html">Terms of Use</a>
+        </div>
+        
+        <div class="footer-copyright">
+            <div class="footer-copyright-text">© 2026 volutes.fun. All Rights Reserved.</div>
+        </div>
+    </footer>
+
+    <script type="module" src="./public/js/inpublic.js"></script>
+<script type="module" src="./public/js/index.js"></script>
+<script type="module">
+        import { ad_code_identifier } from "./ads.js";
+      
+        if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
+          const script = document.createElement("script");
+          script.type = "module";
+          script.src = "./homegg.js";
+          document.body.appendChild(script);
+        } else {
+          const script = document.createElement("script");
+          script.type = "module";
+          script.src = "./homegg_ads.js";
+          document.body.appendChild(script);
+        }
+      </script>
+</body>
+</html>
+
