@@ -1,10 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     
-      <meta name="description" content="A preferred platform for hot news, in-depth analysis and industry trends">
+
+    <meta
+      name="description"
+      content="A preferred platform for hot news, in-depth analysis and industry trends"
+    />
     <title>Article Detail</title>
     <link rel="stylesheet" href="public/style/inpublic.css" />
   </head>
@@ -31,7 +34,7 @@
         </a>
 
         <button class="sidebar-toggle" id="sidebarToggle">
-          <img src="public/images/category.svg" alt="">
+          <img src="public/images/category.svg" alt="" />
         </button>
       </div>
     </header>
@@ -54,7 +57,6 @@
                 <span id="articleSource">-</span>
               </div>
             </div>
-
           </div>
 
           <div class="article-detail-content" id="articleContent">
@@ -85,12 +87,11 @@
             <h3 class="recommended-title">You May Also Like</h3>
             <div class="quick-recommended-list" id="quickRecommendedList"></div>
           </div>
-          
+
           <div class="recommended-section">
-            <h3 class="recommended-title">  Hot Articles</h3>
+            <h3 class="recommended-title">Hot Articles</h3>
             <div class="recommended-articles" id="recommendedArticles"></div>
           </div>
-
         </div>
       </div>
     </main>
@@ -105,6 +106,10 @@
           Copyright © 2026 info.bellwether.cloud. All rights reserved.
         </div>
       </div>
+
+      <div class="ads fixed">
+        <div id="div-gpt-ad-detail-anchor"></div>
+      </div>
     </footer>
 
     <a
@@ -113,7 +118,8 @@
       title="Back to Home"
       aria-label="Back to Home"
     >
-    <img src="public/images/home.svg" alt="">  </a>
+      <img src="public/images/home.svg" alt="" />
+    </a>
 
     <div class="sidebar-menu" id="sidebarMenu">
       <div class="sidebar-content">
@@ -146,9 +152,7 @@
             <span>Home</span>
           </a>
 
-          <div class="sidebar-category">
-            
-          </div>
+          <div class="sidebar-category"></div>
         </div>
       </div>
     </div>
@@ -156,24 +160,21 @@
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <script type="module" src="public/js/inpublic.js"></script>
-<script type="module" src="public/js/sec.js"></script>
-<script type="module">
-  import { ad_code_identifier } from "./ads.js";
+    <script type="module" src="public/js/sec.js"></script>
+    <script type="module">
+      import { ad_code_identifier } from "./ads.js";
 
-  if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
-
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "./detailgg.js";
-    document.body.appendChild(script);
-  } else {
-
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "./detailgg_ads.js";
-    document.body.appendChild(script);
-  }
-</script>
-
+      if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "./detailgg.js";
+        document.body.appendChild(script);
+      } else {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "./detailgg_ads.js";
+        document.body.appendChild(script);
+      }
+    </script>
   </body>
 </html>

@@ -97,6 +97,7 @@ function insertAdsToContainers() {
   }
 
   
+  let homeAdIndex = 0;
   adsContainers.forEach((container, index) => {
     
     if (container.className.trim() !== "ads") {
@@ -109,12 +110,19 @@ function insertAdsToContainers() {
     }
 
     
-    if (index < homeAds.length) {
+    const isInFooter = container.closest("footer.footer");
+    if (isInFooter) {
+      console.log(`⏭️ Skipping container ${index + 1}: it's in footer (anchor ad)`);
+      return;
+    }
+
+    
+    if (homeAdIndex < homeAds.length) {
       
       container.innerHTML = "";
       console.log(`🧹 Cleared content of ads container ${index + 1}`);
 
-      const ad = homeAds[index];
+      const ad = homeAds[homeAdIndex];
       
       const insElement = document.createElement("ins");
       insElement.className = "adsbygoogle";
@@ -131,20 +139,112 @@ function insertAdsToContainers() {
       try {
         (window.adsbygoogle = window.adsbygoogle || []).push({});
         console.log(
-          `✅ Inserted ad ${index + 1} into container ${index + 1} with slot: ${
+          `✅ Inserted ad ${homeAdIndex + 1} into container ${index + 1} with slot: ${
             ad.slot
           }`
         );
       } catch (error) {
-        console.error(`❌ Error pushing ad ${index + 1}:`, error);
+        console.error(`❌ Error pushing ad ${homeAdIndex + 1}:`, error);
       }
+      
+      homeAdIndex++;
     } else {
       console.log(`⚠️ Container ${index + 1}: no corresponding ad data available`);
       
     }
   });
 
-  console.log("✅ All ads inserted successfully");
+  console.log("✅ All home ads inserted successfully");
+}
+
+
+function insertAnchorAd() {
+  console.log("🔍 insertAnchorAd function called");
+  console.log("🔍 selectedAdunit:", selectedAdunit);
+  
+  if (!selectedAdunit) {
+    console.error("❌ selectedAdunit is null or undefined");
+    return;
+  }
+
+  if (!selectedAdunit.home_anchor) {
+    console.log("⚠️ No home_anchor ads found in selected adunit");
+    console.log("🔍 selectedAdunit keys:", Object.keys(selectedAdunit));
+    return;
+  }
+
+  const anchorAds = selectedAdunit.home_anchor;
+  console.log("🔍 anchorAds:", anchorAds);
+  console.log("🔍 Is array?", Array.isArray(anchorAds));
+  
+  let anchorAd = null;
+  
+  
+  if (Array.isArray(anchorAds)) {
+    
+    if (anchorAds.length === 0) {
+      console.log("⚠️ home_anchor array is empty");
+      return;
+    }
+    anchorAd = anchorAds[0];
+    console.log("🔍 anchorAd (from array):", anchorAd);
+  } else {
+    
+    anchorAd = anchorAds;
+    console.log("🔍 anchorAd (direct object):", anchorAd);
+  }
+
+  if (!anchorAd || !anchorAd.slot) {
+    console.warn("⚠️ Invalid anchor ad data:", anchorAd);
+    return;
+  }
+
+  console.log(`📍 Found anchor ad with slot: ${anchorAd.slot}`);
+
+  
+  const footer = document.querySelector("footer.footer");
+  if (!footer) {
+    console.warn("⚠️ Footer not found");
+    return;
+  }
+  console.log("✅ Footer element found");
+
+  
+  const anchorAdContainer = footer.querySelector(".ads");
+  if (!anchorAdContainer) {
+    console.warn("⚠️ Anchor ad container (.ads) not found in footer");
+    console.log("🔍 Footer innerHTML:", footer.innerHTML.substring(0, 200));
+    return;
+  }
+  console.log("✅ Anchor ad container found:", anchorAdContainer);
+
+  
+  anchorAdContainer.innerHTML = "";
+  console.log(`🧹 Cleared anchor ad container`);
+
+  
+  const insElement = document.createElement("ins");
+  insElement.className = "adsbygoogle";
+  insElement.style.display = "block";
+  insElement.setAttribute("data-ad-client", clientId);
+  insElement.setAttribute("data-ad-slot", anchorAd.slot);
+  insElement.setAttribute("data-ad-format", "auto");
+  insElement.setAttribute("data-full-width-responsive", "true");
+
+  anchorAdContainer.appendChild(insElement);
+  console.log(`✅ Created and appended ins element for anchor ad`);
+  console.log(`🔍 Container now has ${anchorAdContainer.children.length} children`);
+
+  
+  setTimeout(() => {
+    try {
+      console.log(`🚀 Pushing anchor ad to adsbygoogle...`);
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+      console.log(`✅ Anchor ad pushed successfully with slot: ${anchorAd.slot}`);
+    } catch (error) {
+      console.error(`❌ Error pushing anchor ad:`, error);
+    }
+  }, 100);
 }
 
 
@@ -152,9 +252,9 @@ if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     
     setTimeout(insertAdsToContainers, 500);
+    setTimeout(insertAnchorAd, 600);
   });
 } else {
   setTimeout(insertAdsToContainers, 500);
+  setTimeout(insertAnchorAd, 600);
 }
-
-console.log("✅ homegg_ads.js loaded successfully");
