@@ -666,10 +666,11 @@ main {
   justify-content: center;
   align-items: center;
 }
-.fixed {
-  position: fixed;
-  bottom: -87px;
+.footer .adunit-anchor {
+  position: absolute;
+  z-index: 9999;
 }
+
 .ads > ins {
   width: 100%;
   max-width: 300px;
@@ -1726,9 +1727,8 @@ main {
   gap: 10px;
 }
 
-
 /* Interstitial Ad Styles - Full Screen Overlay */
-.ads.interstitial-ad {
+/* .ads.interstitial-ad {
   position: fixed;
   top: 0;
   left: 0;
@@ -1748,4 +1748,4 @@ main {
   width: 100%;
   height: 100%;
   display: block !important;
-}
+} */
