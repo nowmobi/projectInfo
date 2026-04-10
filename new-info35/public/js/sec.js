@@ -242,7 +242,7 @@ class ArticleDetailPage {
                             ${article.create_time ? `<p><strong>Published:</strong> ${Utils.formatTime(article.create_time)}</p>` : ''}
                         </div>
                         <div class="article-actions">
-                            <button onclick="window.history.back()" class="back-button">Back to News List</button>
+                             <button onclick="window.location.href='index.html?fromDetail=true'" class="back-button">Back to News List</button>
                         </div>
                     `;
     }
