@@ -3,40 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     
-      <meta name="description" content="A preferred platform for hot news, in-depth analysis and industry trends">
     <title>Privacy Policy</title>
     <link rel="stylesheet" href="../public/style/inpublic.css" />
   </head>
   <body>
     <header class="header">
       <div class="header-content">
-        <a href="#" class="back-button-header" id="smartBackButton">
+        <a href="#" class="back-header" id="smartBackButton">
           <svg
-            width="20"
-            height="20"
+            width="24"
+            height="24"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
             <path
               d="M19 12H5M12 19L5 12L12 5"
-              stroke="var(--color2)"
-              stroke-width="2"
+              stroke="currentColor"
+              stroke-width="3"
               stroke-linecap="round"
               stroke-linejoin="round"
             />
           </svg>
-          <span>Back</span>
         </a>
 
         <button class="sidebar-toggle" id="sidebarToggle">
-          <img src="../public/images/category.svg" alt="">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle cx="5" cy="12" r="2" fill="currentColor" />
+            <circle cx="12" cy="12" r="2" fill="currentColor" />
+            <circle cx="19" cy="12" r="2" fill="currentColor" />
+          </svg>
         </button>
       </div>
     </header>
 
-    <main class="page-content">
+    <main>
       <div class="privacy-page">
         <div class="privacy-header">
           <h1>Privacy Policy</h1>
@@ -170,6 +177,64 @@
       </div>
     </main>
 
+    <div class="sidebar-menu" id="sidebarMenu"></div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <button
+      class="top-btn"
+      id="backToTopBtn"
+      title="Back to Top"
+      aria-label="Back to Top"
+    >
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+          d="M7 17L12 12L17 17"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M7 11L12 6L17 11"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+
+    <a
+      class="home-btn"
+      href="../index.html"
+      title="Back to Home"
+      aria-label="Back to Home"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M9 22V12H15V22"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-links">
@@ -177,56 +242,12 @@
           <a href="privacy.html">Privacy Policy</a>
         </div>
         <div class="footer-copyright">
-          Copyright © 2026 info.bellwether.cloud. All rights reserved.
+          Copyright © 2026 info.oubliett.com. All rights reserved.
         </div>
       </div>
     </footer>
 
-    <div class="sidebar-menu" id="sidebarMenu">
-      <div class="sidebar-content">
-        <div class="sidebar-header">
-          <h3>Menu</h3>
-          <button class="sidebar-close" id="sidebarClose">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18 6L6 18M6 6L18 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
-          </button>
-        </div>
-        <div class="sidebar-items">
-          <a href="../index.html" class="sidebar-item" data-page="home">
-            <span>Home</span>
-          </a>
-
-          <div class="sidebar-category">
-            
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <a
-      class="back-home-btn"
-      href="../index.html"
-      title="Back to Home"
-      aria-label="Back to Home"
-    >
-       <img src="../public/images/home.svg" alt="">
-    </a>
-
-    <script type="module" src="../public/js/inpublic.js"></script>
+    <script src="../public/js/BaseURL.js"></script>
+    <script src="../public/js/inpublic.js"></script>
   </body>
 </html>
