@@ -1,6 +1,6 @@
 :root {
-  --color1: #ae1c31;
-  --color2: #51e3ce;
+  --color1: #145f39;
+  --color2: #eba0c6;
 }
 
 * {
@@ -666,10 +666,16 @@ main {
   justify-content: center;
   align-items: center;
 }
-.footer .adunit-anchor {
-  position: absolute;
+
+/* 锚定固定定位 */
+/* .footer .adunit-anchor {
+  position: fixed;
   z-index: 9999;
-}
+  height: 50px;
+  overflow: hidden;
+  bottom: 0;
+  z-index: 9999;
+} */
 
 .ads > ins {
   width: 100%;
@@ -678,6 +684,7 @@ main {
   justify-content: center;
   align-items: center;
 }
+
 
 .detail-page-content {
   max-width: 800px;

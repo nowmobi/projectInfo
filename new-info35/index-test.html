@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta
+      name="description"
+      content="A preferred platform for hot news, in-depth analysis and industry trends"
+    />
+    <title>Index</title>
+    <link rel="stylesheet" href="public/style/inpublic.css" />
+  </head>
+
+  <body class="home-page">
+    <div class="ads interstitial-ad">
+      <div id="div-gpt-ad-interstitial"></div>
+    </div>
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <p>info.bellwether.cloud</p>
+        </div>
+
+        <button class="sidebar-toggle" id="sidebarToggle">
+          <img src="public/images/category.svg" alt="" />
+        </button>
+      </div>
+    </header>
+
+    <div class="ads">
+      <div id="div-gpt-ad-home1"></div>
+    </div>
+    <main>
+      <div class="home-page-content">
+        <div class="search-bar">
+          <div class="search-container">
+            <div class="search-input-wrapper">
+              <div class="search-icon"></div>
+              <input
+                type="text"
+                id="searchInput"
+                placeholder="Search..."
+                class="search-input"
+              />
+              <button
+                class="search-clear"
+                id="searchClear"
+                style="display: none"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M18 6L6 18M6 6L18 18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="search-results-bar dsn" id="searchResultsBar">
+          <div class="search-results-info">
+            <span id="searchResultsCount">0</span> results found for "<span
+              id="searchQuery"
+              >"</span
+            >
+          </div>
+          <button class="clear-search-btn" id="clearSearchBtn">
+            Clear Search
+          </button>
+        </div>
+
+        <div class="random-articles-section">
+          <h3 class="random-articles-title">Recommended For You</h3>
+          <div class="random-articles-grid" id="randomArticlesGrid"></div>
+        </div>
+
+        <div class="top-articles-section">
+          <div class="top-articles-list" id="topArticlesList"></div>
+        </div>
+        <div class="ads">
+          <div id="div-gpt-ad-home2"></div>
+        </div>
+        <h3 class="categories-title">Categories</h3>
+        <div class="category-bar">
+          <div class="category-container"></div>
+        </div>
+
+        <div class="articles-container">
+          <div class="articles-grid" id="articlesGrid">
+            <div class="home_article-item"></div>
+            <div class="home_article-item"></div>
+
+            <div class="ads">
+              <div id="div-gpt-ad-home3"></div>
+            </div>
+
+            <div class="home_article-item"></div>
+            <div class="home_article-item"></div>
+
+            <div class="ads">
+              <div id="div-gpt-ad-home4"></div>
+            </div>
+
+            <div class="home_article-item"></div>
+            <div class="home_article-item"></div>
+
+            <div class="ads">
+              <div id="div-gpt-ad-home5"></div>
+            </div>
+
+            <div class="home_article-item"></div>
+            <div class="home_article-item"></div>
+            <div class="home_article-item"></div>
+            <div class="home_article-item"></div>
+          </div>
+
+          <div class="empty-state dsn" id="emptyState">
+            <div class="empty-state-content">
+              <div class="empty-state-icon">📝</div>
+              <h3 class="empty-state-text">No articles found</h3>
+              <p>Try adjusting your search terms or browse by category</p>
+            </div>
+          </div>
+
+          <div class="random-redirect-notice dsn" id="randomRedirectNotice">
+            <div class="redirect-content">
+              <div class="redirect-icon">🎯</div>
+              <div class="redirect-text">
+                <h3>Discovering a Random Article...</h3>
+                <p>We're preparing a special article just for you!</p>
+                <div class="redirect-countdown" id="redirectCountdown"></div>
+              </div>
+              <button class="redirect-cancel-btn" id="redirectCancelBtn">
+                Stay on Homepage
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+    
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="pages/about.html">About Us</a>
+          <a href="pages/privacy.html">Privacy Policy</a>
+        </div>
+        <div class="footer-copyright">
+          Copyright © 2026 info.bellwether.cloud. All rights reserved.
+        </div>
+      </div>
+      
+      <div class="ads adunit-anchor">
+        <div id="div-gpt-ad-home-anchor"></div>
+      </div>
+      
+    </footer>
+
+    <div class="sidebar-menu" id="sidebarMenu">
+      <div class="sidebar-content">
+        <div class="sidebar-header">
+          <h3>Menu</h3>
+          <button class="sidebar-close" id="sidebarClose">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="sidebar-items">
+          <a
+            href="index.html?fromDetail=true"
+            class="sidebar-item"
+            data-page="home"
+          >
+            <span>Home</span>
+          </a>
+
+          <div class="sidebar-category"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <script type="module" src="public/js/inpublic.js"></script>
+    <script type="module">
+      import { ad_code_identifier } from "./ads.js";
+
+      if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
+        console.log("✅ cate is 'adx', loading detailgg.js...");
+
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "./homegg.js";
+        document.body.appendChild(script);
+      } else {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "./homegg_ads.js";
+        document.body.appendChild(script);
+      }
+    </script>
+  </body>
+</html>
