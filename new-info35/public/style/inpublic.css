@@ -1725,3 +1725,27 @@ main {
   flex-direction: column;
   gap: 10px;
 }
+
+
+/* Interstitial Ad Styles - Full Screen Overlay */
+.ads.interstitial-ad {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99999;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.ads.interstitial-ad ins.adsbygoogle {
+  width: 100%;
+  height: 100%;
+  display: block !important;
+}
