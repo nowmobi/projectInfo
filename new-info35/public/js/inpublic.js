@@ -1,9 +1,11 @@
-
 import { remoteDataConfig, Category_URL } from "./BaseURL.js";
+import { ad_code_identifier } from "../../ads.js";
+
 
 const urlParams = new URLSearchParams(window.location.search);
 if (urlParams.has("channel")) {
-  window.channel = urlParams.get("channel");
+  window.channel =
+    urlParams.get("channel") || Object.keys(ad_code_identifier.adunit)[0];
 }
 
 class HealthNewsApp {
@@ -11,14 +13,16 @@ class HealthNewsApp {
     this.currentCategory = "all";
     this.articles = [];
     this.categories = [];
-    this.categoryOrder = null; 
+    this.categoryOrder = null;
     this.init();
   }
 
   async init() {
-    const isCategoryPage = window.location.pathname.includes("/pages/category.html");
+    const isCategoryPage = window.location.pathname.includes(
+      "/pages/category.html",
+    );
     const isDetailPage = window.location.pathname.includes("sec.html");
-    
+
     await this.loadCategoryOrder();
     if (!isCategoryPage && !isDetailPage) {
       await this.loadData();
@@ -40,29 +44,34 @@ class HealthNewsApp {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 5000);
       const articlesUrl = Category_URL;
-      const response = await fetch(articlesUrl, { 
+      const response = await fetch(articlesUrl, {
         cache: "no-cache",
         signal: controller.signal,
-        method: 'GET',
+        method: "GET",
         headers: {
-          'Accept': 'application/json'
+          Accept: "application/json",
         },
-        credentials: 'omit'
+        credentials: "omit",
       });
       clearTimeout(timeoutId);
-      
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      
+
       let articlesData = [];
-      
+
       if (Array.isArray(data)) {
         articlesData = data;
-      } else if (data && typeof data === 'object') {
-        
-        articlesData = data.articles || data.data || data.Data || data.news || data.content || [];
+      } else if (data && typeof data === "object") {
+        articlesData =
+          data.articles ||
+          data.data ||
+          data.Data ||
+          data.news ||
+          data.content ||
+          [];
       }
       this.articles = articlesData;
       this.generateCategoriesFromArticles();
@@ -73,7 +82,7 @@ class HealthNewsApp {
           id: "all",
           name: "Suggest",
           icon: "",
-        }
+        },
       ];
       this.articles = [];
       this.showEmptyState();
@@ -90,7 +99,11 @@ class HealthNewsApp {
   generateCategoriesFromArticles() {
     const typeMap = new Map();
     this.articles.forEach((article) => {
-      const originalCategory = article.type || article.category || article.thirdCategoryName || article.typeName;
+      const originalCategory =
+        article.type ||
+        article.category ||
+        article.thirdCategoryName ||
+        article.typeName;
       if (originalCategory) {
         const truncatedCategory = Utils.truncateString(originalCategory, 18);
         if (!typeMap.has(originalCategory)) {
@@ -98,8 +111,7 @@ class HealthNewsApp {
         }
       }
     });
-    
-    
+
     this.categories = [
       {
         id: "all",
@@ -201,7 +213,6 @@ class HealthNewsApp {
         }
       });
     }
-
   }
 
   bindCategoryEvents() {
@@ -210,11 +221,10 @@ class HealthNewsApp {
     if (this._categoryClickHandler) {
       categoryContainer.removeEventListener(
         "click",
-        this._categoryClickHandler
+        this._categoryClickHandler,
       );
     }
 
-    
     this._categoryClickHandler = (e) => {
       const btn = e.target.closest(".category-btn");
       if (!btn) return;
@@ -264,9 +274,8 @@ class HealthNewsApp {
     if (count === 0) {
       if (emptyState) {
         emptyState.classList.remove("dsn");
-        emptyState.querySelector(
-          ".empty-state-text"
-        ).textContent = `No articles found for "${query}"`;
+        emptyState.querySelector(".empty-state-text").textContent =
+          `No articles found for "${query}"`;
       }
     } else {
       if (emptyState) emptyState.classList.add("dsn");
@@ -283,7 +292,9 @@ class HealthNewsApp {
   updateSearchUI(query) {
     const searchClear = document.getElementById("searchClear");
     const searchIcon = document.querySelector(".search-icon");
-    const randomArticlesSection = document.querySelector(".random-articles-section");
+    const randomArticlesSection = document.querySelector(
+      ".random-articles-section",
+    );
     const topArticlesSection = document.querySelector(".top-articles-section");
 
     if (searchClear) {
@@ -342,12 +353,14 @@ class HealthNewsApp {
   }
 
   renderCategories() {
-    const isCategoryPage = window.location.pathname.includes("/pages/category.html");
+    const isCategoryPage = window.location.pathname.includes(
+      "/pages/category.html",
+    );
     const isDetailPage = window.location.pathname.includes("sec.html");
     if (isCategoryPage || isDetailPage) {
       return;
     }
-    
+
     const categoryContainer = document.querySelector(".category-container");
     if (categoryContainer) {
       const categoryButtonsHtml = this.categories
@@ -358,7 +371,7 @@ class HealthNewsApp {
         }" data-category="${category.id}">
            <span class="category-name">${category.name}</span>
          </button>
-      `
+      `,
         )
         .join("");
       categoryContainer.innerHTML = categoryButtonsHtml;
@@ -366,20 +379,22 @@ class HealthNewsApp {
     }
     this.renderSidebarCategories();
   }
-  
+
   renderSidebarCategories() {
     const sidebarCategories = document.querySelectorAll(".sidebar-category");
     if (sidebarCategories.length === 0) {
       return;
     }
-    
+
     const isInPagesFolder = window.location.pathname.includes("/pages/");
     const categoryUrlPrefix = isInPagesFolder
       ? "category.html"
       : "pages/category.html";
-    
-    const actualCategories = this.categories.filter(category => category.id !== "all");
-    
+
+    const actualCategories = this.categories.filter(
+      (category) => category.id !== "all",
+    );
+
     const categoriesHTML = actualCategories
       .map((category) => {
         const encodedType = encodeURIComponent(category.name);
@@ -399,13 +414,15 @@ class HealthNewsApp {
     this.bindSidebarNavigation();
   }
 
-  renderArticles(articlesToRender = null) {   
-    const isCategoryPage = window.location.pathname.includes("/pages/category.html");
+  renderArticles(articlesToRender = null) {
+    const isCategoryPage = window.location.pathname.includes(
+      "/pages/category.html",
+    );
     const isDetailPage = window.location.pathname.includes("sec.html");
     if (isCategoryPage || isDetailPage) {
       return;
     }
-    
+
     const articlesContainer = document.querySelector(".articles-container");
     let homeArticleItems = document.querySelectorAll(".home_article-item");
     if (!articlesContainer) return;
@@ -446,24 +463,28 @@ class HealthNewsApp {
         homeArticleItems = document.querySelectorAll(".home_article-item");
       }
 
-      
       const articleId = article.id || article.articleId || article.newsId;
       const articleTitle = article.title || article.headline || article.subject;
-      let articleSource = article.source || article.from || article.origin || article.sourceName || "Unknown";
+      let articleSource =
+        article.source ||
+        article.from ||
+        article.origin ||
+        article.sourceName ||
+        "Unknown";
       articleSource = Utils.truncateString(articleSource, 18);
-      
+
       const detailHref =
         `sec.html?id=${articleId}` +
         (window.channel ? `&channel=${window.channel}` : "");
-      
+
       const imgUrl = this.getArticleImage(article);
       const articleHTML = `
         <div class="home_article-number">${index + 1}</div>
         <a class="article-card" href="${detailHref}">
           <div class="article-image">
             <img src="${imgUrl}" alt="${
-        articleTitle
-      }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+              articleTitle
+            }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #ba7ac7 0%, #9b6aa8 100%); color: white; align-items: center; justify-content: center; font-size: 14px; text-align: center; padding: 10px;">
               <div>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 8px;">
@@ -488,7 +509,6 @@ class HealthNewsApp {
       }
     });
 
-    
     const emptyState = document.getElementById("emptyState");
     if (emptyState && articles && articles.length > 0) {
       emptyState.classList.add("dsn");
@@ -520,33 +540,45 @@ class HealthNewsApp {
 
   renderTopArticles(count = 3) {
     const topArticlesList = document.getElementById("topArticlesList");
-    
+
     if (!topArticlesList || !this.articles || this.articles.length === 0) {
       return;
     }
 
-    const validArticles = this.articles.filter(article => {
+    const validArticles = this.articles.filter((article) => {
       const articleId = article.id || article.articleId || article.newsId;
       const articleTitle = article.title || article.headline || article.subject;
       return articleId && articleTitle;
     });
 
     if (validArticles.length === 0) {
-      topArticlesList.innerHTML = '<div style="text-align: center; color: #999; padding: 10px;">暂无文章</div>';
+      topArticlesList.innerHTML =
+        '<div style="text-align: center; color: #999; padding: 10px;">暂无文章</div>';
       return;
     }
 
     const shuffledArticles = [...validArticles].sort(() => Math.random() - 0.5);
     const topArticles = shuffledArticles.slice(0, count);
 
-    topArticlesList.innerHTML = topArticles.map((article, index) => {
-      const articleId = article.id || article.articleId || article.newsId;
-      const articleTitle = article.title || article.headline || article.subject;
-      const articleType = article.type || article.category || article.thirdCategoryName || article.typeName || "Unknown";
-      const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
-      const detailHref = `sec.html?id=${articleId}${window.channel ? `&channel=${window.channel}` : ""}`;
+    topArticlesList.innerHTML = topArticles
+      .map((article, index) => {
+        const articleId = article.id || article.articleId || article.newsId;
+        const articleTitle =
+          article.title || article.headline || article.subject;
+        const articleType =
+          article.type ||
+          article.category ||
+          article.thirdCategoryName ||
+          article.typeName ||
+          "Unknown";
+        const articleTime =
+          article.create_time ||
+          article.publish_time ||
+          article.post_time ||
+          article.date;
+        const detailHref = `sec.html?id=${articleId}${window.channel ? `&channel=${window.channel}` : ""}`;
 
-      return `
+        return `
         <div class="top-article-item" onclick="window.location.href='${detailHref}'">
           <span class="top-article-title">${articleTitle}</span>
           <div class="top-article-meta">
@@ -555,43 +587,48 @@ class HealthNewsApp {
           </div>
         </div>
       `;
-    }).join("");
+      })
+      .join("");
   }
 
   renderRandomArticles(count = 7) {
     const randomArticlesGrid = document.getElementById("randomArticlesGrid");
-    
+
     if (!randomArticlesGrid || !this.articles || this.articles.length === 0) {
       return;
     }
 
-    const validArticles = this.articles.filter(article => {
+    const validArticles = this.articles.filter((article) => {
       const articleId = article.id || article.articleId || article.newsId;
       const articleTitle = article.title || article.headline || article.subject;
       return articleId && articleTitle;
     });
 
     if (validArticles.length === 0) {
-      randomArticlesGrid.innerHTML = '<div style="text-align: center; color: #999; padding: 10px;">暂无文章</div>';
+      randomArticlesGrid.innerHTML =
+        '<div style="text-align: center; color: #999; padding: 10px;">暂无文章</div>';
       return;
     }
 
     const shuffledArticles = [...validArticles].sort(() => Math.random() - 0.5);
     const randomArticles = shuffledArticles.slice(0, count);
 
-    randomArticlesGrid.innerHTML = randomArticles.map(article => {
-      const articleId = article.id || article.articleId || article.newsId;
-      const articleTitle = article.title || article.headline || article.subject;
-      const imgUrl = this.getArticleImage(article);
-      const detailHref = `sec.html?id=${articleId}${window.channel ? `&channel=${window.channel}` : ""}`;
+    randomArticlesGrid.innerHTML = randomArticles
+      .map((article) => {
+        const articleId = article.id || article.articleId || article.newsId;
+        const articleTitle =
+          article.title || article.headline || article.subject;
+        const imgUrl = this.getArticleImage(article);
+        const detailHref = `sec.html?id=${articleId}${window.channel ? `&channel=${window.channel}` : ""}`;
 
-      return `
+        return `
         <div class="random-article-item" onclick="window.location.href='${detailHref}'">
           <img src="${imgUrl}" alt="${articleTitle}" class="random-article-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="random-article-title">${articleTitle}</div>
         </div>
       `;
-    }).join("");
+      })
+      .join("");
   }
 
   handleScroll() {
@@ -612,7 +649,10 @@ class HealthNewsApp {
   getRecommendedArticles(currentId, limit = 3) {
     return this.articles
       .filter((article) => {
-        const hasValidId = article.id != null && article.id !== "" && String(article.id).trim() !== "";
+        const hasValidId =
+          article.id != null &&
+          article.id !== "" &&
+          String(article.id).trim() !== "";
         const isNotCurrent = String(article.id) !== String(currentId);
         return hasValidId && isNotCurrent;
       })
@@ -622,7 +662,7 @@ class HealthNewsApp {
 
   renderRecommendedArticles(currentId) {
     const recommendedContainer = document.querySelector(
-      ".recommended-articles"
+      ".recommended-articles",
     );
     if (!recommendedContainer) return;
 
@@ -637,8 +677,8 @@ class HealthNewsApp {
       <a class="article-card" href="${detailHref}">
         <div class="article-image">
           <img src="${this.getArticleImage(article)}" alt="${
-          article.title
-        }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            article.title
+          }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
            <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #ba7ac7 0%, #9b6aa8 100%); color: white; align-items: center; justify-content: center; font-size: 12px; text-align: center; padding: 5px;">
              <div>
                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 4px;">
@@ -669,7 +709,12 @@ class HealthNewsApp {
 
   getArticleImage(article) {
     if (!article) return "";
-    const imgField = article.img || article.image || article.thumbnail || article.pic || article.cover;
+    const imgField =
+      article.img ||
+      article.image ||
+      article.thumbnail ||
+      article.pic ||
+      article.cover;
     const articleId = article.id || article.articleId || article.newsId;
     if (!imgField) return "";
     return remoteDataConfig.buildImageUrl(articleId, imgField);
@@ -770,7 +815,6 @@ class HealthNewsApp {
   }
 }
 
-
 export { HealthNewsApp };
 document.addEventListener("DOMContentLoaded", () => {
   window.healthNewsApp = new HealthNewsApp();
@@ -826,15 +870,19 @@ const Utils = {
   },
 
   formatTime(timestamp) {
-    const date = new Date(typeof timestamp === 'number' && timestamp.toString().length === 13 ? timestamp : timestamp * 1000);
+    const date = new Date(
+      typeof timestamp === "number" && timestamp.toString().length === 13
+        ? timestamp
+        : timestamp * 1000,
+    );
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   },
 
   truncateString(str, maxLength) {
-    if (!str || typeof str !== 'string') return "";
+    if (!str || typeof str !== "string") return "";
     if (str.length <= maxLength) return str;
     return str.substring(0, maxLength) + "...";
   },
@@ -973,7 +1021,6 @@ class CommonPage {
   }
 }
 
-
 export { CommonPage };
 
 function handleChannelParameter() {
@@ -986,7 +1033,6 @@ function handleChannelParameter() {
           url.searchParams.set("channel", window.channel);
           link.href = url.toString();
         } catch (e) {
-          
           console.warn("Failed to parse URL:", link.href);
         }
       }
@@ -994,22 +1040,20 @@ function handleChannelParameter() {
   }
 }
 
-
 document.addEventListener("DOMContentLoaded", () => {
   handleChannelParameter();
-  
+
   if (window.themeApplier) {
     window.themeApplier.init();
     setTimeout(() => {
       window.themeApplier.applyTheme();
     }, 100);
   }
-  
+
   if (
     document.getElementById("smartBackButton") ||
     document.getElementById("sidebarToggle")
   ) {
-    
     if (!window.commonPage && !window.healthNewsApp) {
       window.commonPage = new CommonPage();
     }
