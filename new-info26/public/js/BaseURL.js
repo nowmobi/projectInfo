@@ -1,8 +1,8 @@
 export const BASE_URL =
-  "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230";
+  "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2232,2233,2234,2235,2236,2237,2238&created_at=2026-3-25";
 export const IMG_BASE_URL =
   "https://info-6ke.pages.dev/finace/number/number.png";
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2232,2233,2234,2235,2236,2237,2238&created_at=2026-3-25";
 
 export function getCategoryOrder(data) {
   try {

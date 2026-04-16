@@ -1,6 +1,6 @@
 export const IMG_BASE_URL =
   "https://news-api.szwyi.com";
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2225,2226,2227,2228,2229,2230,2231&created_at=2026-3-25";
 
 
 
