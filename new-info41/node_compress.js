@@ -10,6 +10,7 @@ const filesToPack = [
     'index.html',
     'detail.html',
     'robots.txt',
+    'ads.txt',
     'homegg_ads.js',
     'detailgg_ads.js',
     'detailgg.js',
