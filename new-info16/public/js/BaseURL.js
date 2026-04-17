@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2227,2228,2229,2230,2231,2232,2233";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=6684,6685,2174,2175,2179,2180,2181&created_at=2026-3-25";
 
 
 let cachedApiResponse = null;

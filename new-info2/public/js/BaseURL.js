@@ -1,7 +1,7 @@
 
 export const BASE_URL = "https://news-api.szwyi.com/api/compatible";
 export const ARTICLE_PATH = "finance_info";
-export const Category_URL = `${BASE_URL}/${ARTICLE_PATH}/db.json?num=20&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230`;
+export const Category_URL = `${BASE_URL}/${ARTICLE_PATH}/db.json?num=40&thirdCategoryIds=6640,2088,2099,6765,2639,2646,6679&created_at=2026-3-25`;
 
 
 export async function getCategoryOrder() {

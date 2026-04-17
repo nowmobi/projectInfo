@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2240,2242,2243,2244,2245,2246,2248";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=6645,2087,2088,2090,2091,2092,2093&created_at=2026-3-25";
 
 
 let dataCache = null;

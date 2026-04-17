@@ -1,5 +1,5 @@
 
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=6638,6639,6640,6641,6642,6643,6644&created_at=2026-3-25";
 export const ARTICLE_DETAIL_PATH = "finance_info/data.json";
 
 

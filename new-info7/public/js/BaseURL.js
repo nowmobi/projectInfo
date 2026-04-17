@@ -2,7 +2,7 @@ export const Detail_BASE_URL = "https://news-api.szwyi.com/api/compatible";
 export const Detail_API_PATH = "finance_info/data.json";
 
 
-const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=6637,6638,6640,2087,2090,2091,2087";
+const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2213,2214,2217,2218,2221,6638,6645&created_at=2026-3-25";
 
 
 let cachedData = null;

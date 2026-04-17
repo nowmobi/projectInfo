@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=6637,6638,6640,2087,2090,2091,2088";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=688,274,6679,6680,6681,6682,6683&created_at=2026-3-25";
 
 // Remote data configuration
 export const REMOTE_DATA_CONFIG = {

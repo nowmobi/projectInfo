@@ -2,7 +2,7 @@ const DataConfig = {
   baseUrl: "https://news-api.szwyi.com/api/compatible/{id}/finance_info",
   removePath: "/{id}/finance_info",
   dbUrl:
-    "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2234,2235,2236,2237,2238,2239,2240",
+    "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=6763,6764,6765,6766,5242,2412,2188&created_at=2026-3-25",
 };
 
 async function getCategoryOrder() {

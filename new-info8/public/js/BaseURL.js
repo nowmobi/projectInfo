@@ -2,7 +2,7 @@
 const DataConfig = {
   baseUrl: "https://news-api.szwyi.com/api/compatible",
   detailDataPath: "finance_info",
-  dbUrl: "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=6700,6701,2225,6703,6704,6705,2226"
+  dbUrl: "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2199,2205,2207,2208,2209,492,2212&created_at=2026-3-25"
 };
 
 

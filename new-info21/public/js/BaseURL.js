@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2097,2098,2099,2101,2102,2108,6762&created_at=2026-3-25";
 export const IMG_BASE_URL = "https://info-6ke.pages.dev/finace/number/number.png";
 
 

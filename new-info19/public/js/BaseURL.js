@@ -1,7 +1,7 @@
 
 const BASE_URL = "https://news-api.szwyi.com/api/compatible";
 const CONTENT_PATH = "finance_info";
-const DB_URL = `${BASE_URL}/${CONTENT_PATH}/db.json?num=20&thirdCategoryIds=6700,6701,2225,6703,6704,6705,2226`;
+const DB_URL = `${BASE_URL}/${CONTENT_PATH}/db.json?num=40&thirdCategoryIds=6866,6867,2639,2640,2089,2641,2642&created_at=2026-3-25`;
 
 
 const DataConfig = {
