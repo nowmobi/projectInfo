@@ -678,10 +678,10 @@ class HealthNewsApp {
       const category = article.type || article.category || article.typeName || article.categoryName || "";
       const timeField = article.create_time || article.publishTime || article.createTime || article.time || Date.now() / 1000;
       const articleHTML = `
-        <div class="article-card-overlay" data-id="${articleId}">
-          <div class="article-image-overlay">
+        <div class="article-card-horizontal" data-id="${articleId}">
+          <div class="article-image-side">
             <img src="${imgUrl}" alt="${title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-            <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #746097 0%, #7bb3d4 100%); color: white; align-items: center; justify-content: center; font-size: 14px; text-align: center; padding: 10px;">
+            <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; align-items: center; justify-content: center; font-size: 14px; text-align: center; padding: 10px;">
               <div>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 8px;">
                   <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C21 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>
@@ -691,7 +691,7 @@ class HealthNewsApp {
               </div>
             </div>
           </div>
-          <div class="article-overlay-content">
+          <div class="article-content-side">
             <div class="article-overlay-type">${this.decodeUnicode(category)}</div>
             <h3 class="article-overlay-title">${title}</h3>
             <div class="article-overlay-meta">
@@ -778,7 +778,7 @@ class HealthNewsApp {
   }
 
   bindArticleEvents() {
-    const articleCards = document.querySelectorAll(".article-card-overlay");
+    const articleCards = document.querySelectorAll(".article-card-horizontal");
     articleCards.forEach((card) => {
       card.addEventListener("click", (e) => {
         const articleId = card.dataset.id;
