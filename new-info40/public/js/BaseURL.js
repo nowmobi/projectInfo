@@ -1,7 +1,7 @@
 
 const baseConfig = {
   baseUrl: "https://news-api.szwyi.com/api/compatible",
-  categoryUrl: "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=7194,7195,7196,7197,7198,3954,3955",
+  categoryUrl:  "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2182,2183,2185,2187,2189,2190,2191&created_at=2026-3-25",
   dataUrl: "./data.json"
 };
 
