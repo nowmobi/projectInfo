@@ -1,4 +1,4 @@
-
+// Dynamic ad script injector for detail page
 import { ad_code_identifier } from "./ads.js";
 
 console.log("Loading detailgg_ads.js...");
@@ -65,6 +65,46 @@ if (channelParam && adunits[channelParam]) {
   const firstKey = Object.keys(adunits)[0];
   selectedAdunit = adunits[firstKey];
   console.log(`⚠️ No matching channel, using first adunit: ${firstKey}`);
+}
+
+
+function showInterstitialAd() {
+  
+  if (!selectedAdunit || !selectedAdunit.interstitial || selectedAdunit.interstitial.length === 0) {
+    console.log("⚠️ No interstitial ads configured");
+    return;
+  }
+
+  console.log(`🎯 Found ${selectedAdunit.interstitial.length} interstitial ads`);
+
+  
+  const interstitialSlot = selectedAdunit.interstitial[0].slot;
+  console.log(`📢 Loading interstitial ad with slot: ${interstitialSlot}`);
+
+  
+  (adsbygoogle = window.adsbygoogle || []).push({});
+
+  
+  setTimeout(() => {
+    try {
+      
+      const insElement = document.createElement("ins");
+      insElement.className = "adsbygoogle";
+      insElement.setAttribute("data-ad-client", clientId);
+      insElement.setAttribute("data-ad-slot", interstitialSlot);
+      insElement.setAttribute("data-ad-format", "fluid");
+      insElement.setAttribute("data-ad-layout-key", "-ij");
+      insElement.style.display = "none"; 
+      document.body.appendChild(insElement);
+
+      
+      (adsbygoogle = window.adsbygoogle || []).push({});
+
+      console.log("✅ Interstitial ad loaded successfully");
+    } catch (error) {
+      console.error("❌ Failed to load interstitial ad:", error);
+    }
+  }, 1000);
 }
 
 
@@ -145,9 +185,13 @@ function insertAdsToContainers() {
 if (document.readyState === "loading") {
   document.addEventListener("DOMContentLoaded", () => {
     
+    showInterstitialAd();
+    
     setTimeout(insertAdsToContainers, 500);
   });
 } else {
+  
+  showInterstitialAd();
   setTimeout(insertAdsToContainers, 500);
 }
 
