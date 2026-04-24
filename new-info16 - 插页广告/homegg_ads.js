@@ -70,6 +70,8 @@ if (channelParam && adunits[channelParam]) {
 
 function showInterstitialAd() {
   
+  // 执行插页广告
+
   if (!selectedAdunit || !selectedAdunit.interstitial || selectedAdunit.interstitial.length === 0) {
     console.log("⚠️ No interstitial ads configured");
     return;
@@ -77,7 +79,7 @@ function showInterstitialAd() {
 
   console.log(`🎯 Found ${selectedAdunit.interstitial.length} interstitial ads`);
 
-  
+    console.log('interstitial 执行插页逻辑')
   const interstitialSlot = selectedAdunit.interstitial[0].slot;
   console.log(`📢 Loading interstitial ad with slot: ${interstitialSlot}`);
 
@@ -85,26 +87,24 @@ function showInterstitialAd() {
   (adsbygoogle = window.adsbygoogle || []).push({});
 
   
-  setTimeout(() => {
-    try {
-      
-      const insElement = document.createElement("ins");
-      insElement.className = "adsbygoogle";
-      insElement.setAttribute("data-ad-client", clientId);
-      insElement.setAttribute("data-ad-slot", interstitialSlot);
-      insElement.setAttribute("data-ad-format", "fluid");
-      insElement.setAttribute("data-ad-layout-key", "-ij");
-      insElement.style.display = "none"; 
-      document.body.appendChild(insElement);
+  try {
+    
+    const insElement = document.createElement("ins");
+    insElement.className = "adsbygoogle";
+    insElement.setAttribute("data-ad-client", clientId);
+    insElement.setAttribute("data-ad-slot", interstitialSlot);
+    insElement.setAttribute("data-ad-format", "fluid");
+    insElement.setAttribute("data-ad-layout-key", "-ij");
+    insElement.style.display = "none"; 
+    document.body.appendChild(insElement);
 
-      
-      (adsbygoogle = window.adsbygoogle || []).push({});
+    
+    (adsbygoogle = window.adsbygoogle || []).push({});
 
-      console.log("✅ Interstitial ad loaded successfully");
-    } catch (error) {
-      console.error("❌ Failed to load interstitial ad:", error);
-    }
-  }, 1000);
+    console.log("✅ Interstitial ad loaded successfully");
+  } catch (error) {
+    console.error("❌ Failed to load interstitial ad:", error);
+  }
 }
 
 

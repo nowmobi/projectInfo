@@ -240,6 +240,19 @@ const initializeAllAds = () => {
       }
     });
   });
+
+  
+  if (interstitialAdList.length > 0) {
+    console.log("🚀 Triggering interstitial ad display immediately");
+    googletag.cmd.push(function () {
+      try {
+        googletag.pubads().refresh();
+        console.log("✅ Interstitial ad triggered successfully");
+      } catch (error) {
+        console.error("❌ Failed to trigger interstitial ad:", error);
+      }
+    });
+  }
 };
 
 

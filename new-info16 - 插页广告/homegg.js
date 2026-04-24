@@ -1,5 +1,3 @@
-
-
 import { ad_code_identifier } from "./ads.js";
 console.log("Ad Code Identifier:", ad_code_identifier);
 
@@ -238,6 +236,19 @@ const initializeAllAds = () => {
       console.log("⏳ Skip non-existent home page ad container:", ad.id);
     }
   });
+
+  
+  if (interstitialAdList.length > 0) {
+    console.log("🚀 Triggering interstitial ad display immediately");
+    googletag.cmd.push(function () {
+      try {
+        googletag.pubads().refresh();
+        console.log("✅ Interstitial ad triggered successfully");
+      } catch (error) {
+        console.error("❌ Failed to trigger interstitial ad:", error);
+      }
+    });
+  }
 };
 
 if (typeof window !== "undefined") {
