@@ -395,12 +395,12 @@ class CategoryPage {
                     </div>
                 </div>
                 <div class="article-overlay-content">
-                    <div class="article-overlay-type">${
-                      article.type
-                    }</div>
                     <h3 class="article-overlay-title">${
                       article.title
                     }</h3>
+                    <div class="article-overlay-type">${
+                      article.type
+                    }</div>
                     <div class="article-overlay-meta">
                         <span class="article-overlay-time">${this.formatDate(
                           article.create_time
@@ -592,6 +592,25 @@ class CategoryPage {
     this.bindArticleEvents();
   }
 
+  processAllImages() {
+    const images = document.querySelectorAll("img[data-article-id]");
+    
+    images.forEach((img) => {
+      const articleId = img.dataset.articleId;
+      const article = this.articles.find((a) => String(a.id) === String(articleId));
+      
+      if (article && article.img) {
+        img.src = article.img;
+        img.style.display = "block";
+        
+        const placeholder = img.nextElementSibling;
+        if (placeholder && placeholder.classList.contains("placeholder-image")) {
+          placeholder.style.display = "none";
+        }
+      }
+    });
+  }
+
   bindArticleEvents() {
     const articleCards = document.querySelectorAll(
       ".article-card-overlay"
@@ -606,6 +625,33 @@ class CategoryPage {
     });
 
     this.processAllImages();
+  }
+
+  bindSmartBackButton() {
+    const smartBackButton = document.getElementById("smartBackButton");
+    
+    if (smartBackButton) {
+      smartBackButton.addEventListener("click", (e) => {
+        e.preventDefault();
+        
+        try {
+          if (window.history.length > 1) {
+            const referrer = document.referrer;
+            const currentDomain = window.location.hostname;
+            
+            if (referrer && referrer.includes(currentDomain)) {
+              window.history.back();
+            } else {
+              window.location.href = "../index.html" + (window.channel ? "?channel=" + window.channel : "");
+            }
+          } else {
+            window.location.href = "../index.html" + (window.channel ? "?channel=" + window.channel : "");
+          }
+        } catch (error) {
+          window.location.href = "../index.html" + (window.channel ? "?channel=" + window.channel : "");
+        }
+      });
+    }
   }
 
   handleSearch(query) {
@@ -649,28 +695,28 @@ class CategoryPage {
     articlesContainer.innerHTML = filteredArticles
       .map(
         (article) => `
-            <div class="article-card-overlay" data-id="${article.id}">
-                <div class="article-image-overlay">
-                    <img data-article-id="${article.id}" 
-                         alt="${article.title}" 
-                         style="display: none;"
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                    <div class="placeholder-image" style="display: flex; width: 100%; height: 100%; background: linear-gradient(135deg, #746097 0%, #7bb3d4 100%); color: white; align-items: center; justify-content: center; font-size: 12px; text-align: center; padding: 10px;">
-                        <div>
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 8px;">
-                                <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>
-                            </svg>
-                            <div style="font-size: 10px;">Loading...</div>
-                        </div>
-                    </div>
+             <div class="article-card-overlay" data-id="${article.id}">
+                 <div class="article-image-overlay">
+                     <img data-article-id="${article.id}" 
+                          alt="${article.title}" 
+                          style="display: none;"
+                          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                     <div class="placeholder-image" style="display: flex; width: 100%; height: 100%; background: linear-gradient(135deg, #746097 0%, #7bb3d4 100%); color: white; align-items: center; justify-content: center; font-size: 12px; text-align: center; padding: 10px;">
+                         <div>
+                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 8px;">
+                                 <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>
+                             </svg>
+                             <div style="font-size: 10px;">Loading...</div>
+                         </div>
+                     </div>
                  </div>
                  <div class="article-overlay-content">
-                     <div class="article-overlay-type">${
-                       article.type
-                     }</div>
                      <h3 class="article-overlay-title">${
                        article.title
                      }</h3>
+                     <div class="article-overlay-type">${
+                       article.type
+                     }</div>
                      <div class="article-overlay-meta">
                          <span class="article-overlay-time">${this.formatDate(
                            article.create_time
@@ -684,184 +730,9 @@ class CategoryPage {
 
     this.bindArticleEvents();
   }
-
-  formatTime(timestamp) {
-    
-    
-    const date = new Date(timestamp > 1e12 ? timestamp : timestamp * 1000);
-    return date.toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-    });
-  }
-
-  bindSmartBackButton() {
-    const backButton = document.getElementById("smartBackButton");
-    if (backButton) {
-      backButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        this.handleSmartBack();
-      });
-    }
-  }
-
-  handleSmartBack() {
-    const referrer = document.referrer;
-    const currentUrl = window.location.href;
-    const urlParams = new URLSearchParams(currentUrl);
-    const type = urlParams.get("type");
-
-    if (type) {
-      window.location.href =
-        "../index.html" +
-        (window.channel ? "?channel=" + window.channel : "");
-      return;
-    }
-
-    if (
-      referrer.includes("index.html") ||
-      referrer.includes("localhost") ||
-      referrer.includes("127.0.0.1")
-    ) {
-      window.location.href =
-        "../index.html" +
-        (window.channel ? "?channel=" + window.channel : "");
-      return;
-    }
-
-    if (referrer.includes("detail.html")) {
-      window.location.href = referrer;
-      return;
-    }
-
-    window.location.href =
-      "../index.html" +
-      (window.channel ? "?channel=" + window.channel : "");
-  }
-
-  async findAvailableImage(
-    basePath,
-    formats = ["jpg", "png", "jpeg", "webp"]
-  ) {
-    for (const format of formats) {
-      const imagePath = `${basePath}.${format}`;
-      try {
-        const isAvailable = await this.checkImageExists(imagePath);
-        if (isAvailable) {
-          return imagePath;
-        }
-      } catch (error) {
-        continue;
-      }
-    }
-
-    return null;
-  }
-
-  checkImageExists(imagePath) {
-    return new Promise((resolve) => {
-      const img = new Image();
-      img.onload = () => resolve(true);
-      img.onerror = () => resolve(false);
-
-      setTimeout(() => resolve(false), 1000);
-
-      img.src = imagePath;
-    });
-  }
-
-  async getSmartArticleImage(article) {
-    if (!article) return "";
-
-    
-    let imgPath = article.imgLocalSrc || article.imgSrc || article.img;
-    if (!imgPath) return "";
-
-    const currentPath = window.location.pathname;
-
-    
-    if (imgPath.startsWith("./")) {
-      imgPath = imgPath.slice(2);
-    }
-    if (
-      currentPath.includes("/pages/") &&
-      (imgPath.startsWith("public/") || imgPath.startsWith("/public/"))
-    ) {
-      const normalized = imgPath.replace(/^\/+/, "");
-      imgPath = "../" + normalized;
-    }
-
-    
-    if (imgPath.includes(".")) {
-      const basePath = imgPath.replace(/\.(jpg|jpeg|png|webp)$/i, "");
-      const availablePath = await this.findAvailableImage(basePath);
-      if (availablePath) {
-        return availablePath;
-      }
-      
-      return imgPath;
-    } else {
-      return imgPath;
-    }
-  }
-
-  async setupSmartImageLoading(imgElement, article) {
-    try {
-      
-      let imageSrc = "";
-      if (article && article.img) {
-        imageSrc = article.img;
-      }
-
-      if (imageSrc) {
-        
-        imgElement.onload = () => {
-          imgElement.style.display = "block";
-          const placeholder = imgElement.nextElementSibling;
-          if (
-            placeholder &&
-            placeholder.classList.contains("placeholder-image")
-          ) {
-            placeholder.style.display = "none";
-          }
-        };
-
-        
-        imgElement.src = imageSrc;
-      } else {
-        this.showImagePlaceholder(imgElement);
-      }
-    } catch (error) {
-      
-      this.showImagePlaceholder(imgElement);
-    }
-  }
-
-  showImagePlaceholder(imgElement) {
-    imgElement.style.display = "none";
-
-    const placeholder = imgElement.nextElementSibling;
-    if (placeholder && placeholder.style) {
-      placeholder.style.display = "flex";
-    }
-  }
-
-  async processAllImages() {
-    const images = document.querySelectorAll("img[data-article-id]");
-
-    for (const img of images) {
-      const articleId = img.getAttribute("data-article-id");
-      const article = this.articles.find((a) => a.id === articleId);
-      if (article) {
-        await this.setupSmartImageLoading(img, article);
-      }
-    }
-  }
 }
 
 
 document.addEventListener("DOMContentLoaded", () => {
   new CategoryPage();
 });
-

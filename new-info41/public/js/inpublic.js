@@ -692,8 +692,8 @@ class HealthNewsApp {
             </div>
           </div>
           <div class="article-content-side">
-            <div class="article-overlay-type">${this.decodeUnicode(category)}</div>
             <h3 class="article-overlay-title">${title}</h3>
+            <div class="article-overlay-type">${this.decodeUnicode(category)}</div>
             <div class="article-overlay-meta">
               <span class="article-overlay-time">${this.formatTime(timeField)}</span>
             </div>
