@@ -20,6 +20,50 @@ class ArticleDetailPage {
       this.loadSidebarCategories() 
     ]);
     this.setupEventListeners();
+    this.adjustTitleColorBasedOnPrimaryColor();
+  }
+  
+  adjustTitleColorBasedOnPrimaryColor() {
+    const rootStyles = getComputedStyle(document.documentElement);
+    const primaryColor = rootStyles.getPropertyValue('--color-primary').trim();
+    
+    if (this.isColorLight(primaryColor)) {
+      const articleTitles = document.querySelectorAll('.article-title');
+      articleTitles.forEach(title => {
+        title.style.color = '#000';
+      });
+    }
+  }
+  
+  isColorLight(color) {
+    let r, g, b;
+    
+    if (color.startsWith('#')) {
+      const hex = color.replace('#', '');
+      if (hex.length === 3) {
+        r = parseInt(hex[0] + hex[0], 16);
+        g = parseInt(hex[1] + hex[1], 16);
+        b = parseInt(hex[2] + hex[2], 16);
+      } else if (hex.length === 6) {
+        r = parseInt(hex.substring(0, 2), 16);
+        g = parseInt(hex.substring(2, 4), 16);
+        b = parseInt(hex.substring(4, 6), 16);
+      }
+    } else if (color.startsWith('rgb')) {
+      const matches = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+      if (matches) {
+        r = parseInt(matches[1]);
+        g = parseInt(matches[2]);
+        b = parseInt(matches[3]);
+      }
+    }
+    
+    if (r === undefined || g === undefined || b === undefined) {
+      return false;
+    }
+    
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness > 128;
   }
   
   async getArticlesData() {
