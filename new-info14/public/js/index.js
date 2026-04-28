@@ -596,20 +596,22 @@ class Website {
       
       const categoryId = this.normalizeCategoryId(categoryName);
       const categoryArticles = articlesByCategory[categoryId] || [];
+      
+      if (categoryArticles.length === 0) {
+        return;
+      }
+      
       const section = categorySections[sectionIndex];
      
       section.innerHTML = '';
       
-      if (categoryArticles.length > 0) {
-       
-        const shuffled = [...categoryArticles].sort(() => Math.random() - 0.5);
-        const articlesToShow = shuffled.slice(0, 3);
-        
-        articlesToShow.forEach(article => {
-          const cardHTML = window.Utils.createHomeArticleCard(article);
-          section.insertAdjacentHTML('beforeend', cardHTML);
-        });
-      }
+      const shuffled = [...categoryArticles].sort(() => Math.random() - 0.5);
+      const articlesToShow = shuffled.slice(0, 3);
+      
+      articlesToShow.forEach(article => {
+        const cardHTML = window.Utils.createHomeArticleCard(article);
+        section.insertAdjacentHTML('beforeend', cardHTML);
+      });
      
       
       sectionIndex++;
