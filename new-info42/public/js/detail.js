@@ -272,111 +272,229 @@ function renderArticleContent(contentContainer, htmlContent, articleId) {
   }
 
   
-  const firstImg = tempDiv.querySelector("img");
-  let firstImgElement = null;
+  const images = extractImages(tempDiv);
+  const allPElements = Array.from(tempDiv.querySelectorAll("p"));
 
-  if (firstImg) {
-    firstImgElement = firstImg.cloneNode(true);
-    firstImg.remove();
-  }
+  const allBlockElements = allPElements.length > 0 ? allPElements : Array.from(tempDiv.children).filter((el) => {
+    const tagName = el.tagName.toLowerCase();
+    return ["div", "p", "h1", "h2", "h3", "h4", "h5", "h6", "ul", "ol", "li", "strong", "blockquote", "pre", "table"].includes(tagName);
+  });
 
-  
-  const allPTags = Array.from(tempDiv.querySelectorAll("p"));
-  const totalParagraphs = allPTags.length;
-
-  
-  if (totalParagraphs <= 5) {
-    const firstArticleItem = articleItems[0];
-    firstArticleItem.innerHTML = tempDiv.innerHTML;
-    
-    if (firstImgElement) {
-      firstArticleItem.parentElement.insertBefore(
-        firstImgElement,
-        firstArticleItem
-      );
+  const blockTexts = [];
+  allBlockElements.forEach((el) => {
+    const text = el.textContent.trim();
+    if (text && text.length > 0) {
+      blockTexts.push(text);
     }
-    return;
+  });
+
+  let fullText = "";
+  if (blockTexts.length === 0) {
+    fullText = extractFullText(tempDiv);
+    if (!fullText || fullText.trim().length === 0) {
+      contentContainer.innerHTML = htmlContent;
+      return;
+    }
+  } else {
+    fullText = blockTexts.join(" ");
   }
 
-  
-  const charLimits = [300, 500, 500, 500, 500];
-  
-  for (let i = 0; i < 5 && i < allPTags.length && i < articleItems.length; i++) {
-    const pTag = allPTags[i];
-    const articleItem = articleItems[i];
-    const maxChars = charLimits[i];
-    
-    articleItem.innerHTML = "";
-    
-    
-    const pText = pTag.textContent || pTag.innerText || "";
-    
-    
-    let displayText = pText;
-    if (pText.length > maxChars) {
-      const sentences = pText.split(/([。！？.!?])/);
-      let truncated = "";
-      let currentLength = 0;
-      
-      for (let j = 0; j < sentences.length; j++) {
-        const part = sentences[j];
-        if (currentLength + part.length <= maxChars) {
-          truncated += part;
-          currentLength += part.length;
-        } else {
-          if (truncated) break;
-          truncated = part.substring(0, maxChars);
-          break;
+  const maxChunks = 5;
+  const processedParagraphs = [];
+  let currentPosition = 0;
+  let usedTextLength = 0;
+
+  for (let i = 0; i < maxChunks && currentPosition < fullText.length; i++) {
+    const targetLength = i === 0 ? 300 : 500;
+    const remainingText = fullText.substring(currentPosition);
+
+    if (remainingText.length <= targetLength) {
+      const p = document.createElement("p");
+      p.textContent = remainingText;
+      processedParagraphs.push(p);
+      currentPosition = fullText.length;
+      break;
+    }
+
+    let splitPoint = findBestSentenceEnd(remainingText, targetLength);
+    const chunk = remainingText.substring(0, splitPoint).trim();
+    const p = document.createElement("p");
+    p.textContent = chunk;
+    processedParagraphs.push(p);
+    currentPosition += splitPoint;
+    usedTextLength = currentPosition;
+  }
+
+  const remainingElements = [];
+  let accumulatedLength = 0;
+
+  if (blockTexts.length > 0 && allBlockElements.length > 0) {
+    for (let i = 0; i < blockTexts.length; i++) {
+      const textLength = blockTexts[i].length;
+      const textStart = accumulatedLength;
+
+      if (textStart >= usedTextLength) {
+        remainingElements.push(allBlockElements[i].cloneNode(true));
+      }
+
+      accumulatedLength = textStart + textLength + 1;
+    }
+  }
+
+  const finalChunks = combineImagesWithParagraphs(processedParagraphs, images);
+  const maxContainers = Math.min(5, articleItems.length);
+
+  for (let i = 0; i < maxContainers && i < finalChunks.length; i++) {
+    articleItems[i].innerHTML = "";
+    finalChunks[i].elements.forEach((element) => {
+      articleItems[i].appendChild(element);
+    });
+  }
+
+  if (remainingElements.length > 0) {
+    if (articleItems.length > 0) {
+      const lastItem = articleItems[articleItems.length - 1];
+      remainingElements.forEach((element) => {
+        lastItem.appendChild(element);
+      });
+    } else {
+      remainingElements.forEach((element) => {
+        const newItem = document.createElement("div");
+        newItem.className = "article-item";
+        newItem.appendChild(element);
+        contentContainer.appendChild(newItem);
+      });
+    }
+  }
+}
+
+
+function extractFullText(htmlElement) {
+  let text = "";
+
+  function extractText(node) {
+    if (node.nodeType === Node.TEXT_NODE) {
+      text += node.textContent;
+    } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== "IMG") {
+      if (["P", "DIV", "H1", "H2", "H3", "H4", "H5", "H6"].includes(node.tagName)) {
+        if (text && !text.endsWith(" ")) {
+          text += " ";
         }
       }
-      displayText = truncated;
+
+      for (let child of node.childNodes) {
+        extractText(child);
+      }
+
+      if (["P", "DIV", "H1", "H2", "H3", "H4", "H5", "H6"].includes(node.tagName)) {
+        if (text && !text.endsWith(" ")) {
+          text += " ";
+        }
+      }
     }
+  }
+
+  extractText(htmlElement);
+  return text.replace(/\s+/g, " ").trim();
+}
+
+
+function extractImages(htmlElement) {
+  const images = [];
+  const imgElements = htmlElement.querySelectorAll("img");
+
+  imgElements.forEach((img, index) => {
+    images.push({
+      element: img.cloneNode(true),
+      originalIndex: index,
+    });
+  });
+
+  return images;
+}
+
+
+function findBestSentenceEnd(text, targetLength) {
+  if (text.length <= targetLength) {
+    return text.length;
+  }
+
+  const searchStart = Math.max(0, targetLength - 100);
+  const searchEnd = Math.min(text.length, targetLength + 100);
+  const abbreviations = ["e.g.", "i.e.", "etc.", "Dr.", "Mr.", "Mrs.", "Ms.", "vs.", "Inc.", "Ltd.", "Co."];
+
+  let bestPosition = -1;
+  let minDistance = Infinity;
+
+  for (let i = searchStart; i < searchEnd; i++) {
+    if ((text[i] === "." || text[i] === "!" || text[i] === "?") && (i + 1 >= text.length || text[i + 1] === " ")) {
+      const isAbbreviation = abbreviations.some((abbr) => {
+        const start = i - abbr.length + 1;
+        return start >= 0 && text.substring(start, i + 1) === abbr;
+      });
+
+      if (!isAbbreviation) {
+        const distance = Math.abs(i - targetLength);
+        if (distance < minDistance) {
+          minDistance = distance;
+          bestPosition = i + 1;
+        }
+      }
+    }
+  }
+
+  return bestPosition > 0 ? bestPosition : targetLength;
+}
+
+
+function combineImagesWithParagraphs(paragraphs, images) {
+  if (images.length === 0) {
+    return paragraphs.map(p => ({ elements: [p] }));
+  }
+
+  const chunks = [];
+  
+  if (images[0] && paragraphs.length > 0) {
+    const firstChunkElements = [images[0].element, paragraphs[0]];
+    chunks.push({ elements: firstChunkElements });
     
-    if (displayText.trim()) {
-      const newPTag = document.createElement("p");
-      newPTag.textContent = displayText;
-      articleItem.appendChild(newPTag);
+    const remainingParagraphs = paragraphs.slice(1);
+    
+    if (images.length > 1 && remainingParagraphs.length > 0) {
+      const remainingImages = images.slice(1);
+      const paragraphsPerImage = Math.ceil(remainingParagraphs.length / remainingImages.length);
+      
+      let currentParagraphIndex = 0;
+      
+      for (let i = 0; i < remainingImages.length; i++) {
+        const chunkParagraphs = remainingParagraphs.slice(currentParagraphIndex, currentParagraphIndex + paragraphsPerImage);
+        currentParagraphIndex += paragraphsPerImage;
+
+        const chunkElements = [...chunkParagraphs];
+        if (remainingImages[i]) {
+          chunkElements.push(remainingImages[i].element);
+        }
+
+        chunks.push({ elements: chunkElements });
+      }
+
+      if (currentParagraphIndex < remainingParagraphs.length) {
+        const finalRemainingParagraphs = remainingParagraphs.slice(currentParagraphIndex);
+        chunks.push({ elements: finalRemainingParagraphs });
+      }
+    } else if (remainingParagraphs.length > 0) {
+      
+      remainingParagraphs.forEach(p => chunks.push({ elements: [p] }));
     }
+  } else if (paragraphs.length > 0) {
+    
+    paragraphs.forEach(p => chunks.push({ elements: [p] }));
+  } else if (images.length > 0) {
+    
+    images.forEach(img => chunks.push({ elements: [img.element] }));
   }
 
-  
-  const remainingContent = document.createElement("div");
-  remainingContent.className = "article-remaining-content";
-  
-  
-  const fullContentCopy = document.createElement("div");
-  fullContentCopy.innerHTML = tempDiv.innerHTML;
-  
-  
-  const paragraphsToRemove = Array.from(fullContentCopy.querySelectorAll("p")).slice(0, 5);
-  paragraphsToRemove.forEach(p => p.remove());
-  
-  
-  remainingContent.innerHTML = fullContentCopy.innerHTML;
-  
-  
-  if (remainingContent.innerHTML.trim() === "") {
-    return;
-  }
-
-  
-  if (firstImgElement && articleItems.length > 0) {
-    const firstArticleItem = articleItems[0];
-    firstArticleItem.parentElement.insertBefore(
-      firstImgElement,
-      firstArticleItem
-    );
-  }
-
-  
-  const parent = contentContainer.parentElement;
-  if (parent) {
-    if (contentContainer.nextSibling) {
-      parent.insertBefore(remainingContent, contentContainer.nextSibling);
-    } else {
-      parent.appendChild(remainingContent);
-    }
-  }
+  return chunks;
 }
 
 

@@ -2,7 +2,7 @@ export const BASE_URL =
   "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=80&thirdCategoryIds=2243,2249,2225,2246,6704,2245,2244";
 export const IMG_BASE_URL =
   "https://news-api.szwyi.com";
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=80&thirdCategoryIds=2243,2249,2225,2246,6704,2245,2244";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=80&thirdCategoryIds=2243,2249,2225,2246,6704,2245,2244&created_at=2026-4-28";
 export const Detail_URL = "https://news-api.szwyi.com/api/compatible";
 export const Detail_Article_Path = "/finance_info/data.json";
 

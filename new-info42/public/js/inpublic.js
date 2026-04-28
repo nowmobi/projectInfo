@@ -677,8 +677,13 @@ class HealthNewsApp {
       const title = article.title || article.titleName || article.subject || "Untitled";
       const category = article.type || article.category || article.typeName || article.categoryName || "";
       const timeField = article.create_time || article.publishTime || article.createTime || article.time || Date.now() / 1000;
+      
+      // 奇数项（index为偶数）：左图右文；偶数项（index为奇数）：左文右图
+      const isReversed = index % 2 === 1;
+      const layoutClass = isReversed ? 'reverse-layout' : '';
+      
       const articleHTML = `
-        <div class="article-card-horizontal" data-id="${articleId}">
+        <div class="article-card-horizontal ${layoutClass}" data-id="${articleId}">
           <div class="article-image-side">
             <img src="${imgUrl}" alt="${title}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); color: white; align-items: center; justify-content: center; font-size: 14px; text-align: center; padding: 10px;">
