@@ -678,7 +678,6 @@ class HealthNewsApp {
       const category = article.type || article.category || article.typeName || article.categoryName || "";
       const timeField = article.create_time || article.publishTime || article.createTime || article.time || Date.now() / 1000;
       
-      // 奇数项（index为偶数）：左图右文；偶数项（index为奇数）：左文右图
       const isReversed = index % 2 === 1;
       const layoutClass = isReversed ? 'reverse-layout' : '';
       

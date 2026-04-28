@@ -2051,7 +2051,6 @@ footer a {
   width: 100%;
 }
 
-/* 新的水平卡片布局 - 左右结构 */
 .home_article-item {
   display: flex;
   align-items: stretch;
@@ -2082,7 +2081,7 @@ footer a {
   position: relative;
   overflow: hidden;
   height: 280px;
-  border-radius: 15px;  /* 添加圆角 */
+  border-radius: 15px;  
 }
 
 .article-image-side img {
@@ -2091,7 +2090,7 @@ footer a {
   object-fit: cover;
   transition: transform 0.3s ease;
   padding: 20px;
-  border-radius: 10px;  /* 图片内部也添加圆角 */
+  border-radius: 50%;  
 }
 
 .home_article-item:hover .article-image-side img {
@@ -2157,7 +2156,6 @@ footer a {
   font-weight: 500;
 }
 
-/* 移动端适配 */
 @media (max-width: 768px) {
   .home_article-item {
     flex-direction: column;
@@ -2194,17 +2192,16 @@ footer a {
   }
 }
 
-/* 左右布局交替样式 */
 .article-card-horizontal.reverse-layout {
   flex-direction: row-reverse !important;
 }
 
 .article-card-horizontal.reverse-layout .article-image-side {
-  flex: 0 0 60% !important;  /* 缩小图片区域至30%，原来为60% */
+  flex: 0 0 60% !important;  
 }
 
 .article-card-horizontal.reverse-layout .article-content-side {
-  flex: 0 0 40% !important;  /* 内容区域扩大至70%，原来为40% */
+  flex: 0 0 40% !important;  
 }
 
 .article-card-horizontal.reverse-layout .article-content-side::before {
@@ -2216,18 +2213,17 @@ footer a {
   align-self: flex-end !important;
 }
 
-/* 移动端时取消反转效果 */
 @media (max-width: 768px) {
   .article-card-horizontal.reverse-layout {
     flex-direction: column;
   }
 
   .article-card-horizontal.reverse-layout .article-image-side {
-    flex: 0 0 60%;  /* 移动端恢复原比例 */
+    flex: 0 0 60%;  
   }
 
   .article-card-horizontal.reverse-layout .article-content-side {
-    flex: 0 0 40%;  /* 移动端恢复原比例 */
+    flex: 0 0 40%;  
   }
 
   .article-card-horizontal.reverse-layout .article-content-side::before {
