@@ -8,12 +8,13 @@ const filesToPack = [
     'pages',
     'public',
     'index.html',
-    'dd.html',
+    'detail.html',
+    'robots.txt',
+    'ads.txt',
     'homegg_ads.js',
     'detailgg_ads.js',
     'detailgg.js',
-    'homegg.js',
-    'robots.txt'
+    'homegg.js'
 ];
 
 // 临时目录用于存放混淆后的文件
@@ -53,11 +54,11 @@ function getOutputZipPath() {
     // 转义域名中的特殊字符，用于正则表达式
     const escapedDomain = safeDomain.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     
-    // 检查是否存在基础文件（z_域名.zip）
+    // 检查是否存在基础文件（域名.zip）
     const baseFileExists = files.includes(baseFileName);
     
-    // 查找所有编号文件（z_域名_数字.zip）
-    const numberedFileRegex = new RegExp(`^z_${escapedDomain}_(\\d+)\\.zip$`);
+    // 查找所有编号文件（域名_数字.zip）
+    const numberedFileRegex = new RegExp(`^${escapedDomain}_(\\d+)\\.zip$`);
     const numberedFiles = files.filter(file => numberedFileRegex.test(file));
     
     // 如果基础文件不存在，优先使用基础文件名（第一次打包）
@@ -330,7 +331,7 @@ async function main() {
     console.log('\n✅ 所有操作完成！');
     console.log(`压缩包已保存: ${path.basename(zipPath)}`);
     console.log(`完整路径: ${zipPath}`);
-    console.log(`说明: 如果同一域名打包多次，会自动递增编号（z_域名.zip, z_域名_1.zip, z_域名_2.zip...）`);
+    console.log(`说明: 如果同一域名打包多次，会自动递增编号（域名.zip, 域名_1.zip, 域名_2.zip...）`);
 }
 
 // 运行主函数
