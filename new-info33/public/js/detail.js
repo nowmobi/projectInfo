@@ -74,10 +74,8 @@ class ArticleDetailPage {
     }
 
     const articleSource = document.getElementById("articleSource");
-    if (article.source) {
-      articleSource.textContent = "Source: " + this.decodeUnicode(article.source);
-    } else {
-      articleSource.textContent = "-";
+    if (articleSource) {
+      articleSource.parentElement.style.display = "none";
     }
 
     const articleSection = document.getElementById("articleSection");
@@ -345,10 +343,6 @@ class ArticleDetailPage {
   }
 
   getArticleExcerpt(article) {
-    
-    if (article.source) {
-      return this.decodeUnicode(article.source);
-    }
     return "";
   }
 

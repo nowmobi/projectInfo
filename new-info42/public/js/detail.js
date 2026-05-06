@@ -213,13 +213,7 @@ function updateArticleContent(articleData) {
     });
   }
 
-  if (authorElement) {
-    authorElement.textContent = articleData.author || "Unknown";
-  }
-
-  if (sourceElement) {
-    sourceElement.textContent = articleData.source || "Unknown";
-  }
+  
 
   const contentElement = document.getElementById("articleContent");
   if (contentElement) {
