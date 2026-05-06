@@ -19,9 +19,7 @@ const SELECTORS = {
   table: "table",
   image: "img",
   tableResponsive: ".table-responsive",
-  articleAuthor: "#articleAuthor",
   articleTime: "#articleTime",
-  articleSource: "#articleSource",
 };
 
 const URL_PARAMS = {
@@ -233,20 +231,11 @@ class ArticleDetailPage {
   }
 
   renderArticleMeta(article) {
-    
-    const author = article.author || article.author_name || '-';
-    this.updateElementText(SELECTORS.articleAuthor, author);
-
-    
     let timeStr = '-';
     if (article.create_time) {
       timeStr = window.Utils?.formatTimestamp?.(article.create_time) || '-';
     }
     this.updateElementText(SELECTORS.articleTime, timeStr);
-
-    
-    const source = article.source || article.source_name || article.type || '-';
-    this.updateElementText(SELECTORS.articleSource, source);
   }
 
   updateElementText(selector, text) {
