@@ -106,11 +106,25 @@ class ArticleDetailPage {
 
     document.getElementById("articleTitle").textContent = article.title;
 
+    const articleAuthor = document.getElementById("articleAuthor");
+    if (article.author) {
+      articleAuthor.textContent = this.decodeUnicode(article.author);
+    } else {
+      articleAuthor.textContent = "-";
+    }
+
     const articleTime = document.getElementById("articleTime");
     if (article.create_time) {
       articleTime.textContent = Utils.formatTime(article.create_time);
     } else {
       articleTime.textContent = "-";
+    }
+
+    const articleSource = document.getElementById("articleSource");
+    if (article.source) {
+      articleSource.textContent = this.decodeUnicode(article.source);
+    } else {
+      articleSource.textContent = "-";
     }
 
     this.renderArticleContent(article);

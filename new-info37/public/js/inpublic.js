@@ -31,7 +31,11 @@ const Utils = {
   },
 
   formatTime(timestamp) {
-    const date = new Date(timestamp * 1000);
+    let ts = Number(timestamp);
+    if (ts < 10000000000) {
+      ts = ts * 1000;
+    }
+    const date = new Date(ts);
     return date.toLocaleDateString("en-US", {
       year: "numeric",
       month: "2-digit",
