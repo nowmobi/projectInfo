@@ -165,8 +165,7 @@ class ArticleDetailPage {
 
     const articleAuthorElement = document.getElementById("articleAuthor");
     if (articleAuthorElement) {
-      const author = article.author || "-";
-      articleAuthorElement.textContent = Utils.decodeUnicode(author);
+
     }
 
     const articleTimeElement = document.getElementById("articleTime");
@@ -230,7 +229,6 @@ class ArticleDetailPage {
                             ${article.title ? `<h4>${Utils.decodeUnicode(article.title)}</h4>` : ''}
                             ${article.type ? `<p><strong>Category:</strong> ${Utils.decodeUnicode(article.type)}</p>` : ''}
                             ${article.source ? `<p><strong>Source:</strong> ${Utils.decodeUnicode(article.source)}</p>` : ''}
-                            ${article.author ? `<p><strong>Author:</strong> ${Utils.decodeUnicode(article.author)}</p>` : ''}
                             ${article.create_time ? `<p><strong>Published:</strong> ${Utils.formatTime(article.create_time)}</p>` : ''}
                         </div>
                         <div class="article-actions">
