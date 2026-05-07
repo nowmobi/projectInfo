@@ -449,8 +449,8 @@ class HealthNewsApp {
       
       const articleId = article.id || article.articleId || article.newsId;
       const articleTitle = article.title || article.headline || article.subject;
-      let articleType = article.type || article.category || article.thirdCategoryName || article.typeName || "Unknown";
-      articleType = Utils.truncateString(articleType, 18);
+      let articleSource = article.source || article.from || article.origin || article.sourceName || "Unknown";
+      articleSource = Utils.truncateString(articleSource, 18);
       const articleTime = article.create_time || article.publish_time || article.post_time || article.date || "";
       
       const detailHref =
@@ -475,12 +475,11 @@ class HealthNewsApp {
             </div>
           </div>
           <div class="article-content">
-          
-            <div class="article-source">${Utils.decodeUnicode(articleType)}</div>
-            <h3 class="article-title">${articleTitle}</h3>
-              <div class="article-top-left">
+            <div class="article-top-left">
               <span class="article-time">${Utils.formatTime(articleTime)}</span>
             </div>
+            <div class="article-source">${Utils.decodeUnicode(articleSource)}</div>
+            <h3 class="article-title">${articleTitle}</h3>
           </div>
         </a>
       `;
@@ -548,18 +547,14 @@ class HealthNewsApp {
       const articleTitle = article.title || article.headline || article.subject;
       const articleType = article.type || article.category || article.thirdCategoryName || article.typeName || "Unknown";
       const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
-      const imgUrl = this.getArticleImage(article);
       const detailHref = `dl.html?id=${articleId}${window.channel ? `&channel=${window.channel}` : ""}`;
 
       return `
         <div class="top-article-item" onclick="window.location.href='${detailHref}'">
-          <div class="top-article-image">
-            <img src="${imgUrl}" alt="${articleTitle}" onerror="this.src='public/images/default.svg'">
-          </div>
-          <div class="top-article-title">${articleTitle}</div>
+          <span class="top-article-title">${articleTitle}</span>
           <div class="top-article-meta">
             <span class="top-article-type">${Utils.decodeUnicode(articleType)}</span>
-            <button class="top-article-btn">Play Now</button>
+            <span class="top-article-time">${Utils.formatTime(articleTime)}</span>
           </div>
         </div>
       `;
