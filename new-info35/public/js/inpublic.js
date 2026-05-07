@@ -1,12 +1,20 @@
 import { remoteDataConfig, Category_URL } from "./BaseURL.js";
-import { ad_code_identifier } from "../../ads.js";
 
+let ad_code_identifier = null;
+
+async function loadAdsConfig() {
+  try {
+    const adsModule = await import("../../ads.js");
+    ad_code_identifier = adsModule.ad_code_identifier;
+    return true;
+  } catch (error) {
+    console.warn("ads.js 文件不存在或加载失败,将使用默认配置");
+    ad_code_identifier = { adunit: {} };
+    return false;
+  }
+}
 
 const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.has("channel")) {
-  window.channel =
-    urlParams.get("channel") || Object.keys(ad_code_identifier.adunit)[0];
-}
 
 class HealthNewsApp {
   constructor() {
@@ -18,6 +26,13 @@ class HealthNewsApp {
   }
 
   async init() {
+    await loadAdsConfig();
+    
+    if (urlParams.has("channel")) {
+      window.channel =
+        urlParams.get("channel") || Object.keys(ad_code_identifier.adunit)[0];
+    }
+    
     const isCategoryPage = window.location.pathname.includes(
       "/pages/category.html",
     );
