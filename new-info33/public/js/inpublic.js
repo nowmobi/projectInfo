@@ -665,10 +665,6 @@ class HealthNewsApp {
   }
 
   getArticleExcerpt(article) {
-    
-    if (article.source) {
-      return this.decodeUnicode(article.source);
-    }
     return "";
   }
 

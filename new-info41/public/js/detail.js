@@ -195,12 +195,6 @@ function updateArticleContent(articleData) {
 
   const typeElement = document.getElementById("articleType");
   const timeElement = document.getElementById("articleTime");
-  const authorElement = document.getElementById("articleAuthor");
-  const sourceElement = document.getElementById("articleSource");
-
-  if (typeElement) {
-    typeElement.textContent = articleData.author || articleData.anthor || "-";
-  }
 
   if (timeElement && articleData.create_time) {
     
@@ -211,14 +205,6 @@ function updateArticleContent(articleData) {
       month: "long",
       day: "numeric",
     });
-  }
-
-  if (authorElement) {
-    authorElement.textContent = articleData.author || "Unknown";
-  }
-
-  if (sourceElement) {
-    sourceElement.textContent = articleData.source || "Unknown";
   }
 
   const contentElement = document.getElementById("articleContent");
