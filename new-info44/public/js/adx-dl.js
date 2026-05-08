@@ -539,8 +539,15 @@ class ArticleDetailPage {
           const articleTime = article.create_time || article.publish_time || article.post_time || article.date || "";
           const detailHref = `dl.html?id=${articleId}` + (window.channel ? `&channel=${window.channel}` : "");
           return `
+            <div class="home_article-item">
             <a class="article-card" href="${detailHref}">
+              <div class="floating-dots"></div>
+              <div class="corner-decoration"></div>
+              <div class="card-glow"></div>
+              <div class="pulse-ring"></div>
               <div class="article-image">
+                <div class="image-border"></div>
+                <div class="image-shine"></div>
                 <img src="${articleImage}" alt="${articleTitle}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #ba7ac7 0%, #9b6aa8 100%); color: white; align-items: center; justify-content: center; font-size: 12px; text-align: center; padding: 5px;">
                   <div>
@@ -557,6 +564,7 @@ class ArticleDetailPage {
                 ${!article.summary ? `<span class="article-type-tag">${Utils.decodeUnicode(articleType) || "Unknown Type"}</span>` : ""}
               </div>
             </a>
+            </div>
           `;
         })
         .join("");

@@ -361,11 +361,18 @@ class CategoryPage {
 
     const sortedArticles = articles.sort((a, b) => b.id - a.id);
     const articlesHTML = sortedArticles
-      .map((article) => {
+      .map((article, index) => {
         const href = `../dl.html?id=${article.id}`;
         return `
+            <div class="home_article-item" data-index="${index + 1}">
             <a class="article-card" href="${href}">
+                <div class="floating-dots"></div>
+                <div class="corner-decoration"></div>
+                <div class="card-glow"></div>
+                <div class="pulse-ring"></div>
                 <div class="article-image">
+                    <div class="image-border"></div>
+                    <div class="image-shine"></div>
                     <img src="${this.getArticleImagePath(
                       article
                     )}" alt="${
@@ -384,11 +391,28 @@ class CategoryPage {
                     </div>
                 </div>
             </a>
+            </div>
         `;
       })
       .join("");
 
     articlesContainer.innerHTML = articlesHTML;
+    
+    // 添加鼠标跟随光晕效果
+    this.addMouseGlowEffect();
+  }
+
+  addMouseGlowEffect() {
+    const cards = document.querySelectorAll('.article-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', `${x}%`);
+        card.style.setProperty('--mouse-y', `${y}%`);
+      });
+    });
   }
 
   getArticleImagePath(article) {
@@ -508,11 +532,18 @@ class CategoryPage {
     const sortedArticles = articlesToShow.sort((a, b) => b.id - a.id);
 
     articlesContainer.innerHTML = sortedArticles
-      .map((article) => {
+      .map((article, index) => {
         const href = `../dl.html?id=${article.id}`;
         return `
+             <div class="home_article-item" data-index="${index + 1}">
              <a class="article-card" href="${href}">
+                 <div class="floating-dots"></div>
+                 <div class="corner-decoration"></div>
+                 <div class="card-glow"></div>
+                 <div class="pulse-ring"></div>
                  <div class="article-image">
+                     <div class="image-border"></div>
+                     <div class="image-shine"></div>
                      <img src="${this.getArticleImagePath(
                        article
                      )}" alt="${
@@ -531,9 +562,13 @@ class CategoryPage {
                      </div>
                  </div>
              </a>
+             </div>
          `;
       })
       .join(""); 
+    
+    // 添加鼠标跟随光晕效果
+    this.addMouseGlowEffect();
   }
 
   bindArticleEvents() {
@@ -589,11 +624,18 @@ class CategoryPage {
     );
 
     articlesContainer.innerHTML = sortedFilteredArticles
-      .map((article) => {
+      .map((article, index) => {
         const href = `../dl.html?id=${article.id}`;
         return `
+            <div class="home_article-item" data-index="${index + 1}">
             <a class="article-card" href="${href}">
+                <div class="floating-dots"></div>
+                <div class="corner-decoration"></div>
+                <div class="card-glow"></div>
+                <div class="pulse-ring"></div>
                 <div class="article-image">
+                    <div class="image-border"></div>
+                    <div class="image-shine"></div>
                     <img src="${this.getArticleImagePath(
                       article
                     )}" alt="${
@@ -612,6 +654,7 @@ class CategoryPage {
                     </div>
                 </div>
             </a>
+            </div>
         `;
       })
       .join("");

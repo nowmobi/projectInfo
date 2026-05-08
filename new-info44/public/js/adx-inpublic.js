@@ -460,7 +460,13 @@ class HealthNewsApp {
       const imgUrl = this.getArticleImage(article);
       const articleHTML = `
         <a class="article-card" href="${detailHref}">
+          <div class="floating-dots"></div>
+          <div class="corner-decoration"></div>
+          <div class="card-glow"></div>
+          <div class="pulse-ring"></div>
           <div class="article-image">
+            <div class="image-border"></div>
+            <div class="image-shine"></div>
             <img src="${imgUrl}" alt="${
         articleTitle
       }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -486,6 +492,7 @@ class HealthNewsApp {
 
       if (homeArticleItems[index]) {
         homeArticleItems[index].innerHTML = articleHTML;
+        homeArticleItems[index].setAttribute('data-index', index + 1);
       } else {
         console.error(`Container at index ${index} not found`);
       }
@@ -637,8 +644,15 @@ class HealthNewsApp {
           `dl.html?id=${article.id}` +
           (window.channel ? `&channel=${window.channel}` : "");
         return `
+      <div class="home_article-item">
       <a class="article-card" href="${detailHref}">
+        <div class="floating-dots"></div>
+        <div class="corner-decoration"></div>
+        <div class="card-glow"></div>
+        <div class="pulse-ring"></div>
         <div class="article-image">
+          <div class="image-border"></div>
+          <div class="image-shine"></div>
           <img src="${this.getArticleImage(article)}" alt="${
           article.title
         }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -665,9 +679,26 @@ class HealthNewsApp {
           }
         </div>
       </a>
+      </div>
     `;
       })
       .join("");
+    
+    // 添加鼠标跟随光晕效果
+    this.addMouseGlowEffect();
+  }
+
+  addMouseGlowEffect() {
+    const cards = document.querySelectorAll('.article-card');
+    cards.forEach(card => {
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--mouse-x', `${x}%`);
+        card.style.setProperty('--mouse-y', `${y}%`);
+      });
+    });
   }
 
   getArticleImage(article) {
