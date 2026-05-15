@@ -218,94 +218,140 @@ class ArticleDetailPage {
   }
 
   renderArticleContent(article, isDbArticle = false) {
-    
-    
-    
-    
     const contentContainer = document.getElementById("articleContent");
     
-    
     if (!contentContainer) {
-      
       return;
     }
 
     if (isDbArticle) {
       contentContainer.innerHTML = `
-                        <p>This article is available in the healths folder. Please check the corresponding data.json file for full content.</p>
-                        <p>Article Type: ${this.decodeUnicode(article.type) || "Unknown"}</p>
-                        <p>Created: ${article.create_time ? this.formatTime(article.create_time) : "Unknown"}</p>
-                    `;
+        <p>This article is available in the healths folder. Please check the corresponding data.json file for full content.</p>
+        <p>Article Type: ${this.decodeUnicode(article.type) || "Unknown"}</p>
+        <p>Created: ${article.create_time ? this.formatTime(article.create_time) : "Unknown"}</p>
+      `;
       return;
     }
 
-    if (article.content && Array.isArray(article.content)) {
-      
-      
-     
-      const loading = contentContainer.querySelector(".loading");
-      
-      if (loading) {
-        loading.style.display = "none";
-      }
-      
-     
-      const existingItems = contentContainer.querySelectorAll(".article-item, .ads");
-      
-      existingItems.forEach(item => item.remove());
-      
-     
-      const htmlContent = article.content
-        .map((contentItem) => {
-          const decodedContent = this.decodeUnicode(contentItem);
-          return decodedContent;
-        })
-        .join("");
-      
-      
-
-     
-      contentContainer.innerHTML = htmlContent;
-      
-
-     
-      this.wrapTablesResponsive(contentContainer);
-      
-     
-      this.convertImageSrcToRemote(contentContainer, this.articleId);
-    } else if (article.section) {
-      
-      
-     
-      const loading = contentContainer.querySelector(".loading");
-      if (loading) {
-        loading.style.display = "none";
-      }
-      
-     
-      const existingItems = contentContainer.querySelectorAll(".article-item, .ads");
-      existingItems.forEach(item => item.remove());
-      
-      const sectionContent = `
-                        <p>${this.decodeUnicode(article.section)}</p>
-                        <p>Full content is being loaded...</p>
-                    `;
-      contentContainer.innerHTML = sectionContent;
-    } else {
-      
-      
-     
-      const loading = contentContainer.querySelector(".loading");
-      if (loading) {
-        loading.style.display = "none";
-      }
-      
-     
-      const existingItems = contentContainer.querySelectorAll(".article-item, .ads");
-      existingItems.forEach(item => item.remove());
-      
-      contentContainer.innerHTML = "<p>Content not available</p>";
+    const loading = contentContainer.querySelector(".loading");
+    if (loading) {
+      loading.style.display = "none";
     }
+
+    if (article.content && Array.isArray(article.content)) {
+      this.processAndRenderContent(contentContainer, article.content);
+    } else if (article.section) {
+      const sectionContent = `
+        <p>${this.decodeUnicode(article.section)}</p>
+        <p>Full content is being loaded...</p>
+      `;
+      const articleItemElements = contentContainer.querySelectorAll(".article-item");
+      if (articleItemElements.length > 0) {
+        articleItemElements[0].innerHTML = sectionContent;
+      } else {
+        contentContainer.innerHTML = sectionContent;
+      }
+    } else {
+      const noContentMsg = "<p>Content not available</p>";
+      const articleItemElements = contentContainer.querySelectorAll(".article-item");
+      if (articleItemElements.length > 0) {
+        articleItemElements[0].innerHTML = noContentMsg;
+      } else {
+        contentContainer.innerHTML = noContentMsg;
+      }
+    }
+  }
+
+  processAndRenderContent(contentContainer, contentArray) {
+    const decodedContent = contentArray.map(item => this.decodeUnicode(item)).join("");
+    
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = decodedContent;
+    
+    this.convertImageSrcToRemote(tempDiv, this.articleId);
+    
+    const articleItemElements = contentContainer.querySelectorAll(".article-item");
+    const chunks = this.splitContentIntoChunks(tempDiv, articleItemElements.length);
+    
+    chunks.forEach((chunk, index) => {
+      if (index < articleItemElements.length) {
+        const targetElement = articleItemElements[index];
+        targetElement.innerHTML = "";
+        chunk.forEach(el => targetElement.appendChild(el.cloneNode(true)));
+      }
+    });
+    
+    this.wrapTablesResponsive(contentContainer);
+  }
+
+  splitContentIntoChunks(contentDiv, targetCount) {
+    const chunks = [];
+    const elements = Array.from(contentDiv.childNodes);
+    
+    if (elements.length === 0) {
+      for (let i = 0; i < targetCount; i++) {
+        chunks.push([]);
+      }
+      return chunks;
+    }
+
+    const charLimits = [300, 500, 500, 500, 500];
+    
+    let currentChunk = [];
+    let currentCharCount = 0;
+    let chunkIndex = 0;
+
+    for (const element of elements) {
+      if (element.nodeType === Node.TEXT_NODE) {
+        const text = element.textContent || "";
+        const textLength = text.length;
+        
+        if (chunkIndex < targetCount - 1 && currentCharCount + textLength > charLimits[chunkIndex]) {
+          chunks.push(currentChunk);
+          currentChunk = [];
+          currentCharCount = 0;
+          chunkIndex++;
+        }
+        
+        currentChunk.push(element);
+        currentCharCount += textLength;
+      } else if (element.nodeType === Node.ELEMENT_NODE) {
+        const elementText = element.textContent || "";
+        const elementCharCount = elementText.length;
+        
+        if (chunkIndex === 0 && element.tagName === "IMG") {
+          currentChunk.push(element);
+          currentCharCount += elementCharCount;
+        } else if (chunkIndex < targetCount - 1 && currentCharCount + elementCharCount > charLimits[chunkIndex]) {
+          chunks.push(currentChunk);
+          currentChunk = [];
+          currentCharCount = 0;
+          chunkIndex++;
+          currentChunk.push(element);
+          currentCharCount += elementCharCount;
+        } else {
+          currentChunk.push(element);
+          currentCharCount += elementCharCount;
+        }
+      }
+    }
+
+    if (currentChunk.length > 0) {
+      chunks.push(currentChunk);
+    }
+
+    while (chunks.length < targetCount) {
+      chunks.push([]);
+    }
+
+    if (chunks.length > targetCount) {
+      const extraChunks = chunks.splice(targetCount);
+      extraChunks.forEach(extra => {
+        chunks[targetCount - 1] = chunks[targetCount - 1].concat(extra);
+      });
+    }
+
+    return chunks;
   }
 
   distributeContentToArticleItems(contentContainer, htmlContent) {
