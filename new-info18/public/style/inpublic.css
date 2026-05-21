@@ -1,8 +1,8 @@
 
 
 :root {
-  --color1: #70c588;
-  --color2: #c7ddce;
+  --color1: #ecebc2;
+  --color2: #7d929f;
   --color2-rgba-18: rgba(181, 119, 67, 0.18);
   --color2-rgba-30: rgba(181, 119, 67, 0.3);
   --color2-rgba-15: rgba(181, 119, 67, 0.15);
@@ -246,7 +246,7 @@ body {
 }
 
 .footer-eyebrow a {
-  color: var(--color2);
+  color: #8a7f7f;
   text-decoration: none;
 }
 
@@ -257,7 +257,7 @@ body {
 .footer-title {
   margin: 0;
   font-size: 24px;
-  color: var(--color2);
+  color: #554747;
   font-weight: 700;
 }
 
