@@ -619,7 +619,7 @@ class ArticleDetailPage {
     if (smartBackButton) {
       smartBackButton.addEventListener("click", (e) => {
         e.preventDefault();
-        window.history.back();
+        window.location.href = "index.html?fromDetail=true";
       });
     }
 
