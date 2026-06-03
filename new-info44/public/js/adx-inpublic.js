@@ -420,14 +420,20 @@ class HealthNewsApp {
     if (articlesToRender) {
       articles = articlesToRender;
     } else if (this.currentCategory === "all") {
-      articles = this.getTopArticlesByCategory(2);
+      const validArticles = this.articles.filter(article => {
+        const articleId = article.id || article.articleId || article.newsId;
+        const articleTitle = article.title || article.headline || article.subject;
+        return articleId && articleTitle;
+      });
+      const shuffledArticles = [...validArticles].sort(() => Math.random() - 0.5);
+      articles = shuffledArticles.slice(0, 30);
     } else {
       articles = this.articles.filter((article) => {
         const articleTypeId = article.type
           ? article.type.toLowerCase().replace(/\s+/g, "-").replace(/[&]/g, "")
           : "";
         return articleTypeId === this.currentCategory;
-      });
+      }).slice(0, 30);
     }
 
     const articlesGrid = document.getElementById("articlesGrid");
@@ -560,7 +566,6 @@ class HealthNewsApp {
         <div class="top-article-item" onclick="window.location.href='${detailHref}'">
           <span class="top-article-title">${articleTitle}</span>
           <div class="top-article-meta">
-            <span class="top-article-type">${Utils.decodeUnicode(articleType)}</span>
             <span class="top-article-time">${Utils.formatTime(articleTime)}</span>
           </div>
         </div>

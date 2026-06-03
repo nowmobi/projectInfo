@@ -1,20 +1,21 @@
 
+// Auto-generated category page ad configuration file - Generated at: 2025/11/12 12:11:53
 
 import { ad_code_identifier } from "./ads.js";
 console.log("Ad Code Identifier:", ad_code_identifier);
 
-
+// Banner ad configuration list
 let bannerAdList = [];
 
-
+// Anchor ad configuration list
 let anchorAdList = [];
 
-
+// Interstitial ad configuration list
 let interstitialAdList = [];
 
 (function () {
   
-
+  
   
   const status = ad_code_identifier.status;
   console.log("Ad status:", status);
@@ -89,12 +90,12 @@ let interstitialAdList = [];
   }
 
   
-  if (selectedAdunit && selectedAdunit.home) {
-    bannerAdList = selectedAdunit.home.map((item, index) => ({
-      id: `div-gpt-ad-home${index + 1}`,
+  if (selectedAdunit && selectedAdunit.category) {
+    bannerAdList = selectedAdunit.category.map((item, index) => ({
+      id: `div-gpt-ad-category${index + 1}`,
       size: [item.width, item.height],
       slot: item.slot,
-      divId: `div-gpt-ad-home${index + 1}`,
+      divId: `div-gpt-ad-category${index + 1}`,
     }));
     console.log("✅ Banner ad list created:", bannerAdList);
   }
@@ -102,10 +103,10 @@ let interstitialAdList = [];
   
   if (
     selectedAdunit &&
-    selectedAdunit.home_anchor &&
-    selectedAdunit.home_anchor.length > 0
+    selectedAdunit.category_anchor &&
+    selectedAdunit.category_anchor.length > 0
   ) {
-    anchorAdList = selectedAdunit.home_anchor.map((item) => ({
+    anchorAdList = selectedAdunit.category_anchor.map((item) => ({
       slot: item.slot,
     }));
     console.log("✅ Anchor ad list created:", anchorAdList);
@@ -232,10 +233,10 @@ const initializeAllAds = () => {
       try {
         window.googletag.display(ad.id);
       } catch (error) {
-        console.error("Error displaying home ad:", ad.id, error);
+        console.error("Error displaying category ad:", ad.id, error);
       }
     } else {
-      console.log("⏳ Skip non-existent home page ad container:", ad.id);
+      console.log("⏳ Skip non-existent category page ad container:", ad.id);
     }
   });
 };
@@ -251,3 +252,4 @@ if (typeof window !== "undefined") {
 if (typeof module !== "undefined" && module.exports) {
   module.exports = { bannerAdList, anchorAdList, interstitialAdList };
 }
+

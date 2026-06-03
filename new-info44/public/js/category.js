@@ -360,11 +360,26 @@ class CategoryPage {
     }
 
     const sortedArticles = articles.sort((a, b) => b.id - a.id);
-    const articlesHTML = sortedArticles
-      .map((article, index) => {
+    
+    // 先清空所有非广告的home_article-item
+    const items = articlesContainer.querySelectorAll(".home_article-item");
+    items.forEach(item => item.innerHTML = "");
+    
+    // 动态添加文章到容器中，保留广告
+    let articleIndex = 0;
+    const allItems = Array.from(articlesContainer.children);
+    
+    for (let i = 0; i < allItems.length && articleIndex < sortedArticles.length; i++) {
+      const item = allItems[i];
+      
+      if (item.classList.contains("ads")) {
+        continue; // 跳过广告容器
+      }
+      
+      if (item.classList.contains("home_article-item")) {
+        const article = sortedArticles[articleIndex];
         const href = `../dl.html?id=${article.id}`;
-        return `
-            <div class="home_article-item" data-index="${index + 1}">
+        item.innerHTML = `
             <a class="article-card" href="${href}">
                 <div class="floating-dots"></div>
                 <div class="corner-decoration"></div>
@@ -373,30 +388,52 @@ class CategoryPage {
                 <div class="article-image">
                     <div class="image-border"></div>
                     <div class="image-shine"></div>
-                    <img src="${this.getArticleImagePath(
-                      article
-                    )}" alt="${
-          article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                    <img src="${this.getArticleImagePath(article)}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>
                     <div class="article-meta">
-                        <span class="article-type">${
-                          Utils.truncateString(article.type, 18)
-                        }</span>
-                        <span class="article-time">${Utils.formatTime(
-                          article.create_time
-                        )}</span>
+                        <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                        <span class="article-time">${Utils.formatTime(article.create_time)}</span>
                     </div>
                 </div>
             </a>
-            </div>
         `;
-      })
-      .join("");
-
-    articlesContainer.innerHTML = articlesHTML;
+        item.dataset.index = articleIndex + 1;
+        articleIndex++;
+      }
+    }
+    
+    // 如果还有更多文章，动态添加新的容器
+    while (articleIndex < sortedArticles.length) {
+      const article = sortedArticles[articleIndex];
+      const href = `../dl.html?id=${article.id}`;
+      const newItem = document.createElement("div");
+      newItem.className = "home_article-item";
+      newItem.dataset.index = articleIndex + 1;
+      newItem.innerHTML = `
+            <a class="article-card" href="${href}">
+                <div class="floating-dots"></div>
+                <div class="corner-decoration"></div>
+                <div class="card-glow"></div>
+                <div class="pulse-ring"></div>
+                <div class="article-image">
+                    <div class="image-border"></div>
+                    <div class="image-shine"></div>
+                    <img src="${this.getArticleImagePath(article)}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                </div>
+                <div class="article-content">
+                    <h3 class="article-title">${article.title}</h3>
+                    <div class="article-meta">
+                        <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                        <span class="article-time">${Utils.formatTime(article.create_time)}</span>
+                    </div>
+                </div>
+            </a>
+        `;
+      articlesContainer.appendChild(newItem);
+      articleIndex++;
+    }
     
     // 添加鼠标跟随光晕效果
     this.addMouseGlowEffect();
@@ -530,42 +567,80 @@ class CategoryPage {
     }
 
     const sortedArticles = articlesToShow.sort((a, b) => b.id - a.id);
-
-    articlesContainer.innerHTML = sortedArticles
-      .map((article, index) => {
+    
+    // 先清空所有非广告的home_article-item
+    const items = articlesContainer.querySelectorAll(".home_article-item");
+    items.forEach(item => item.innerHTML = "");
+    
+    // 动态添加文章到容器中，保留广告
+    let articleIndex = 0;
+    const allItems = Array.from(articlesContainer.children);
+    
+    for (let i = 0; i < allItems.length && articleIndex < sortedArticles.length; i++) {
+      const item = allItems[i];
+      
+      if (item.classList.contains("ads")) {
+        continue; // 跳过广告容器
+      }
+      
+      if (item.classList.contains("home_article-item")) {
+        const article = sortedArticles[articleIndex];
         const href = `../dl.html?id=${article.id}`;
-        return `
-             <div class="home_article-item" data-index="${index + 1}">
-             <a class="article-card" href="${href}">
-                 <div class="floating-dots"></div>
-                 <div class="corner-decoration"></div>
-                 <div class="card-glow"></div>
-                 <div class="pulse-ring"></div>
-                 <div class="article-image">
-                     <div class="image-border"></div>
-                     <div class="image-shine"></div>
-                     <img src="${this.getArticleImagePath(
-                       article
-                     )}" alt="${
-          article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
-                 </div>
-                 <div class="article-content">
-                     <h3 class="article-title">${article.title}</h3>
-                     <div class="article-meta">
-                         <span class="article-type">${
-                           Utils.truncateString(article.type, 18)
-                         }</span>
-                         <span class="article-time">${Utils.formatTime(
-                           article.create_time
-                         )}</span>
-                     </div>
-                 </div>
-             </a>
-             </div>
-         `;
-      })
-      .join(""); 
+        item.innerHTML = `
+            <a class="article-card" href="${href}">
+                <div class="floating-dots"></div>
+                <div class="corner-decoration"></div>
+                <div class="card-glow"></div>
+                <div class="pulse-ring"></div>
+                <div class="article-image">
+                    <div class="image-border"></div>
+                    <div class="image-shine"></div>
+                    <img src="${this.getArticleImagePath(article)}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                </div>
+                <div class="article-content">
+                    <h3 class="article-title">${article.title}</h3>
+                    <div class="article-meta">
+                        <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                        <span class="article-time">${Utils.formatTime(article.create_time)}</span>
+                    </div>
+                </div>
+            </a>
+        `;
+        item.dataset.index = articleIndex + 1;
+        articleIndex++;
+      }
+    }
+    
+    // 如果还有更多文章，动态添加新的容器
+    while (articleIndex < sortedArticles.length) {
+      const article = sortedArticles[articleIndex];
+      const href = `../dl.html?id=${article.id}`;
+      const newItem = document.createElement("div");
+      newItem.className = "home_article-item";
+      newItem.dataset.index = articleIndex + 1;
+      newItem.innerHTML = `
+            <a class="article-card" href="${href}">
+                <div class="floating-dots"></div>
+                <div class="corner-decoration"></div>
+                <div class="card-glow"></div>
+                <div class="pulse-ring"></div>
+                <div class="article-image">
+                    <div class="image-border"></div>
+                    <div class="image-shine"></div>
+                    <img src="${this.getArticleImagePath(article)}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                </div>
+                <div class="article-content">
+                    <h3 class="article-title">${article.title}</h3>
+                    <div class="article-meta">
+                        <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                        <span class="article-time">${Utils.formatTime(article.create_time)}</span>
+                    </div>
+                </div>
+            </a>
+        `;
+      articlesContainer.appendChild(newItem);
+      articleIndex++;
+    }
     
     // 添加鼠标跟随光晕效果
     this.addMouseGlowEffect();
@@ -622,12 +697,26 @@ class CategoryPage {
     const sortedFilteredArticles = filteredArticles.sort(
       (a, b) => b.id - a.id
     );
-
-    articlesContainer.innerHTML = sortedFilteredArticles
-      .map((article, index) => {
+    
+    // 先清空所有非广告的home_article-item
+    const items = articlesContainer.querySelectorAll(".home_article-item");
+    items.forEach(item => item.innerHTML = "");
+    
+    // 动态添加文章到容器中，保留广告
+    let articleIndex = 0;
+    const allItems = Array.from(articlesContainer.children);
+    
+    for (let i = 0; i < allItems.length && articleIndex < sortedFilteredArticles.length; i++) {
+      const item = allItems[i];
+      
+      if (item.classList.contains("ads")) {
+        continue; // 跳过广告容器
+      }
+      
+      if (item.classList.contains("home_article-item")) {
+        const article = sortedFilteredArticles[articleIndex];
         const href = `../dl.html?id=${article.id}`;
-        return `
-            <div class="home_article-item" data-index="${index + 1}">
+        item.innerHTML = `
             <a class="article-card" href="${href}">
                 <div class="floating-dots"></div>
                 <div class="corner-decoration"></div>
@@ -636,30 +725,55 @@ class CategoryPage {
                 <div class="article-image">
                     <div class="image-border"></div>
                     <div class="image-shine"></div>
-                    <img src="${this.getArticleImagePath(
-                      article
-                    )}" alt="${
-          article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                    <img src="${this.getArticleImagePath(article)}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>
                     <div class="article-meta">
-                        <span class="article-type">${
-                          Utils.truncateString(article.type, 18)
-                        }</span>
-                        <span class="article-time">${Utils.formatTime(
-                          article.create_time
-                        )}</span>
+                        <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                        <span class="article-time">${Utils.formatTime(article.create_time)}</span>
                     </div>
                 </div>
             </a>
-            </div>
         `;
-      })
-      .join("");
-
-   
+        item.dataset.index = articleIndex + 1;
+        articleIndex++;
+      }
+    }
+    
+    // 如果还有更多文章，动态添加新的容器
+    while (articleIndex < sortedFilteredArticles.length) {
+      const article = sortedFilteredArticles[articleIndex];
+      const href = `../dl.html?id=${article.id}`;
+      const newItem = document.createElement("div");
+      newItem.className = "home_article-item";
+      newItem.dataset.index = articleIndex + 1;
+      newItem.innerHTML = `
+            <a class="article-card" href="${href}">
+                <div class="floating-dots"></div>
+                <div class="corner-decoration"></div>
+                <div class="card-glow"></div>
+                <div class="pulse-ring"></div>
+                <div class="article-image">
+                    <div class="image-border"></div>
+                    <div class="image-shine"></div>
+                    <img src="${this.getArticleImagePath(article)}" alt="${article.title}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+                </div>
+                <div class="article-content">
+                    <h3 class="article-title">${article.title}</h3>
+                    <div class="article-meta">
+                        <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                        <span class="article-time">${Utils.formatTime(article.create_time)}</span>
+                    </div>
+                </div>
+            </a>
+        `;
+      articlesContainer.appendChild(newItem);
+      articleIndex++;
+    }
+    
+    // 添加鼠标跟随光晕效果
+    this.addMouseGlowEffect();
   }
 
   formatTime(timestamp) {
