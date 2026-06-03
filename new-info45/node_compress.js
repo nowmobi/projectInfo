@@ -12,11 +12,12 @@ const filesToPack = [
     'robots.txt',
     'homegg_ads.js',
     'detailgg_ads.js',
+    'categorygg_ads.js',
     'detailgg.js',
-    'homegg.js'
+    'homegg.js',
+    'categorygg.js'
 ];
 
-// 临时目录用于存放混淆后的文件
 const tempDir = path.join(__dirname, '.temp_obfuscated');
 
 // 读取配置文件获取域名

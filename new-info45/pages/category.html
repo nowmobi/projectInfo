@@ -53,13 +53,17 @@
 
     <main class="page-content">
       <div class="category-page-content">
+        <div class="ads">
+          <div id="div-gpt-ad-category1">11</div>
+        </div>
         <div class="category-grid"></div>
 
         <div
           class="current-category-articles dsn"
           id="currentCategoryArticles"
         >
-          <div class="articles-container" id="categoryArticlesContainer"></div>
+          <div class="articles-container" id="categoryArticlesContainer">
+          </div>
         </div>
       </div>
     </main>
@@ -144,5 +148,25 @@
 
     <script type="module" src="../public/js/inpublic.js"></script>
     <script type="module" src="../public/js/category.js"></script>
+    <script type="module">
+      import { ad_code_identifier } from "../ads.js";
+
+      console.log("Checking cate value:", ad_code_identifier.cate);
+      console.log("Checking status value:", ad_code_identifier.status);
+
+      if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
+        console.log("✅ cate is 'adx', loading categorygg.js...");
+
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "../categorygg.js";
+        document.body.appendChild(script);
+      } else {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "../categorygg_ads.js";
+        document.body.appendChild(script);
+      }
+    </script>
   </body>
 </html>

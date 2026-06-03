@@ -447,7 +447,14 @@ class ArticleDetailPage {
     const chunks = [];
     
     if (images[0] && paragraphs.length > 0) {
-      const firstChunkElements = [images[0].element, paragraphs[0]];
+      const firstParagraph = paragraphs[0];
+      let truncatedParagraph = firstParagraph;
+      if (firstParagraph.textContent && firstParagraph.textContent.length > 200) {
+        truncatedParagraph = document.createElement('p');
+        truncatedParagraph.textContent = firstParagraph.textContent.substring(0, 200) + '...';
+      }
+      
+      const firstChunkElements = [images[0].element, truncatedParagraph];
       chunks.push({ elements: firstChunkElements });
       
       const remainingParagraphs = paragraphs.slice(1);
@@ -619,7 +626,7 @@ class ArticleDetailPage {
     if (smartBackButton) {
       smartBackButton.addEventListener("click", (e) => {
         e.preventDefault();
-        window.history.back();
+        window.location.href = "index.html";
       });
     }
 
