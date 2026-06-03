@@ -13,7 +13,9 @@ const filesToPack = [
     'homegg_ads.js',
     'detailgg_ads.js',
     'detailgg.js',
-    'homegg.js'
+    'homegg.js',
+    'categorygg.js',
+    'categorygg_ads.js'
 ];
 
 // 临时目录用于存放混淆后的文件

@@ -1,6 +1,6 @@
 :root {
-  --color1: #33325d;
-  --color2: #cccda2;
+  --color1: #f7ece7;
+  --color2: #081318;
 }
 
 * {
@@ -1169,7 +1169,7 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  padding: 15px;
+  padding: 15px 0;
   border-radius: 16px;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -1267,9 +1267,9 @@ main {
 .top-article-btn {
   background: rgba(255, 255, 255, 0.95);
   color: #333;
-  padding: 8px 24px;
-  border-radius: 20px;
-  font-size: 13px;
+  padding: 5px 16px;
+  border-radius: 15px;
+  font-size: 11px;
   font-weight: 600;
   border: none;
   cursor: pointer;
