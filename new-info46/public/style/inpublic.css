@@ -354,7 +354,7 @@ main {
 
 .category-bar {
   background: transparent;
-  padding: 0 15px;
+  padding: 15px;
   border-bottom: none;
   overflow-x: auto;
   margin-bottom: 20px;
