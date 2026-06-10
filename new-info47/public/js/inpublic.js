@@ -29,6 +29,7 @@ class HealthNewsApp {
     this.renderArticles();
     this.renderRandomArticles();
     this.renderTopArticles();
+    this.renderFeaturedArticles();
   }
 
   async loadCategoryOrder() {
@@ -482,12 +483,8 @@ class HealthNewsApp {
           <div class="article-content">
             <h3 class="article-title">${articleTitle}</h3>
             <div class="article-meta">
-              <span class="article-type">${Utils.decodeUnicode(
-                articleType
-              )}</span>
-              <span class="article-time">${Utils.formatTime(
-                articleTime
-              )}</span>
+              <span class="article-type">${Utils.decodeUnicode(articleType)}</span>
+              <span class="article-time">${Utils.formatTime(articleTime)}</span>
             </div>
           </div>
         </a>
@@ -597,6 +594,53 @@ class HealthNewsApp {
           <img src="${imgUrl}" alt="${articleTitle}" class="random-article-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="random-article-title">${articleTitle}</div>
         </div>
+      `;
+    }).join("");
+  }
+
+  renderFeaturedArticles() {
+    const featuredGrid = document.getElementById("featuredGrid");
+    if (!featuredGrid || !this.articles || this.articles.length === 0) {
+      featuredGrid.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No featured articles</div>';
+      return;
+    }
+
+    const validArticles = this.articles.filter(article => {
+      const articleId = article.id || article.articleId || article.newsId;
+      const articleTitle = article.title || article.headline || article.subject;
+      return articleId && articleTitle;
+    });
+
+    if (validArticles.length === 0) {
+      featuredGrid.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No featured articles</div>';
+      return;
+    }
+
+    const shuffledArticles = [...validArticles].sort(() => Math.random() - 0.5);
+    const featuredArticles = shuffledArticles.slice(0, 3);
+
+    featuredGrid.innerHTML = featuredArticles.map(article => {
+      const articleId = article.id || article.articleId || article.newsId;
+      const articleTitle = article.title || article.headline || article.subject;
+      const articleType = article.type || article.category || article.thirdCategoryName || article.typeName;
+      const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
+      const imgUrl = this.getArticleImage(article);
+      const detailHref = `detail.html?id=${articleId}${window.channel ? `&channel=${window.channel}` : ""}`;
+
+      return `
+        <a href="${detailHref}" class="featured-card">
+          <div class="featured-image">
+            <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, var(--color1), var(--color2))';">
+            <span class="featured-badge">Featured</span>
+          </div>
+          <div class="featured-content">
+            <h4 class="featured-title-text">${articleTitle}</h4>
+            <div class="featured-meta">
+              <span class="featured-type">${Utils.truncateString(articleType, 12)}</span>
+              <span>${Utils.formatTime(articleTime)}</span>
+            </div>
+          </div>
+        </a>
       `;
     }).join("");
   }
@@ -845,6 +889,15 @@ const Utils = {
     if (!str || typeof str !== 'string') return "";
     if (str.length <= maxLength) return str;
     return str.substring(0, maxLength) + "...";
+  },
+
+  formatNumber(num) {
+    if (num >= 1000000) {
+      return (num / 1000000).toFixed(1) + 'M';
+    } else if (num >= 1000) {
+      return (num / 1000).toFixed(1) + 'K';
+    }
+    return num.toString();
   },
 };
 
