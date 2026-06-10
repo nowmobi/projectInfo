@@ -68,6 +68,31 @@ class HealthNewsApp {
       this.generateCategoriesFromArticles();
       this.renderArticles();
     } catch (error) {
+      console.log("Remote API failed, trying local data...");
+      await this.loadLocalData();
+    }
+  }
+
+  async loadLocalData() {
+    try {
+      const response = await fetch(DATA_URL);
+      if (!response.ok) {
+        throw new Error(`Local data error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      
+      let articlesData = [];
+      
+      if (Array.isArray(data)) {
+        articlesData = data;
+      } else if (data && typeof data === 'object') {
+        articlesData = data.articles || data.data || data.Data || data.news || data.content || [];
+      }
+      this.articles = articlesData;
+      this.generateCategoriesFromArticles();
+      this.renderArticles();
+    } catch (error) {
+      console.error("Failed to load local data:", error);
       this.categories = [
         {
           id: "all",
@@ -425,7 +450,7 @@ class HealthNewsApp {
     if (articlesToRender) {
       articles = articlesToRender;
     } else if (this.currentCategory === "all") {
-      articles = this.getTopArticlesByCategory(2);
+      articles = this.getTopArticlesByCategory(10);
     } else {
       articles = this.articles.filter((article) => {
         const articleTypeId = article.type
@@ -507,7 +532,7 @@ class HealthNewsApp {
     }
   }
 
-  getTopArticlesByCategory(limit = 2) {
+  getTopArticlesByCategory(limit = 5) {
     const topArticles = [];
     const orderedCategories = this.categories.filter((cat) => cat.id !== "all");
 

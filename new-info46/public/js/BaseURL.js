@@ -14,8 +14,11 @@ export const remoteDataConfig = {
   },
   
   buildImageUrl(articleId, imgName) {
-    return !articleId || !imgName ? '' : 
-           imgName.startsWith('http://') || imgName.startsWith('https://') ? imgName : '';
+    if (!imgName) return '';
+    if (imgName.startsWith('http://') || imgName.startsWith('https://')) {
+      return imgName;
+    }
+    return '';
   }
 };
 
