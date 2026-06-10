@@ -29,7 +29,7 @@ class HealthNewsApp {
     this.renderArticles();
     this.renderRandomArticles();
     this.renderTopArticles();
-    this.renderFeaturedArticles();
+    this.renderLatestArticles();
   }
 
   async loadCategoryOrder() {
@@ -464,12 +464,14 @@ class HealthNewsApp {
         (window.channel ? `&channel=${window.channel}` : "");
       
       const imgUrl = this.getArticleImage(article);
-      const articleSummary = article.summary || article.description || article.subtitle || '';
       const articleHTML = `
         <a class="article-card" href="${detailHref}">
           <div class="article-card-top">
             <div class="article-content">
               <h3 class="article-title">${articleTitle}</h3>
+              <div class="article-image">
+                <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-card-hover)';">
+              </div>
               <div class="article-meta">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 4C6.48 4 2 7.58 2 12s4.48 8 10 8 10-3.58 10-8-4.48-8-10-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1-10v4h-2v-4h2z" fill="currentColor"/>
@@ -478,16 +480,8 @@ class HealthNewsApp {
                 <span>${Utils.formatTime(articleTime)}</span>
               </div>
             </div>
-            <div class="article-image">
-              <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-card-hover)';">
-            </div>
-            <div class="article-arrow">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </div>
           </div>
-          <p class="article-summary">${Utils.decodeUnicode(articleSummary || articleType)}</p>
+          <span class="article-type-tag">${articleType}</span>
         </a>
       `;
 
@@ -599,10 +593,10 @@ class HealthNewsApp {
     }).join("");
   }
 
-  renderFeaturedArticles() {
-    const featuredGrid = document.getElementById("featuredGrid");
-    if (!featuredGrid || !this.articles || this.articles.length === 0) {
-      featuredGrid.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No featured articles</div>';
+  renderLatestArticles() {
+    const latestGrid = document.getElementById("latestGrid");
+    if (!latestGrid || !this.articles || this.articles.length === 0) {
+      latestGrid.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No latest news</div>';
       return;
     }
 
@@ -613,45 +607,35 @@ class HealthNewsApp {
     });
 
     if (validArticles.length === 0) {
-      featuredGrid.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No featured articles</div>';
+      latestGrid.innerHTML = '<div style="text-align: center; color: #999; padding: 20px;">No latest news</div>';
       return;
     }
 
     const shuffledArticles = [...validArticles].sort(() => Math.random() - 0.5);
-    const featuredArticles = shuffledArticles.slice(0, 3);
+    const latestArticles = shuffledArticles.slice(0, 4);
 
-    featuredGrid.innerHTML = featuredArticles.map(article => {
+    latestGrid.innerHTML = latestArticles.map(article => {
       const articleId = article.id || article.articleId || article.newsId;
       const articleTitle = article.title || article.headline || article.subject;
-      const articleType = article.type || article.category || article.thirdCategoryName || article.typeName;
       const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
-      const articleSummary = article.summary || article.description || article.subtitle || '';
       const imgUrl = this.getArticleImage(article);
       const detailHref = `detail.html?id=${articleId}${window.channel ? `&channel=${window.channel}` : ""}`;
 
       return `
-        <a href="${detailHref}" class="featured-card">
-          <div class="featured-card-top">
-            <div class="featured-content">
-              <h4 class="featured-title-text">${articleTitle}</h4>
-              <div class="featured-meta">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 4C6.48 4 2 7.58 2 12s4.48 8 10 8 10-3.58 10-8-4.48-8-10-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1-10v4h-2v-4h2z" fill="currentColor"/>
-                </svg>
-                <span>${Math.floor(Math.random() * 1000) + 100}</span>
-                <span>${Utils.formatTime(articleTime)}</span>
-              </div>
-            </div>
-            <div class="featured-image">
-              <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-card-hover)';">
-            </div>
-            <div class="featured-arrow">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <a href="${detailHref}" class="latest-card">
+          <div class="latest-image">
+            <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-card-hover)';">
+          </div>
+          <div class="latest-content">
+            <h4 class="latest-title-text">${articleTitle}</h4>
+            <div class="latest-meta">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 4C6.48 4 2 7.58 2 12s4.48 8 10 8 10-3.58 10-8-4.48-8-10-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1-10v4h-2v-4h2z" fill="currentColor"/>
               </svg>
+              <span>${Math.floor(Math.random() * 1000) + 100}</span>
+              <span>${Utils.formatTime(articleTime)}</span>
             </div>
           </div>
-          <p class="featured-summary">${Utils.decodeUnicode(articleSummary || articleType)}</p>
         </a>
       `;
     }).join("");
