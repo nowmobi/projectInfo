@@ -338,57 +338,77 @@ class CategoryPage {
     const articlesSection = document.getElementById(
       "currentCategoryArticles"
     );
-    const articlesContainer = document.getElementById(
-      "categoryArticlesContainer"
+    const articlesGrid = document.getElementById(
+      "categoryArticlesGrid"
     );
 
-    if (!articlesSection || !articlesContainer) {
+    if (!articlesSection || !articlesGrid) {
       return;
     }
 
     articlesSection.style.display = "block";
 
+    let homeArticleItems = document.querySelectorAll("#categoryArticlesGrid .home_article-item");
+    homeArticleItems.forEach((item) => {
+      if (item && typeof item.innerHTML !== "undefined") {
+        item.innerHTML = "";
+      }
+    });
+
     if (articles.length === 0) {
-      articlesContainer.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">📭</div>
-                    <div class="empty-state-text">No articles in this category</div>
-                    <div class="empty-state-subtext">Please select another category or check back later</div>
-                </div>
-            `;
+      const articlesContainer = document.getElementById("categoryArticlesContainer");
+      if (articlesContainer) {
+        articlesContainer.innerHTML = `
+                  <div class="empty-state">
+                      <div class="empty-state-icon">📭</div>
+                      <div class="empty-state-text">No articles in this category</div>
+                      <div class="empty-state-subtext">Please select another category or check back later</div>
+                  </div>
+              `;
+      }
       return;
     }
 
     const sortedArticles = articles.sort((a, b) => b.id - a.id);
-    const articlesHTML = sortedArticles
-      .map((article) => {
-        const href = `../detail.html?id=${article.id}`;
-        return `
-            <a class="article-card" href="${href}">
-                <div class="article-image">
-                    <img src="${this.getArticleImagePath(
-                      article
-                    )}" alt="${
-          article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
-                </div>
-                <div class="article-content">
-                    <h3 class="article-title">${article.title}</h3>
-                    <div class="article-meta">
-                        <span class="article-type">${
-                          Utils.truncateString(article.type, 18)
-                        }</span>
-                        <span class="article-time">${Utils.formatTime(
-                          article.create_time
-                        )}</span>
-                    </div>
-                </div>
-            </a>
-        `;
-      })
-      .join("");
+    
+    sortedArticles.forEach((article, index) => {
+      if (index >= homeArticleItems.length) {
+        const newContainer = document.createElement("div");
+        newContainer.className = "home_article-item";
+        articlesGrid.appendChild(newContainer);
+        homeArticleItems = document.querySelectorAll("#categoryArticlesGrid .home_article-item");
+      }
 
-    articlesContainer.innerHTML = articlesHTML;
+      const articleId = article.id || article.articleId || article.newsId;
+      const articleTitle = article.title || article.headline || article.subject;
+      let articleType = article.type || article.category || article.thirdCategoryName || article.typeName;
+      articleType = Utils.truncateString(articleType, 18);
+      const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
+      
+      const detailHref = `../detail.html?id=${articleId}`;
+      
+      const imgUrl = this.getArticleImagePath(article);
+      const articleHTML = `
+        <a class="article-card" href="${detailHref}">
+          <div class="article-image">
+            <img src="${imgUrl}" alt="${articleTitle}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+          </div>
+          <div class="article-content">
+            <h3 class="article-title">${article.title}</h3>
+            <div class="article-meta">
+                <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                <span class="article-time">${Utils.formatTime(article.create_time)}</span>
+            </div>
+          </div>
+        </a>
+      `;
+
+      if (homeArticleItems[index]) {
+        homeArticleItems[index].innerHTML = articleHTML;
+      } else {
+        console.error(`Container at index ${index} not found`);
+      }
+    });
   }
 
   getArticleImagePath(article) {
@@ -480,10 +500,10 @@ class CategoryPage {
   }
 
   renderCategoryArticles(categoryName) {
-    const articlesContainer = document.getElementById(
-      "categoryArticlesContainer"
+    const articlesGrid = document.getElementById(
+      "categoryArticlesGrid"
     );
-    if (!articlesContainer) return;
+    if (!articlesGrid) return;
 
     let articlesToShow;
     if (categoryName === "All Categories") {
@@ -494,46 +514,67 @@ class CategoryPage {
       );
     }
 
+    let homeArticleItems = document.querySelectorAll("#categoryArticlesGrid .home_article-item");
+    homeArticleItems.forEach((item) => {
+      if (item && typeof item.innerHTML !== "undefined") {
+        item.innerHTML = "";
+      }
+    });
+
     if (articlesToShow.length === 0) {
-      articlesContainer.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">📭</div>
-                    <div class="empty-state-text">No articles in this category</div>
-                    <div class="empty-state-subtext">Please select another category or check back later</div>
-                </div>
-            `;
+      const articlesContainer = document.getElementById("categoryArticlesContainer");
+      if (articlesContainer) {
+        articlesContainer.innerHTML = `
+                  <div class="empty-state">
+                      <div class="empty-state-icon">📭</div>
+                      <div class="empty-state-text">No articles in this category</div>
+                      <div class="empty-state-subtext">Please select another category or check back later</div>
+                  </div>
+              `;
+      }
       return;
     }
 
     const sortedArticles = articlesToShow.sort((a, b) => b.id - a.id);
+    
+    sortedArticles.forEach((article, index) => {
+      if (index >= homeArticleItems.length) {
+        const newContainer = document.createElement("div");
+        newContainer.className = "home_article-item";
+        articlesGrid.appendChild(newContainer);
+        homeArticleItems = document.querySelectorAll("#categoryArticlesGrid .home_article-item");
+      }
 
-    articlesContainer.innerHTML = sortedArticles
-      .map((article) => {
-        const href = `../detail.html?id=${article.id}`;
-        return `
-             <a class="article-card" href="${href}">
-                 <div class="article-image">
-                     <img src="${this.getArticleImagePath(
-                       article
-                     )}" alt="${
-          article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
-                 </div>
-                 <div class="article-content">
-                     <h3 class="article-title">${article.title}</h3>
-                     <div class="article-meta">
-                         <span class="article-type">${
-                           Utils.truncateString(article.type, 18)
-                         }</span>
-                         <span class="article-time">${Utils.formatTime(
-                           article.create_time
-                         )}</span>
-                     </div>
-                 </div>
-             </a>
-         `;
-      })
-      .join(""); 
+      const articleId = article.id || article.articleId || article.newsId;
+      const articleTitle = article.title || article.headline || article.subject;
+      let articleType = article.type || article.category || article.thirdCategoryName || article.typeName;
+      articleType = Utils.truncateString(articleType, 18);
+      const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
+      
+      const detailHref = `../detail.html?id=${articleId}`;
+      
+      const imgUrl = this.getArticleImagePath(article);
+      const articleHTML = `
+        <a class="article-card" href="${detailHref}">
+          <div class="article-image">
+            <img src="${imgUrl}" alt="${articleTitle}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+          </div>
+          <div class="article-content">
+            <h3 class="article-title">${article.title}</h3>
+            <div class="article-meta">
+                <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                <span class="article-time">${Utils.formatTime(article.create_time)}</span>
+            </div>
+          </div>
+        </a>
+      `;
+
+      if (homeArticleItems[index]) {
+        homeArticleItems[index].innerHTML = articleHTML;
+      } else {
+        console.error(`Container at index ${index} not found`);
+      }
+    });
   }
 
   bindArticleEvents() {
@@ -568,55 +609,74 @@ class CategoryPage {
   }
 
   renderSearchResults(filteredArticles) {
-    const articlesContainer = document.getElementById(
-      "categoryArticlesContainer"
+    const articlesGrid = document.getElementById(
+      "categoryArticlesGrid"
     );
-    if (!articlesContainer) return;
+    if (!articlesGrid) return;
+
+    let homeArticleItems = document.querySelectorAll("#categoryArticlesGrid .home_article-item");
+    homeArticleItems.forEach((item) => {
+      if (item && typeof item.innerHTML !== "undefined") {
+        item.innerHTML = "";
+      }
+    });
 
     if (filteredArticles.length === 0) {
-      articlesContainer.innerHTML = `
-                <div class="empty-state">
-                    <div class="empty-state-icon">🔍</div>
-                    <div class="empty-state-text">No related articles found</div>
-                    <div class="empty-state-subtext">Please try other search keywords</div>
-                </div>
-            `;
+      const articlesContainer = document.getElementById("categoryArticlesContainer");
+      if (articlesContainer) {
+        articlesContainer.innerHTML = `
+                  <div class="empty-state">
+                      <div class="empty-state-icon">🔍</div>
+                      <div class="empty-state-text">No related articles found</div>
+                      <div class="empty-state-subtext">Please try other search keywords</div>
+                  </div>
+              `;
+      }
       return;
     }
 
     const sortedFilteredArticles = filteredArticles.sort(
       (a, b) => b.id - a.id
     );
+    
+    sortedFilteredArticles.forEach((article, index) => {
+      if (index >= homeArticleItems.length) {
+        const newContainer = document.createElement("div");
+        newContainer.className = "home_article-item";
+        articlesGrid.appendChild(newContainer);
+        homeArticleItems = document.querySelectorAll("#categoryArticlesGrid .home_article-item");
+      }
 
-    articlesContainer.innerHTML = sortedFilteredArticles
-      .map((article) => {
-        const href = `../detail.html?id=${article.id}`;
-        return `
-            <a class="article-card" href="${href}">
-                <div class="article-image">
-                    <img src="${this.getArticleImagePath(
-                      article
-                    )}" alt="${
-          article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
-                </div>
-                <div class="article-content">
-                    <h3 class="article-title">${article.title}</h3>
-                    <div class="article-meta">
-                        <span class="article-type">${
-                          Utils.truncateString(article.type, 18)
-                        }</span>
-                        <span class="article-time">${Utils.formatTime(
-                          article.create_time
-                        )}</span>
-                    </div>
-                </div>
-            </a>
-        `;
-      })
-      .join("");
+      const articleId = article.id || article.articleId || article.newsId;
+      const articleTitle = article.title || article.headline || article.subject;
+      let articleType = article.type || article.category || article.thirdCategoryName || article.typeName;
+      articleType = Utils.truncateString(articleType, 18);
+      const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
+      
+      const detailHref = `../detail.html?id=${articleId}`;
+      
+      const imgUrl = this.getArticleImagePath(article);
+      const articleHTML = `
+        <a class="article-card" href="${detailHref}">
+          <div class="article-image">
+            <img src="${imgUrl}" alt="${articleTitle}" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+          </div>
+          <div class="article-content">
+            <h3 class="article-title">${article.title}</h3>
+            <div class="article-meta">
+                <span class="article-type">${Utils.truncateString(article.type, 18)}</span>
+                <span class="article-time">${Utils.formatTime(article.create_time)}</span>
+            </div>
+          </div>
+        </a>
+      `;
 
-   
+      if (homeArticleItems[index]) {
+        homeArticleItems[index].innerHTML = articleHTML;
+      } else {
+        console.error(`Container at index ${index} not found`);
+      }
+    });
   }
 
   formatTime(timestamp) {
@@ -684,4 +744,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 100);
   }
 });
-
