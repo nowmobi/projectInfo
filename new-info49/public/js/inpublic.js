@@ -467,18 +467,27 @@ class HealthNewsApp {
       const articleSummary = article.summary || article.description || article.subtitle || '';
       const articleHTML = `
         <a class="article-card" href="${detailHref}">
-          <div class="article-image">
-            <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-card-hover)';">
+          <div class="article-card-top">
+            <div class="article-content">
+              <h3 class="article-title">${articleTitle}</h3>
+              <div class="article-meta">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 4C6.48 4 2 7.58 2 12s4.48 8 10 8 10-3.58 10-8-4.48-8-10-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1-10v4h-2v-4h2z" fill="currentColor"/>
+                </svg>
+                <span>${Math.floor(Math.random() * 1000) + 100}</span>
+                <span>${Utils.formatTime(articleTime)}</span>
+              </div>
+            </div>
+            <div class="article-image">
+              <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-card-hover)';">
+            </div>
+            <div class="article-arrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
           </div>
-          <div class="article-content">
-            <h3 class="article-title">${articleTitle}</h3>
-            <p class="article-summary">${Utils.decodeUnicode(articleSummary || articleType)}</p>
-          </div>
-          <div class="article-arrow">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+          <p class="article-summary">${Utils.decodeUnicode(articleSummary || articleType)}</p>
         </a>
       `;
 
@@ -616,22 +625,33 @@ class HealthNewsApp {
       const articleTitle = article.title || article.headline || article.subject;
       const articleType = article.type || article.category || article.thirdCategoryName || article.typeName;
       const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
+      const articleSummary = article.summary || article.description || article.subtitle || '';
       const imgUrl = this.getArticleImage(article);
       const detailHref = `detail.html?id=${articleId}${window.channel ? `&channel=${window.channel}` : ""}`;
 
       return `
         <a href="${detailHref}" class="featured-card">
-          <div class="featured-image">
-            <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='linear-gradient(135deg, var(--color1), var(--color2))';">
-            <span class="featured-badge">Featured</span>
-          </div>
-          <div class="featured-content">
-            <h4 class="featured-title-text">${articleTitle}</h4>
-            <div class="featured-meta">
-              <span class="featured-type">${Utils.truncateString(articleType, 12)}</span>
-              <span>${Utils.formatTime(articleTime)}</span>
+          <div class="featured-card-top">
+            <div class="featured-content">
+              <h4 class="featured-title-text">${articleTitle}</h4>
+              <div class="featured-meta">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 4C6.48 4 2 7.58 2 12s4.48 8 10 8 10-3.58 10-8-4.48-8-10-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1-10v4h-2v-4h2z" fill="currentColor"/>
+                </svg>
+                <span>${Math.floor(Math.random() * 1000) + 100}</span>
+                <span>${Utils.formatTime(articleTime)}</span>
+              </div>
+            </div>
+            <div class="featured-image">
+              <img src="${imgUrl}" alt="${articleTitle}" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-card-hover)';">
+            </div>
+            <div class="featured-arrow">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </div>
           </div>
+          <p class="featured-summary">${Utils.decodeUnicode(articleSummary || articleType)}</p>
         </a>
       `;
     }).join("");
@@ -676,33 +696,28 @@ class HealthNewsApp {
         const detailHref =
           `detail.html?id=${article.id}` +
           (window.channel ? `&channel=${window.channel}` : "");
+        const articleTime = article.create_time || article.publish_time || article.post_time || article.date;
+        const articleType = article.type || article.category || article.thirdCategoryName || article.typeName;
         return `
       <a class="article-card" href="${detailHref}">
         <div class="article-image">
-          <img src="${this.getArticleImage(article)}" alt="${
-          article.title
-        }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-           <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #ba7ac7 0%, #9b6aa8 100%); color: white; align-items: center; justify-content: center; font-size: 12px; text-align: center; padding: 5px;">
-             <div>
-               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 4px;">
-                 <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="currentColor"/>
-               </svg>
-               <div style="font-size: 10px;">Image</div>
-             </div>
-           </div>
+          <img src="${this.getArticleImage(article)}" alt="${article.title}" onerror="this.style.display='none'; this.parentElement.style.background='var(--bg-card-hover)';">
         </div>
         <div class="article-content">
-          <h4 class="article-title">${article.title}</h4>
-          <p class="article-summary">${
-            article.summary ? article.summary.substring(0, 60) + "..." : ""
-          }</p>
-          ${
-            !article.summary
-              ? `<span class="article-type-tag">${
-                  Utils.decodeUnicode(article.type) || "Unknown Type"
-                }</span>`
-              : ""
-          }
+          <h3 class="article-title">${article.title}</h3>
+          <p class="article-summary">${Utils.decodeUnicode(article.summary || articleType)}</p>
+          <div class="article-meta">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 4C6.48 4 2 7.58 2 12s4.48 8 10 8 10-3.58 10-8-4.48-8-10-8zm0 14c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6zm1-10v4h-2v-4h2z" fill="currentColor"/>
+            </svg>
+            <span>${Math.floor(Math.random() * 1000) + 100}</span>
+            <span>${Utils.formatTime(articleTime)}</span>
+          </div>
+        </div>
+        <div class="article-arrow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
       </a>
     `;
