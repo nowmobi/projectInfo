@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+     
+    <title>Categories</title>
+    <meta
+      name="description"
+      content="Browse health news by category, find health topics and professional knowledge that interest you"
+    />
+    <link rel="stylesheet" href="../public/style/inpublic.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="header-content">
+        <button class="back-button-header" id="smartBackButton">
+          <svg t="1780651407975" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="8682" width="24" height="24"><path d="M444.3648 469.3504l97.792-97.8432a42.6496 42.6496 0 1 0-60.3136-60.3648L311.1424 481.8432a42.6496 42.6496 0 0 0 0 60.3136l170.7008 170.7008a42.6496 42.6496 0 0 0 60.3136-60.3648l-97.792-97.792h238.7456a42.6496 42.6496 0 1 0 0-85.3504H444.3648zM512 1024C229.2224 1024 0 794.7776 0 512S229.2224 0 512 0s512 229.2224 512 512-229.2224 512-512 512z" fill="var(--color-primary)" p-id="8683"></path></svg>
+        </button>
+
+        <div class="logo">
+          <p>seabluee.com</p>
+        </div>
+
+        <button class="sidebar-toggle" id="sidebarToggle">
+          <svg t="1780648969366" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3348" width="24" height="24"><path d="M716.983885 735.44894a390.577403 390.577403 0 0 1-66.942935 219.295823 381.574732 381.574732 0 0 1-59.786967 69.251313H69.484112a31.163091 31.163091 0 0 1-13.850262-3.00089 215.140745 215.140745 0 0 1-17.774504-17.774504 32.317279 32.317279 0 0 1-2.770052-13.388587V470.908926a382.728921 382.728921 0 0 1 69.251312-60.017805 392.424105 392.424105 0 0 1 612.874117 324.557819z" fill="var(--color-primary)" p-id="3349"></path><path d="M734.527551 1023.996076H69.484112a34.625656 34.625656 0 0 1-34.625656-34.625657V254.84483a253.92148 253.92148 0 0 1 253.92148-253.921479h664.812601a34.625656 34.625656 0 0 1 34.625656 34.625656v734.525589a253.92148 253.92148 0 0 1-253.690642 253.92148zM104.109769 954.744763h630.417782a184.670167 184.670167 0 0 0 184.670167-184.670167V69.251313h-630.186945a185.824355 185.824355 0 0 0-184.670167 184.670167z" fill="#000000" p-id="3350"></path><path d="M739.605981 635.265374H284.624857a34.625656 34.625656 0 0 1 0-69.251312h454.981124a34.625656 34.625656 0 0 1 0 69.251312zM739.605981 365.416093H284.624857a34.625656 34.625656 0 0 1 0-69.251313h454.981124a34.625656 34.625656 0 0 1 0 69.251313z" fill="#000000" p-id="3351"></path></svg>
+        </button>
+      </div>
+    </header>
+   <div class="ads">
+      <div id="div-gpt-ad-category1">1</div>
+    </div>
+    <main class="page-content">
+      <div class="category-page-content">
+        <div class="category-grid" id="categoryGrid"></div>
+        <div class="articles-container category-news-list" id="categoryArticlesContainer" style="display: none;">
+        </div>
+      </div>
+    </main>
+
+    <div class="dropdown-menu" id="dropdownMenu">
+      <div class="dropdown-content">
+        <div class="dropdown-header">
+          <h3>Menu</h3>
+          <button class="dropdown-close" id="dropdownClose">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M18 6L6 18M6 6L18 18"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </button>
+        </div>
+        <div class="dropdown-items">
+          <a href="../index.html" class="dropdown-item" data-page="home">
+            <span>Home</span>
+          </a>
+
+          <div class="dropdown-categories">
+            <a
+              href="category.html?type=Mental%20Health"
+              class="dropdown-item"
+              data-page="mental-health"
+            >
+              <span>Mental Health</span>
+            </a>
+            <a
+              href="category.html?type=Medical%20Care"
+              class="dropdown-item"
+              data-page="medical-care"
+            >
+              <span>Medical Care</span>
+            </a>
+            <a
+              href="category.html?type=Lifestyle"
+              class="dropdown-item"
+              data-page="lifestyle"
+            >
+              <span>Lifestyle</span>
+            </a>
+            <a
+              href="category.html?type=Emergency%20%26%20Safety"
+              class="dropdown-item"
+              data-page="emergency-safety"
+            >
+              <span>Emergency & Safety</span>
+            </a>
+            <a
+              href="category.html?type=Beauty%20%26%20Wellness"
+              class="dropdown-item"
+              data-page="beauty-wellness"
+            >
+              <span>Beauty & Wellness</span>
+            </a>
+            <a
+              href="category.html?type=Health%20Management"
+              class="dropdown-item"
+              data-page="health-management"
+            >
+              <span>Health Management</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-links">
+          <a href="about.html">About Us</a>
+          <a href="privacy.html">Privacy Policy</a>
+        </div>
+        <div class="footer-copyright">
+          Copyright © 2026 seabluee.com . All rights reserved.
+        </div>
+      </div>
+    </footer>
+
+    <a
+      class="back-home-btn"
+      href="../index.html"
+      title="Back"
+      aria-label="Back to Home"
+    >
+      <svg
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M9 22V12H15V22"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </a>
+
+    <script type="module" src="../public/js/category.js"></script>
+     <script type="module">
+      import { ad_code_identifier } from "../ads.js";
+
+      if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "../categorygg.js";
+        document.body.appendChild(script);
+      } else {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "../categorygg_ads.js";
+        document.body.appendChild(script);
+      }
+    </script>
+  </body>
+</html>
