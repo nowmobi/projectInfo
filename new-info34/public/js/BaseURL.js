@@ -1,10 +1,9 @@
 
 const baseConfig = {
   baseUrl: "https://news-api.szwyi.com/api/compatible",
-  categoryUrl: "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2234,2235,2236,2237,2238,2239,2240",
+  categoryUrl: "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2234,2235,2236,2237,2238,2239,2240&created_at=2026-6-12",
   dataUrl: "./data.json"
-};
-
+}
 
 export const remoteDataConfig = {
   baseConfig,
