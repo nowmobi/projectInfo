@@ -33,10 +33,8 @@ function readExcelFile() {
 }
 
 // 更新 config.json
-function updateConfig(domain, color, color1, color2) {
+function updateConfig(domain, color, color1, color2, date) {
     try {
-        // 确定使用的颜色值
-        // 优先使用 color，如果 color 为空或无效，则使用 color1
         let finalColor = color;
         
         if (!finalColor || finalColor.trim() === '') {
@@ -51,13 +49,9 @@ function updateConfig(domain, color, color1, color2) {
             finalColor = finalColor.trim();
         }
         
-        // 处理 color1 和 color2
-        // 如果 color1 为空，使用 finalColor
         let finalColor1 = (color1 && color1.trim() !== '') ? color1.trim() : finalColor;
-        // 如果 color2 为空，使用 finalColor1
         let finalColor2 = (color2 && color2.trim() !== '') ? color2.trim() : finalColor1;
         
-        // 验证颜色格式（简单的十六进制颜色验证）
         const colorValues = [finalColor, finalColor1, finalColor2];
         colorValues.forEach(colorValue => {
             if (!/^#[0-9A-Fa-f]{6}$/.test(colorValue)) {
@@ -69,10 +63,10 @@ function updateConfig(domain, color, color1, color2) {
             color: finalColor,
             color1: finalColor1,
             color2: finalColor2,
-            domain: domain.trim()
+            domain: domain.trim(),
+            date: date ? formatDate(date) : ''
         };
         
-        // 写入配置文件
         fs.writeFileSync(configPath, JSON.stringify(config, null, 2), 'utf8');
         
         console.log(`✓ 配置文件已更新:`);
@@ -80,12 +74,39 @@ function updateConfig(domain, color, color1, color2) {
         console.log(`  color: ${config.color}`);
         console.log(`  color1: ${config.color1}`);
         console.log(`  color2: ${config.color2}`);
+        console.log(`  date: ${config.date || '(空)'}`);
         
         return config;
     } catch (error) {
         console.error('更新配置文件失败:', error.message);
         throw error;
     }
+}
+
+// 格式化日期为 YYYY-MM-DD
+function formatDate(dateValue) {
+    if (!dateValue) return '';
+    
+    if (typeof dateValue === 'string') {
+        const match = dateValue.match(/(\d{4})[-/年](\d{1,2})[-/月](\d{1,2})[日]?/);
+        if (match) {
+            const year = match[1];
+            const month = match[2].padStart(2, '0');
+            const day = match[3].padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+        return dateValue;
+    }
+    
+    if (typeof dateValue === 'number') {
+        const date = new Date((dateValue - 25569) * 86400 * 1000);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+    
+    return String(dateValue);
 }
 
 // 清空所有压缩包
@@ -215,18 +236,18 @@ async function main() {
             console.log(`${'='.repeat(60)}`);
             
             try {
-                // 获取颜色值
                 const color = row.color || '';
                 const color1 = row.color1 || '';
                 const color2 = row.color2 || '';
+                const date = row.date || '';
                 
                 console.log(`颜色配置:`);
                 console.log(`  color: ${color || '(空)'}`);
                 console.log(`  color1: ${color1 || '(空)'}`);
                 console.log(`  color2: ${color2 || '(空)'}`);
+                console.log(`  date: ${date || '(空)'}`);
                 
-                // 3.1 更新 config.json
-                updateConfig(domain, color, color1, color2);
+                updateConfig(domain, color, color1, color2, date);
                 
                 // 3.2 执行 node_templete.js
                 executeCommand('node node_templete.js', '生成模板和更新文件');

@@ -41,6 +41,20 @@ function getDomain() {
   }
 }
 
+function getConfig() {
+  try {
+    const configPath = path.join(__dirname, "config.json");
+    if (!fs.existsSync(configPath)) {
+      throw new Error("config.json 文件不存在");
+    }
+    const configContent = fs.readFileSync(configPath, "utf8");
+    return JSON.parse(configContent);
+  } catch (error) {
+    console.error("读取配置失败:", error.message);
+    throw error;
+  }
+}
+
 // 生成基于域名的压缩包文件名
 function getOutputZipPath() {
   const domain = getDomain();
@@ -131,22 +145,27 @@ function initTempDir() {
 function replaceDomainInBaseURL(code) {
   try {
     let newCode = code;
-    let changed = false;
 
-    const domain = getDomain();
-    const apiDomain = `api.${domain}`;
+    const config = getConfig();
+    const apiDomain = `api.${config.domain}`;
     const oldDomain = "news-api.szwyi.com";
 
     if (newCode.includes(oldDomain)) {
       newCode = newCode.replace(new RegExp(oldDomain, "g"), apiDomain);
       console.log(`  替换域名: ${oldDomain} -> ${apiDomain}`);
-      changed = true;
     }
 
-    if (newCode.includes("db.json")) {
-      newCode = newCode.replace(/db\.json/g, "dynamic-db.json");
-      console.log(`  替换文件名: db.json -> dynamic-db.json`);
-      changed = true;
+    if (newCode.includes("/db.json")) {
+      newCode = newCode.replace(/\/db\.json/g, "/dynamic-db.json");
+      console.log(`  替换文件名: /db.json -> /dynamic-db.json`);
+    }
+
+    if (config.date) {
+      newCode = newCode.replace(
+        /created_at=[^&"]*/g,
+        `created_at=${config.date}`,
+      );
+      console.log(`  替换日期: created_at -> ${config.date}`);
     }
 
     return newCode;
