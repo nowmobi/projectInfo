@@ -10,7 +10,7 @@ export const remoteDataConfig = {
   baseConfig,
   
   buildArticleDetailUrl(articleId) {
-    return `${baseConfig.baseUrl.replace(/\/$/, '')}/${articleId}/finance_info/data.json`;
+    return `${baseConfig.baseUrl.replace(/\/$/, '')}/${articleId}/finance_info/dynamic-data.json`;
   },
   
   buildImageUrl(articleId, imgName) {
