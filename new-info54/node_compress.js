@@ -127,10 +127,43 @@ function initTempDir() {
     fs.mkdirSync(tempDir, { recursive: true });
 }
 
+// 替换 BaseURL.js 中的域名和文件名
+function replaceDomainInBaseURL(code) {
+    try {
+        let newCode = code;
+        let changed = false;
+        
+        const domain = getDomain();
+        const apiDomain = `api.${domain}`;
+        const oldDomain = 'news-api.szwyi.com';
+        
+        if (newCode.includes(oldDomain)) {
+            newCode = newCode.replace(new RegExp(oldDomain, 'g'), apiDomain);
+            console.log(`  替换域名: ${oldDomain} -> ${apiDomain}`);
+            changed = true;
+        }
+        
+        if (newCode.includes('db.json')) {
+            newCode = newCode.replace(/db\.json/g, 'dynamic-db.json');
+            console.log(`  替换文件名: db.json -> dynamic-db.json`);
+            changed = true;
+        }
+        
+        return newCode;
+    } catch (error) {
+        console.error('替换失败:', error.message);
+        return code;
+    }
+}
+
 // 混淆 JS 文件
 function obfuscateJS(filePath, outputPath) {
     try {
-        const code = fs.readFileSync(filePath, 'utf8');
+        let code = fs.readFileSync(filePath, 'utf8');
+        
+        if (filePath.endsWith('BaseURL.js')) {
+            code = replaceDomainInBaseURL(code);
+        }
         
         const obfuscationResult = JavaScriptObfuscator.obfuscate(code, {
             compact: true,
