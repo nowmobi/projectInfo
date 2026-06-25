@@ -1,6 +1,6 @@
 :root {
-  --color1: #606da1;
-  --color2: #9f925e;
+  --color1: #ae1c31;
+  --color2: #51e3ce;
   --bg-light: #f8fafc;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
@@ -627,8 +627,9 @@ main {
 }
 
 .article-detail {
-  padding: 30px 0;
+  padding: 30px 10px;
   width: 100%;
+  background: #fff;
 }
 
 .article-header {
