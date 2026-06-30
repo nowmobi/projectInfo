@@ -7,6 +7,28 @@ const XLSX = require('xlsx');
 const configPath = path.join(__dirname, 'config.json');
 const excelPath = path.join(__dirname, 'web.xlsx');
 
+// 处理日期格式，将 Excel 日期转换为 YYYY-M-D 格式
+function formatDate(excelDate) {
+    if (!excelDate) return '';
+
+    // 如果是字符串格式，统一使用 - 分隔符
+    if (typeof excelDate === 'string') {
+        return excelDate.replace(/\//g, '-');
+    }
+
+    // 如果是数字（Excel 序列号），转换为日期
+    if (typeof excelDate === 'number') {
+        // Excel 序列号转换公式
+        const date = new Date((excelDate - 25569) * 86400 * 1000);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${year}-${month}-${day}`;
+    }
+
+    return '';
+}
+
 // 读取 Excel 文件
 function readExcelFile() {
     try {
@@ -33,7 +55,7 @@ function readExcelFile() {
 }
 
 // 更新 config.json
-function updateConfig(domain, color, color1, color2) {
+function updateConfig(domain, color, color1, color2, date) {
     try {
         // 确定使用的颜色值
         // 优先使用 color，如果 color 为空或无效，则使用 color1
@@ -69,7 +91,8 @@ function updateConfig(domain, color, color1, color2) {
             color: finalColor,
             color1: finalColor1,
             color2: finalColor2,
-            domain: domain.trim()
+            domain: domain.trim(),
+            date: date || ''
         };
         
         // 写入配置文件
@@ -80,6 +103,7 @@ function updateConfig(domain, color, color1, color2) {
         console.log(`  color: ${config.color}`);
         console.log(`  color1: ${config.color1}`);
         console.log(`  color2: ${config.color2}`);
+        console.log(`  date: ${config.date || '(空)'}`);
         
         return config;
     } catch (error) {
@@ -219,14 +243,16 @@ async function main() {
                 const color = row.color || '';
                 const color1 = row.color1 || '';
                 const color2 = row.color2 || '';
+                const date = formatDate(row.date);
                 
                 console.log(`颜色配置:`);
                 console.log(`  color: ${color || '(空)'}`);
                 console.log(`  color1: ${color1 || '(空)'}`);
                 console.log(`  color2: ${color2 || '(空)'}`);
+                console.log(`  date: ${date || '(空)'}`);
                 
                 // 3.1 更新 config.json
-                updateConfig(domain, color, color1, color2);
+                updateConfig(domain, color, color1, color2, date);
                 
                 // 3.2 执行 node_templete.js
                 executeCommand('node node_templete.js', '生成模板和更新文件');

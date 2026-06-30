@@ -1,8 +1,8 @@
 
 const baseConfig = {
-  baseUrl: "https://news-api.szwyi.com/api/compatible",
-  categoryUrl: "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2209,492,2212,2213,2214,2217,2218,2221&created_at=2026-6-2",
-  dataUrl: "./data.json"
+  baseUrl: "https://api.felicific.site/api/compatible",
+  categoryUrl: "https://api.felicific.site/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2234,2235,2236,2237,2238,2239,2240&created_at=2026-6-30",
+  dataUrl: "./dynamic-data.json"
 };
 
 
@@ -10,7 +10,7 @@ export const remoteDataConfig = {
   baseConfig,
   
   buildArticleDetailUrl(articleId) {
-    return `${baseConfig.baseUrl.replace(/\/$/, '')}/${articleId}/finance_info/data.json`;
+    return `${baseConfig.baseUrl.replace(/\/$/, '')}/${articleId}/finance_info/dynamic-data.json`;
   },
   
   buildImageUrl(articleId, imgName) {
