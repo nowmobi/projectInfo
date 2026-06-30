@@ -166,9 +166,20 @@ class ArticleDetailPage {
 
     document.getElementById("articleTitle").textContent = articleTitle;
 
+    const articleAuthorElement = document.getElementById("articleAuthor");
+    if (articleAuthorElement) {
+      const author = article.author || "-";
+      articleAuthorElement.textContent = Utils.decodeUnicode(author);
+    }
+
     const articleTimeElement = document.getElementById("articleTime");
     if (articleTimeElement) {
       articleTimeElement.textContent = articleTime ? Utils.formatTime(articleTime) : "-";
+    }
+
+    const articleSourceElement = document.getElementById("articleSource");
+    if (articleSourceElement) {
+      articleSourceElement.textContent = articleSource ? Utils.decodeUnicode(articleSource) : "-";
     }
 
     this.renderArticleContent(article);

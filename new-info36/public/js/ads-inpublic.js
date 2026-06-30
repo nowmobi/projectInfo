@@ -449,8 +449,8 @@ class HealthNewsApp {
       
       const articleId = article.id || article.articleId || article.newsId;
       const articleTitle = article.title || article.headline || article.subject;
-      let articleSource = article.source || article.from || article.origin || article.sourceName || "Unknown";
-      articleSource = Utils.truncateString(articleSource, 18);
+      let articleType = article.type || article.category || article.thirdCategoryName || article.typeName || "Unknown";
+      articleType = Utils.truncateString(articleType, 18);
       const articleTime = article.create_time || article.publish_time || article.post_time || article.date || "";
       
       const detailHref =
@@ -479,7 +479,7 @@ class HealthNewsApp {
               <span class="home_article-number">${index + 1}</span>
               <span class="article-time">${Utils.formatTime(articleTime)}</span>
             </div>
-            <div class="article-source">${Utils.decodeUnicode(articleSource)}</div>
+            <div class="article-source">${Utils.decodeUnicode(articleType)}</div>
             <h3 class="article-title">${articleTitle}</h3>
           </div>
         </a>
