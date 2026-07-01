@@ -79,8 +79,8 @@ class ArticleDetailPage {
         
        
         const baseUrlWithoutParams = BASE_URL.split('?')[0];
-        const apiBaseUrl = baseUrlWithoutParams.replace('/finance_info/db.json', '');
-        const detailUrl = `${apiBaseUrl}/${this.articleId}/finance_info/data.json`;
+        const apiBaseUrl = baseUrlWithoutParams.replace('/finance_info/dynamic-db.json', '');
+        const detailUrl = `${apiBaseUrl}/${this.articleId}/finance_info/dynamic-data.json`;
         const detailResponse = await fetch(detailUrl);
         
         if (detailResponse.ok) {
@@ -130,8 +130,8 @@ class ArticleDetailPage {
      
       const baseUrlWithoutParams = BASE_URL.split('?')[0];
      
-      const apiBaseUrl = baseUrlWithoutParams.replace('/finance_info/db.json', '');
-      const detailUrl = `${apiBaseUrl}/${this.articleId}/finance_info/data.json`;
+      const apiBaseUrl = baseUrlWithoutParams.replace('/finance_info/dynamic-db.json', '');
+      const detailUrl = `${apiBaseUrl}/${this.articleId}/finance_info/dynamic-data.json`;
       
       const detailResponse = await fetch(detailUrl);
       if (detailResponse.ok) {
