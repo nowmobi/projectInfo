@@ -1,5 +1,5 @@
 export const BASE_URL =
-  "https://api.seacalmy.com/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230created_at=2026-6-28";
+  "https://api.mipmap.site/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230&created_at=2026-6-6";
 export const Category_URL = BASE_URL;
 
 
