@@ -80,6 +80,40 @@ function updateCSSColor(color) {
     }
 }
 
+// 提取一级域名（去掉二级域名前缀）
+function extractRootDomain(domain) {
+    const parts = domain.split('.');
+    if (parts.length >= 3) {
+        return parts.slice(-2).join('.');
+    }
+    return domain;
+}
+
+// 更新 BaseURL.js 中的 baseUrl 和 categoryUrl
+function updateBaseURL(domain) {
+    try {
+        const baseUrlPath = path.join(__dirname, 'public', 'js', 'BaseURL.js');
+        let content = fs.readFileSync(baseUrlPath, 'utf8');
+        
+        const rootDomain = extractRootDomain(domain);
+        const oldDomain = 'news-api.szwyi.com';
+        const newDomain = `api.${rootDomain}`;
+        
+        if (content.includes(oldDomain)) {
+            content = content.replace(new RegExp(oldDomain, 'g'), newDomain);
+            fs.writeFileSync(baseUrlPath, content, 'utf8');
+            console.log(`✓ BaseURL.js 已更新:`);
+            console.log(`  ${oldDomain} → ${newDomain}`);
+            console.log(`  (原始域名: ${domain} → 一级域名: ${rootDomain})`);
+        } else {
+            console.log(`○ BaseURL.js 中未找到 ${oldDomain}（已是最新）`);
+        }
+    } catch (error) {
+        console.error('更新 BaseURL.js 失败:', error.message);
+        throw error;
+    }
+}
+
 // 更新所有HTML文件中的域名
 function updateDomainInHTML(domain) {
     try {
@@ -206,7 +240,11 @@ async function main() {
         updateCSSColor(config.color);
         console.log('');
         
-        // 3. 更新HTML域名
+        // 3. 更新 BaseURL.js
+        updateBaseURL(config.domain);
+        console.log('');
+        
+        // 4. 更新HTML域名
         updateDomainInHTML(config.domain);
         console.log('');
         

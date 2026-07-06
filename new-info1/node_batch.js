@@ -32,6 +32,44 @@ function readExcelFile() {
     }
 }
 
+// 恢复 BaseURL.js 到原始状态
+function restoreBaseURL() {
+    try {
+        const baseUrlPath = path.join(__dirname, 'public', 'js', 'BaseURL.js');
+        const originalContent = `
+const baseConfig = {
+  baseUrl: "https://news-api.szwyi.com/api/compatible",
+  categoryUrl: "https://news-api.szwyi.com/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2181,2191,6694,2197,2212,6645,2189&created_at=2026-3-25",
+  dataUrl: "./dynamic-data.json"
+};
+
+
+export const remoteDataConfig = {
+  baseConfig,
+  
+  buildArticleDetailUrl(articleId) {
+    return \`\${baseConfig.baseUrl.replace(/\\/$/, '')}/\${articleId}/finance_info/dynamic-data.json\`;
+  },
+  
+  buildImageUrl(articleId, imgName) {
+    return !articleId || !imgName ? '' : 
+           imgName.startsWith('http://') || imgName.startsWith('https://') ? imgName : '';
+  }
+};
+
+
+export const BASE_URL = baseConfig.baseUrl;
+export const DATA_URL = baseConfig.dataUrl;
+export const Category_URL = baseConfig.categoryUrl;
+`;
+        fs.writeFileSync(baseUrlPath, originalContent, 'utf8');
+        console.log('✓ BaseURL.js 已恢复到原始状态');
+    } catch (error) {
+        console.error('恢复 BaseURL.js 失败:', error.message);
+        throw error;
+    }
+}
+
 // 更新 config.json
 function updateConfig(domain, color, color1, color2) {
     try {
@@ -241,6 +279,9 @@ async function main() {
                 failCount++;
                 console.error(`\n✗ 域名 ${domain} 处理失败:`, error.message);
                 console.error('继续处理下一个域名...\n');
+            } finally {
+                // 3.4 恢复 BaseURL.js 到原始状态，确保下一个域名能正确替换
+                restoreBaseURL();
             }
         }
         
