@@ -1,9 +1,13 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-     
+
+    <meta
+      name="description"
+      content="A preferred platform for hot news, in-depth analysis and industry trends"
+    />
     <title>Article Detail</title>
     <link rel="stylesheet" href="public/style/inpublic.css" />
   </head>
@@ -67,7 +71,6 @@
                 <span id="articleSource">-</span>
               </div>
             </div>
-
           </div>
 
           <div class="article-detail-content" id="articleContent">
@@ -97,7 +100,6 @@
           <div class="recommended-section">
             <div class="recommended-articles" id="recommendedArticles"></div>
           </div>
-
         </div>
       </div>
     </main>
@@ -109,7 +111,7 @@
           <a href="pages/privacy.html">Privacy Policy</a>
         </div>
         <div class="footer-copyright">
-          Copyright © 2026 necrosia.cloud. All rights reserved.
+          Copyright © 2026 hypotrachelion.com. All rights reserved.
         </div>
       </div>
     </footer>
@@ -161,9 +163,7 @@
             <span>Home</span>
           </a>
 
-          <div class="sidebar-category">
-            
-          </div>
+          <div class="sidebar-category"></div>
         </div>
       </div>
     </div>
@@ -171,28 +171,10 @@
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <script type="module" src="public/js/inpublic.js"></script>
-<script type="module" src="public/js/detail.js"></script>
-<script type="module">
-  import { ad_code_identifier } from "./ads.js";
-
-  console.log("Checking cate value:", ad_code_identifier.cate);
-  console.log("Checking status value:", ad_code_identifier.status);
-
-  if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
-    console.log("✅ cate is 'adx', loading detailgg.js...");
-
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "./detailgg.js";
-    document.body.appendChild(script);
-  } else {
-
-    const script = document.createElement("script");
-    script.type = "module";
-    script.src = "./detailgg_ads.js";
-    document.body.appendChild(script);
-  }
-</script>
-
+    <script type="module" src="public/js/detail.js"></script>
+    <script type="module">
+         import { loadAdsScript } from './public/js/ad_loader_logic.js';
+    loadAdsScript('detail');
+    </script>
   </body>
 </html>
