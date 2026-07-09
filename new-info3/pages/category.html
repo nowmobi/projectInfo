@@ -44,6 +44,10 @@
       </div>
     </header>
 
+    <div class="ads">
+      <div id="div-gpt-ad-category1"></div>
+    </div>
+
     <main class="page-content">
       <div class="category-grid"></div>
 
@@ -62,11 +66,11 @@
     <footer class="footer">
       <div class="footer-content">
         <div class="footer-links">
-          <a href="sky.lssk.online">About Us</a>
+          <a href="about.html">About Us</a>
           <a href="privacy.html">Privacy Policy</a>
         </div>
         <div class="footer-copyright">
-          Copyright © 2026 sky.lssk.online. All rights reserved.
+          Copyright © 2026 sec.defeasance.site. All rights reserved.
         </div>
       </div>
     </footer>
@@ -162,5 +166,20 @@
 
     <script type="module" src="../public/js/inpublic.js"></script>
     <script type="module" src="../public/js/category.js"></script>
+    <script type="module">
+      import { ad_code_identifier } from "../ads.js";
+    
+      if (ad_code_identifier.cate == "adx" && ad_code_identifier.status == 1) {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "../categorygg.js";
+        document.body.appendChild(script);
+      } else {
+        const script = document.createElement("script");
+        script.type = "module";
+        script.src = "../categorygg_ads.js";
+        document.body.appendChild(script);
+      }
+    </script>
   </body>
 </html>

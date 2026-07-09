@@ -1,5 +1,5 @@
 export const BASE_URL =
-  "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230";
+  "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=2248,2249,2251,2254,2255,2231,2230created_at=2026-6-28";
 export const Category_URL = BASE_URL;
 
 

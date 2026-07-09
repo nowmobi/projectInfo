@@ -140,31 +140,44 @@ function updateDomainInHTML(domain) {
                         return prefix + cleanDomain + suffix;
                     });
                     
-                    // 5. 通用域名替换（匹配任何包含域名的文本，但只在footer区域内，排除href链接）
-                    // 先找到footer区域
+                    // 5. 通用域名替换（匹配任何包含域名的文本，但只在footer区域内，排除footer-links中的链接）
                     const footerMatch = htmlContent.match(/<footer[^>]*>[\s\S]*?<\/footer>/gi);
                     if (footerMatch) {
                         footerMatch.forEach(footerSection => {
+                            let modifiedFooter = footerSection;
+                            
+                            // 先提取并移除 footer-links 部分，避免修改其中的链接
+                            const footerLinksMatch = modifiedFooter.match(/<div\s+class=["']footer-links["']>[\s\S]*?<\/div>/gi);
+                            let footerLinksContent = '';
+                            if (footerLinksMatch) {
+                                footerLinksContent = footerLinksMatch[0];
+                                modifiedFooter = modifiedFooter.replace(footerLinksContent, '<!-- FOOTER_LINKS_PLACEHOLDER -->');
+                            }
+                            
                             // 排除所有 href="..." 中的域名
                             const hrefDomainRegex = /href\s*=\s*["'][^"']*[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}[^"']*["']/gi;
-                            // 在排除href链接的情况下查找域名
-                            const cleanFooterSection = footerSection.replace(hrefDomainRegex, '');
+                            const cleanFooterSection = modifiedFooter.replace(hrefDomainRegex, '');
                             const domainInFooter = cleanFooterSection.match(/[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/);
+                            
                             if (domainInFooter && domainInFooter[0] !== cleanDomain) {
-                                // 创建一个不匹配 href="..." 的正则表达式
                                 const replacementCallback = (match, offset) => {
-                                    // 检查匹配位置周围是否有 href=" 或 href='
-                                    const checkBefore = footerSection.substr(Math.max(0, offset - 20), 20);
+                                    const checkBefore = modifiedFooter.substr(Math.max(0, offset - 20), 20);
                                     if (checkBefore.includes('href="') || checkBefore.includes('href=\'')) {
                                         return match;
                                     }
                                     return cleanDomain;
                                 };
-                                const updatedFooter = footerSection.replace(
+                                modifiedFooter = modifiedFooter.replace(
                                     new RegExp(domainInFooter[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g'),
                                     replacementCallback
                                 );
-                                htmlContent = htmlContent.replace(footerSection, updatedFooter);
+                                
+                                // 恢复 footer-links 部分
+                                if (footerLinksContent) {
+                                    modifiedFooter = modifiedFooter.replace('<!-- FOOTER_LINKS_PLACEHOLDER -->', footerLinksContent);
+                                }
+                                
+                                htmlContent = htmlContent.replace(footerSection, modifiedFooter);
                                 modified = true;
                             }
                         });
