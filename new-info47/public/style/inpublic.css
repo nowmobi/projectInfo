@@ -1,6 +1,6 @@
 :root {
-  --color1: #d62828;
-  --color2: #29d7d7;
+  --color1: #8abe98;
+  --color2: #754167;
   --bg-light: #f8fafc;
   --bg-card: #ffffff;
   --bg-card-hover: #f1f5f9;
@@ -381,7 +381,6 @@ main {
   min-width: fit-content;
   width: auto;
   height: auto;
-  color: var(--text-secondary);
   font-size: 14px;
   font-weight: 500;
 }
