@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=80&thirdCategoryIds=2243,2249,2225,2246,6704,2245,2244";
+export const Category_URL = "https://api.flavescent.site/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2243,2249,2225,2246,6704,2245,2244&created_at=2026-06-28";
 
 export async function getCategoryOrder(data) {
   try {
@@ -28,7 +28,7 @@ export function getDataBaseUrl() {
  
   const categoryPart = pathParts[pathParts.length - 2];
  
-  return url.origin + url.pathname.replace(`/${categoryPart}/db.json`, '');
+  return url.origin + url.pathname.replace(`/${categoryPart}/dynamic-db.json`, '');
 }
 
 export function getImgUrl(article) {
