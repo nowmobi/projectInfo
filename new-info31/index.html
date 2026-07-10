@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     
-    <title>timeci.top</title>
+    <title>sec.noctiluca.cloud</title>
     <link href="https://fonts.googleapis.com/css2?family=Exo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="public/style/inpublic.css" />
   </head>
@@ -12,9 +12,13 @@
     <header class="header">
       <div class="header-content">
         <div class="logo">
-          <p>timeci.top</p>
+          <p>sec.noctiluca.cloud</p>
         </div>
-        <button type="button" class="search-toggle" id="headerSearchToggle">
+        <div class="header-actions">
+          <a href="pages/category.html" class="sidebar-btn" id="sidebarToggle">
+            <img src="public/images/category.png" alt="Category" width="36" height="36" />
+          </a>
+          <button type="button" class="search-toggle" id="headerSearchToggle">
           <svg
             width="24"
             height="24"
@@ -49,6 +53,7 @@
             />
           </svg>
         </button>
+        </div>
       </div>
     </header>
     <div class="ads" style="margin-top: 45px;">
@@ -202,25 +207,20 @@
       </div>
     </main>
 
-    <a href="pages/category.html" class="sidebar-btn" id="sidebarToggle">
-      <img src="public/images/category.png" alt="Category" width="36" height="36" />
-    </a>
-
-
     <footer class="footer">
       <div class="footer-content">
         <p class="footer-eyebrow">
           <a href="pages/about.html">About Us</a> |
           <a href="pages/privacy.html">Privacy Policy</a>
         </p>
-        <h3 class="footer-title">timeci.top</h3>
+        <h3 class="footer-title">sec.noctiluca.cloud</h3>
         <p class="footer-desc">
           Get professional financial news, investment advice, and business knowledge. Stay informed about financial trends and market insights. </p>
       </div>
     </footer>
 
-    <script type="module" src="public/js/inpublic.js?v=1"></script>
-    <script type="module" src="public/js/index.js?v=6"></script>
+    <script type="module" src="public/js/inpublic.js?"></script>
+    <script type="module" src="public/js/index.js?"></script>
 <script type="module">
   import { ad_code_identifier } from "./ads.js";
 

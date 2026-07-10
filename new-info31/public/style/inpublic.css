@@ -1,6 +1,6 @@
 
 :root {
-  --color1: #33325d;
+  --color1: #664b3a;
   --text-primary: #ffffff;
   --texture-img: url("../images/xv.png");
 }
@@ -132,6 +132,12 @@ body {
   justify-content: space-between;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .search-toggle {
   background: transparent;
   border: none;
@@ -183,6 +189,10 @@ body {
   justify-content: flex-start;
   gap: 12px;
   position: relative;
+}
+
+.detail-page .sidebar-btn {
+  margin-left: auto;
 }
 
 .logo {
@@ -1839,21 +1849,18 @@ body {
 }
 
 .sidebar-btn {
-  position: fixed;
-  right: 15px;
-  bottom: 260px;
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border: none;
   background: transparent;
   color: var(--color1);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 999;
-  padding: 0;
+  padding: 8px;
   cursor: pointer;
   text-decoration: none;
+  transition: opacity 0.2s ease;
 }
 
 .sidebar-btn svg {
