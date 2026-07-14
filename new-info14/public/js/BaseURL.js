@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=6687,6688,6689,6691,6692,6693,6694&created_at=2026-3-25";
+export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=6687,6688,6689,6691,6692,6693,6694&random=0";
 export const DETAIL_PATH = "finance_info";
 
 export function getDataBaseUrl() {
