@@ -1,6 +1,30 @@
 const fs = require('fs');
 const path = require('path');
 
+
+// 处理日期格式，将 Excel 日期转换为 YYYY-M-D 格式
+function formatDate(excelDate) {
+    if (!excelDate) return '';
+
+    // 如果是字符串格式，统一使用 - 分隔符
+    if (typeof excelDate === 'string') {
+        return excelDate.replace(/\//g, '-');
+    }
+
+    // 如果是数字（Excel 序列号），转换为日期
+    if (typeof excelDate === 'number') {
+        // Excel 序列号转换公式
+        const date = new Date((excelDate - 25569) * 86400 * 1000);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1;
+        const day = date.getDate();
+        return `${year}-${month}-${day}`;
+    }
+
+    return '';
+}
+
+
 // 读取配置文件
 function readConfig() {
     try {
@@ -21,6 +45,68 @@ function readConfig() {
         process.exit(1);
     }
 }
+
+
+
+// 更新 BaseURL.js 中的 categoryUrl
+// 从 domain 提取第二个小数点前后的内容（如 sec.felicific.site → felicific.site）
+function extractDomainParts(domain) {
+    if (!domain) return '';
+    
+    const parts = domain.split('.');
+    if (parts.length >= 3) {
+        // 返回第二个小数点前后的内容（去掉第一个部分）
+        return parts.slice(1).join('.');
+    }
+    // 如果只有两个部分，直接返回
+    return domain;
+}
+
+function updateBaseURL(date, domain) {
+    try {
+        const baseUrlPath = path.join(__dirname, 'public', 'js', 'BaseURL.js');
+        
+        if (!fs.existsSync(baseUrlPath)) {
+            throw new Error(`BaseURL.js 文件不存在: ${baseUrlPath}`);
+        }
+        
+        let baseUrlContent = fs.readFileSync(baseUrlPath, 'utf8');
+
+        // 更新 created_at（直接匹配参数本身，不依赖变量名/引号类型）
+        const createdAtRegex = /(created_at=)([^&"'\s`]+)/;
+        const createdAtMatch = baseUrlContent.match(createdAtRegex);
+        if (createdAtMatch) {
+            const oldDate = createdAtMatch[2];
+            baseUrlContent = baseUrlContent.replace(createdAtRegex, `$1${date}`);
+            console.log(`  created_at: ${oldDate} → ${date}`);
+        } else {
+            console.log(`  ⚠ 未找到 created_at 参数，跳过日期更新`);
+        }
+
+        // 更新域名（替换 baseUrl 和 categoryUrl 中的域名部分）
+        if (domain) {
+            const newDomainPart = extractDomainParts(domain);
+            // 匹配 URL 中的域名部分（如 api.chiffonier.cloud → api.felicific.site）
+            const domainRegex = /(https?:\/\/api\.)([a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,})(\/)/g;
+            const domainMatch = domainRegex.exec(baseUrlContent);
+            if (domainMatch) {
+                // 重置 lastIndex（exec 会推进 lastIndex，replace 需从头匹配）
+                domainRegex.lastIndex = 0;
+                baseUrlContent = baseUrlContent.replace(domainRegex, `$1${newDomainPart}$3`);
+                console.log(`  域名: api.${domainMatch[2]} → api.${newDomainPart}`);
+            }
+        }
+        
+        fs.writeFileSync(baseUrlPath, baseUrlContent, 'utf8');
+        console.log(`✓ BaseURL.js 已更新: ${baseUrlPath}`);
+        
+    } catch (error) {
+        console.error('更新 BaseURL.js 失败:', error.message);
+        throw error;
+    }
+}
+
+
 
 // 更新CSS中的主题色变量（只更新color1和color2）
 function updateCSSColors(color1, color2) {
@@ -214,10 +300,12 @@ async function main() {
     try {
         // 1. 读取配置
         const config = readConfig();
+        const dateString = formatDate(config.date);
         console.log('读取配置:');
         console.log(`  color1: ${config.color1}`);
         console.log(`  color2: ${config.color2}`);
-        console.log(`  域名: ${config.domain}\n`);
+        console.log(`  域名: ${config.domain}`);
+        console.log(`  date: ${dateString || '(空)'}\n`);
         
         // 2. 更新CSS变量（color1和color2）
         updateCSSColors(config.color1, config.color2);
@@ -226,6 +314,15 @@ async function main() {
         // 3. 更新HTML文件中的域名（包括title和footer）
         updateDomainInHTML(config.domain);
         console.log('');
+
+        // 5. 更新 BaseURL.js 中的 created_at 和域名
+        if (dateString || config.domain) {
+            updateBaseURL(dateString, config.domain);
+            console.log('');
+        } else {
+            console.log('○ 未配置 date 和 domain，跳过更新 BaseURL.js');
+            console.log('');
+        }
         
         console.log('✓ 更新完成！');
         
