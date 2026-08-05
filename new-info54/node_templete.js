@@ -124,6 +124,46 @@ function updateCSSColor(color) {
     }
 }
 
+// 提取一级域名（去掉二级域名前缀）
+// 例如：read.xenolith.fun → xenolith.fun；xenolith.fun → xenolith.fun
+function extractRootDomain(domain) {
+    const cleanDomain = domain.replace(/^https?:\/\//, '').split('/')[0].toLowerCase();
+    const parts = cleanDomain.split('.');
+    if (parts.length >= 3) {
+        return parts.slice(-2).join('.');
+    }
+    return cleanDomain;
+}
+
+// 更新 BaseURL.js 中的 baseUrl 和 dbUrl 的 API 域名
+// 二级域名时自动取一级域名拼接 api.{一级域名}，例如 read.xenolith.fun → api.xenolith.fun
+function updateBaseURL(domain) {
+    try {
+        const baseUrlPath = path.join(__dirname, 'public', 'js', 'BaseURL.js');
+        let content = fs.readFileSync(baseUrlPath, 'utf8');
+
+        const rootDomain = extractRootDomain(domain);
+        const newApiOrigin = `https://api.${rootDomain}`;
+
+        // 同时匹配原始 news-api.* 和上一次替换后的 api.*，
+        // 保证批量处理时每个域名都能正确替换（不会因上一次替换而找不到）
+        const apiOriginRegex = /https:\/\/(?:news-api|api)\.[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/g;
+
+        const updatedContent = content.replace(apiOriginRegex, newApiOrigin);
+
+        if (updatedContent !== content) {
+            fs.writeFileSync(baseUrlPath, updatedContent, 'utf8');
+            console.log(`✓ BaseURL.js 已更新: ${newApiOrigin}`);
+            console.log(`  (原始域名: ${domain} → 一级域名: ${rootDomain})`);
+        } else {
+            console.log(`○ BaseURL.js 中未找到可替换的 API 域名（可能已是最新: ${newApiOrigin}）`);
+        }
+    } catch (error) {
+        console.error('更新 BaseURL.js 失败:', error.message);
+        throw error;
+    }
+}
+
 // 更新所有HTML文件中的域名
 function updateDomainInHTML(domain) {
     try {
@@ -222,7 +262,11 @@ async function main() {
         updateCSSColor(config.color);
         console.log('');
         
-        // 3. 更新HTML域名
+        // 3. 更新 BaseURL.js 中的 API 域名（二级域名自动取一级域名）
+        updateBaseURL(config.domain);
+        console.log('');
+        
+        // 4. 更新HTML域名
         updateDomainInHTML(config.domain);
         console.log('');
         
