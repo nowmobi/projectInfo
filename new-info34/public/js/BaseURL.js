@@ -1,15 +1,15 @@
 
 const baseConfig = {
-  baseUrl: "https://news-api.szwyi.com/api/compatible",
-  categoryUrl: "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2234,2235,2236,2237,2238,2239,2240&created_at=2026-6-12",
-  dataUrl: "./data.json"
+  baseUrl: "https://api.spiraling.cloud/api/compatible",
+  categoryUrl: "https://api.spiraling.cloud/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2234,2235,2236,2237,2238,2239,2240&created_at=2026-6-12",
+  dataUrl: "./dynamic-data.json"
 }
 
 export const remoteDataConfig = {
   baseConfig,
   
   buildArticleDetailUrl(articleId) {
-    return `${baseConfig.baseUrl.replace(/\/$/, '')}/${articleId}/finance_info/data.json`;
+    return `${baseConfig.baseUrl.replace(/\/$/, '')}/${articleId}/finance_info/dynamic-data.json`;
   },
   
   buildImageUrl(articleId, imgName) {
