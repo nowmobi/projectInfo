@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=6687,6688,6689,6691,6692,6693,6694&random=0";
+export const Category_URL = "https://api.roaddivider.cloud/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=6687,6688,6689,6691,6692,6693,6694&random=0";
 export const DETAIL_PATH = "finance_info";
 
 export function getDataBaseUrl() {
@@ -8,7 +8,7 @@ export function getDataBaseUrl() {
 
 export function getDetailUrl(articleId) {
   const baseUrl = getDataBaseUrl();
-  return `${baseUrl}/${articleId}/${DETAIL_PATH}/data.json`;
+  return `${baseUrl}/${articleId}/${DETAIL_PATH}/dynamic-data.json`;
 }
 
 export function getImgUrl(article) {
