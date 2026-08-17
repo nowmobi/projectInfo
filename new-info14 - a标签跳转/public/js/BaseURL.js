@@ -1,4 +1,4 @@
-export const Category_URL = "https://api.roaddivider.cloud/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=6687,6688,6689,6691,6692,6693,6694&random=0";
+export const Category_URL = "https://api.roaddivider.cloud/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=6687,6688,6689,6691,6692,6693,6694&random=0&created_at=2026-8-12";
 export const DETAIL_PATH = "finance_info";
 
 export function getDataBaseUrl() {

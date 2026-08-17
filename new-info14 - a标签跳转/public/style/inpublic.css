@@ -656,6 +656,8 @@ body {
   align-items: stretch;
   cursor: pointer;
   background: white;
+  text-decoration: none;
+  color: inherit;
 }
 
 .article-item {

@@ -389,13 +389,12 @@ class Website {
     const articlesGrid = document.getElementById('articlesGrid');
     if (!articlesGrid) return;
     if (articlesToRender) {
-     
+
       this.renderSearchResults(articlesGrid, articlesToRender);
     } else {
-     
+
       this.renderCategoryArticles(articlesGrid);
     }
-    this.bindArticleEvents();
   }
 
   
@@ -657,11 +656,6 @@ class Website {
   }
 
   
-  bindArticleEvents() {
-    window.Utils.bindArticleCardEvents('detail.html');
-  }
-
- 
   showErrorState() {
     const articlesGrid = document.getElementById('articlesGrid');
     if (articlesGrid) {

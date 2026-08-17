@@ -3,8 +3,6 @@ import { Category_URL, getImgUrl } from './BaseURL.js';
 
 
 const SELECTORS = {
-  articleCard: '.article-card',
-  articleListItem: '.article-item',
   smartBackButton: 'smartBackButton',
   sidebarContainer: 'sidebarContainer',
   sidebarToggle: 'sidebarToggle',
@@ -74,14 +72,20 @@ const Utils = {
     const title = this.escapeHtml(article.title || '');
     const categoryType = this.escapeHtml(article.type || '');
     const articleId = this.escapeHtml(String(article.id || ''));
-    
-    
-    const hotImagePath = window.location.pathname.includes('/pages/') 
-      ? '../public/images/hot.png' 
+    const rawId = String(article.id || '');
+
+    const isInPagesDir = window.location.pathname.includes('/pages/');
+    const detailPath = isInPagesDir ? PATHS.detailPageFromPages : PATHS.detailPage;
+    const hotImagePath = isInPagesDir
+      ? '../public/images/hot.png'
       : 'public/images/hot.png';
-    
+
+    const href = rawId && !rawId.startsWith('placeholder-')
+      ? `${detailPath}?id=${encodeURIComponent(rawId)}`
+      : '';
+
     return `
-      <div class="article-item" data-id="${articleId}">
+      <a class="article-item" data-id="${articleId}"${href ? ` href="${href}"` : ''}>
         <div class="article-img">
           <img src="${this.escapeHtml(imageUrl)}" alt="${title}" class="article-image-main" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'140\\' height=\\'110\\'%3E%3Crect width=\\'100%25\\' height=\\'100%25\\' fill=\\'%23f5f5f5\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dy=\\'.3em\\' fill=\\'%23999\\' font-size=\\'12\\'%3ENo Image%3C/text%3E%3C/svg%3E';">
           <img src="${hotImagePath}" alt="HOT" class="hot-badge" onerror="this.style.display='none';">
@@ -91,27 +95,33 @@ const Utils = {
           <p class="article-title">${title}</p>
           <span class="article-date">${timeStr}</span>
         </div>
-      </div>
+      </a>
     `;
   },
 
   
   createDetailRecommendedArticleCard(article, decodeUnicode = null) {
     const imageUrl = getImgUrl(article);
-    const categoryTag = decodeUnicode 
+    const categoryTag = decodeUnicode
       ? decodeUnicode(article.type) || 'unknown category'
       : (article.type || 'unknown type');
     const timeStr = this.formatTimestamp(article.create_time) || '';
     const title = this.escapeHtml(article.title || '');
     const articleId = this.escapeHtml(String(article.id || ''));
-    
-    
-    const hotImagePath = window.location.pathname.includes('/pages/') 
-      ? '../public/images/hot.png' 
+    const rawId = String(article.id || '');
+
+    const isInPagesDir = window.location.pathname.includes('/pages/');
+    const detailPath = isInPagesDir ? PATHS.detailPageFromPages : PATHS.detailPage;
+    const hotImagePath = isInPagesDir
+      ? '../public/images/hot.png'
       : 'public/images/hot.png';
-    
+
+    const href = rawId && !rawId.startsWith('placeholder-')
+      ? `${detailPath}?id=${encodeURIComponent(rawId)}`
+      : '';
+
     return `
-      <div class="article-card" data-id="${articleId}">
+      <a class="article-card" data-id="${articleId}"${href ? ` href="${href}"` : ''}>
         <div class="article-image">
           <img src="${this.escapeHtml(imageUrl)}" alt="${title}" onerror="this.style.display='none';">
           <img src="${hotImagePath}" alt="HOT" class="hot-badge" onerror="this.style.display='none';">
@@ -123,27 +133,10 @@ const Utils = {
            <p class="article-type">${this.escapeHtml(categoryTag)}</p>
           </div>
         </div>
-      </div>
+      </a>
     `;
   },
 
-  
-  bindArticleCardEvents(detailPagePath = null) {
-    const articleCards = document.querySelectorAll(`${SELECTORS.articleCard}, ${SELECTORS.articleListItem}`);
-    const isInPagesDir = this.isInPagesDir();
-    const path = detailPagePath || (isInPagesDir ? PATHS.detailPageFromPages : PATHS.detailPage);
-    
-    articleCards.forEach(card => {
-      card.addEventListener('click', (e) => {
-        const articleId = card.dataset.id;
-        if (articleId && !articleId.startsWith('placeholder-')) {
-          window.location.href = `${path}?id=${this.escapeHtml(articleId)}`;
-        }
-      });
-    });
-  },
-
-  
   debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {

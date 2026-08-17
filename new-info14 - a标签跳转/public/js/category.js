@@ -14,7 +14,6 @@ const SELECTORS = {
   categoryArticlesGrid: '#categoryArticlesGrid',
   categoryPageTitle: '#categoryPageTitle',
   categoryCard: '.category-card',
-  articleListItem: '.article-item',
   retryBtn: '.retry-btn',
   refreshBtn: '.refresh-btn'
 };
@@ -412,18 +411,15 @@ class CategoryPage {
       return;
     }
 
-   
+
     const sortedArticles = articles.sort((a, b) => b.id - a.id);
 
-   
+
     articlesGrid.innerHTML = sortedArticles
       .map(article => this.createArticleItemHTML(article))
       .join('');
 
-   
-    this.bindArticleEvents();
-    
-    
+
     this.updateSidebarActiveState(categoryName);
   }
 
@@ -445,20 +441,24 @@ class CategoryPage {
     const timeStr = window.Utils?.formatTimestamp?.(article.create_time) || '';
     const title = window.Utils.escapeHtml(article.title || '');
     const categoryType = window.Utils.escapeHtml(article.type || '');
-    
-    
-    const starsHTML = Array(5).fill(0).map(() => 
+    const rawId = String(article.id || '');
+    const href = rawId && !rawId.startsWith('placeholder-')
+      ? `../detail.html?id=${encodeURIComponent(rawId)}`
+      : '';
+
+
+    const starsHTML = Array(5).fill(0).map(() =>
       '<svg class="star" width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" fill="#ffd700"/></svg>'
     ).join('');
-    
-    
+
+
     const downloadCount = this.formatDownloadCount(article.id || Math.floor(Math.random() * 20000) + 5000);
-    
-    
+
+
     const hotImagePath = '../public/images/hot.png';
-    
+
     return `
-      <div class="article-item" data-id="${article.id}">
+      <a class="article-item" data-id="${article.id}"${href ? ` href="${href}"` : ''}>
         <div class="article-img">
           <img src="${imageUrl}" alt="${title}" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'80\\'%3E%3Crect width=\\'100\\' height=\\'80\\' fill=\\'%23f5f5f5\\'/%3E%3Ctext x=\\'50%25\\' y=\\'50%25\\' text-anchor=\\'middle\\' dominant-baseline=\\'middle\\' font-size=\\'12\\' fill=\\'%23999\\'%3ENo Image%3C/text%3E%3C/svg%3E';">
           <img src="${hotImagePath}" alt="HOT" class="hot-badge" onerror="this.style.display='none';">
@@ -467,7 +467,7 @@ class CategoryPage {
           <p class="article-title">${title}</p>
           <span class="article-date">${timeStr}</span>
         </div>
-      </div>
+      </a>
     `;
   }
 
@@ -665,19 +665,6 @@ class CategoryPage {
         const categoryName = card.dataset.category;
         if (categoryName) {
           this.showArticlesByType(categoryName);
-        }
-      });
-    });
-  }
-
-  
-  bindArticleEvents() {
-    const articleItems = document.querySelectorAll(SELECTORS.articleListItem);
-    articleItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const articleId = item.dataset.id;
-        if (articleId && !articleId.startsWith('placeholder-')) {
-          window.location.href = `../detail.html?id=${articleId}`;
         }
       });
     });

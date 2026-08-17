@@ -634,7 +634,6 @@ class ArticleDetailPage {
         )
       )
       .join("");
-    this.bindDetailPageRecommendedEvents();
   }
 
   getRecommendedArticles(currentId, limit = CONFIG.recommendedArticlesLimit) {
@@ -647,10 +646,6 @@ class ArticleDetailPage {
       .filter((article) => String(article.id) !== normalizedId)
       .sort(() => Math.random() - 0.5)
       .slice(0, limit);
-  }
-
-  bindDetailPageRecommendedEvents() {
-    window.Utils.bindArticleCardEvents("detail.html");
   }
 
   isArticleIdAllowed(id) {
@@ -702,12 +697,9 @@ class ArticleDetailPage {
   setupBackButton() {
     const imageBackButton = document.getElementById("imageBackButton");
     if (imageBackButton) {
-      imageBackButton.addEventListener("click", (e) => {
-        e.preventDefault();
-        const isInPagesDir = window.Utils?.isInPagesDir?.() || false;
-        const homePath = isInPagesDir ? "../index.html" : "index.html";
-        window.location.href = homePath;
-      });
+      const isInPagesDir = window.Utils?.isInPagesDir?.() || false;
+      const homePath = isInPagesDir ? "../index.html" : "index.html";
+      imageBackButton.setAttribute("href", homePath);
     }
   }
 }
