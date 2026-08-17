@@ -1,4 +1,4 @@
-export const Category_URL = "https://api.cabledfluting.com/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2234,2235,2236,2237,2238,2239,2240&created_at=2026-7-27";
+export const Category_URL = "https://api.cabledfluting.com/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2234,2235,2236,2237,2238,2239,2240&created_at=2026-8-13";
 export const Detail_BASE_URL = "https://api.cabledfluting.com/api/compatible";
 export const DETAIL_PATH = "finance_info";
 
