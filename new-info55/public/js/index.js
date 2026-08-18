@@ -13,7 +13,7 @@ class HealthNewsApp {
     this.currentCategory = "all";
     this.articles = [];
     this.categories = [];
-    this.useHomePageLayout = options.useHomePageLayout || fals
+    this.useHomePageLayout = options.useHomePageLayout || false;
     this.init();
   }
 
@@ -401,20 +401,15 @@ class HealthNewsApp {
 
     dropdownCategories.forEach((category) => {
       category.addEventListener("click", (e) => {
-        const categoryId = e.currentTarget.dataset.category;
-        
-        if (this.useHomePageLayout) {
-          // 首页：切换分类，不导航
-          e.preventDefault();
-          this.switchCategory(categoryId);
-          dropdownCategories.forEach((cat) => cat.classList.remove("active"));
-          e.currentTarget.classList.add("active");
-        } else {
-          // 非首页：直接导航到分类页
-          const categoryPath = window.location.pathname.includes("/pages/") ? "" : "pages/";
-          const categoryName = e.currentTarget.querySelector("span").textContent;
-          window.location.href = `${categoryPath}category.html?type=${encodeURIComponent(categoryName)}`;
-        }
+        e.preventDefault();
+
+        const categoryPath = window.location.pathname.includes("/pages/") ? "" : "pages/";
+        const categoryName = e.currentTarget.querySelector("span").textContent;
+        window.location.href = `${categoryPath}category.html?type=${encodeURIComponent(categoryName)}`;
+
+        setTimeout(() => {
+          this.closeDropdown();
+        }, 100);
       });
     });
   }
@@ -510,7 +505,7 @@ class HealthNewsApp {
       const shuffledArticles = [...validArticles].sort(() => Math.random() - 0.5);
       
      
-      this.renderCarouselContent(shuffledArticles.slice(0, 6));
+      this.renderCarouselContent(shuffledArticles.slice(0, 3));
 
      
       await this.renderAllCategories(validArticles);
@@ -1096,19 +1091,6 @@ class HealthNewsApp {
 
     updateCarousel(false);
 
-    let autoPlayInterval = setInterval(goToNext, 5000);
-    
-    const container = document.getElementById("latestNewsCarousel");
-    if (container) {
-      container.addEventListener("mouseenter", () => {
-        clearInterval(autoPlayInterval);
-      });
-      
-      container.addEventListener("mouseleave", () => {
-        autoPlayInterval = setInterval(goToNext, 5000);
-      });
-    }
-
     window.addEventListener("resize", () => {
       updateCarousel(false);
     });
@@ -1234,7 +1216,7 @@ class HealthNewsApp {
       currentSection.innerHTML = contentHTML;
 
       
-      const articleCount = sectionIndex === 4 ? 10 : (useGridLayout ? 4 : 3);
+      const articleCount = sectionIndex === 4 ? 10 : (useGridLayout && sectionIndex !== 1 && sectionIndex !== 2 && sectionIndex !== 3 && sectionIndex !== 5 ? 4 : 3);
       const isFourthSection = sectionIndex === 4;
       
       if (useGridLayout) {
