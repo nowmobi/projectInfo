@@ -13,7 +13,7 @@ class HealthNewsApp {
     this.currentCategory = "all";
     this.articles = [];
     this.categories = [];
-    this.useHomePageLayout = options.useHomePageLayout || false;
+    this.useHomePageLayout = options.useHomePageLayout || fals
     this.init();
   }
 
