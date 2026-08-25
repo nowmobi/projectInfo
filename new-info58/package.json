@@ -1,0 +1,21 @@
+{
+  "name": "game-theme-config",
+  "version": "1.0.0",
+  "description": "Theme configuration tool for game website",
+  "main": "node1.js",
+  "scripts": {
+    "node1": "node node_templete.js",
+    "node2": "node node_compress.js",
+    "batch": "node node_batch.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "javascript-obfuscator": "^4.1.0",
+    "archiver": "^7.0.1",
+    "xlsx": "^0.18.5"
+  }
+}
+
