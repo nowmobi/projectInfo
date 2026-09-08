@@ -223,6 +223,42 @@ function updateDomainInHTML(domain) {
     }
 }
 
+// 提取一级域名（去掉二级域名前缀）
+// 例如：read.xenolith.fun → xenolith.fun，xenolith.fun → xenolith.fun
+function extractRootDomain(domain) {
+    const cleanDomain = domain.replace(/^https?:\/\//, '').split('/')[0].toLowerCase();
+    const parts = cleanDomain.split('.');
+    if (parts.length >= 3) {
+        return parts.slice(-2).join('.');
+    }
+    return cleanDomain;
+}
+
+// 更新 BaseURL.js 中 Category_URL 的 API 域名
+// 例如 read.xenolith.fun → api.xenolith.fun
+// 二级域名时自动取一级域名拼接 api.（一级域名）
+// 同时匹配原始 news-api. 和上一次替换后的 api.，确保批量处理时每个域名都能替换（不会因上一次替换而找不到）
+function updateBaseURL(domain) {
+    try {
+        const baseUrlPath = path.join(__dirname, 'public', 'js', 'BaseURL.js');
+        let content = fs.readFileSync(baseUrlPath, 'utf8');
+        const rootDomain = extractRootDomain(domain);
+        const newApiOrigin = `https://api.${rootDomain}`;
+        const apiOriginRegex = /https:\/\/(?:news-api|api)\.[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/g;
+        const updatedContent = content.replace(apiOriginRegex, newApiOrigin);
+        if (updatedContent !== content) {
+            fs.writeFileSync(baseUrlPath, updatedContent, 'utf8');
+            console.log(`✓ BaseURL.js 已更新: ${newApiOrigin}`);
+            console.log(`  (原始域名: ${domain} → 一级域名: ${rootDomain})`);
+        } else {
+            console.log(`○ BaseURL.js 中未找到可替换的 API 域名（可能已是最新: ${newApiOrigin}）`);
+        }
+    } catch (error) {
+        console.error('更新 BaseURL.js 失败:', error.message);
+        throw error;
+    }
+}
+
 // 主函数
 async function main() {
     console.log('开始执行主题配置更新...\n');
@@ -241,6 +277,10 @@ async function main() {
         
         // 3. 更新HTML文件中的域名（包括title和footer）
         updateDomainInHTML(config.domain);
+        console.log('');
+        
+        // 4. 更新BaseURL.js中的API域名
+        updateBaseURL(config.domain);
         console.log('');
         
         console.log('✓ 更新完成！');

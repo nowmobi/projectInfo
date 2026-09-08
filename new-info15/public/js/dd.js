@@ -228,7 +228,7 @@ class ArticleDetailPage {
 
   async loadArticleDetail() {
     const resourcePath = getResourcePath();
-    const articleUrl = `${REMOTE_DATA_BASE_URL}/${this.articleId}/${resourcePath}/data.json`;
+    const articleUrl = `${REMOTE_DATA_BASE_URL}/${this.articleId}/${resourcePath}/dynamic-data.json`;
     const response = await fetch(articleUrl);
 
     if (!response.ok) {

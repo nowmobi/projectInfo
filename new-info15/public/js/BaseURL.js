@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=40&thirdCategoryIds=2182,2183,2185,2187,2189,2190,2191&created_at=2026-3-25";
+export const Category_URL = "https://api.floplay.fun/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=2182,2183,2185,2187,2189,2190,2191&created_at=2026-3-25";
 
 export async function getCategoryOrder() {
   try {
@@ -11,7 +11,7 @@ export async function getCategoryOrder() {
 
 export function getDataBaseUrl() {
   const url = new URL(Category_URL);
-  let pathname = url.pathname.replace('/db.json', '');
+  let pathname = url.pathname.replace('/dynamic-db.json', '');
   const parts = pathname.split('/');
   if (parts[parts.length - 1] === getResourcePath()) {
     parts.pop();
@@ -21,7 +21,7 @@ export function getDataBaseUrl() {
 
 export function getResourcePath() {
   const url = new URL(Category_URL);
-  const pathname = url.pathname.replace('/db.json', '');
+  const pathname = url.pathname.replace('/dynamic-db.json', '');
   const parts = pathname.split('/');
   return parts[parts.length - 1];
 }
