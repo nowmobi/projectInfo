@@ -1,7 +1,7 @@
 
 const baseConfig = {
-  baseUrl: "https://api.gaberdine.cloud/api/compatible",
-  categoryUrl: "https://api.gaberdine.cloud/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=7162,7163,3799,3800,3801,3805,3806&created_at=2026-5-30",
+  baseUrl: "https://api.turbinate.fun/api/compatible",
+  categoryUrl: "https://api.turbinate.fun/api/compatible/finance_info/dynamic-db.json?num=40&thirdCategoryIds=7162,7163,3799,3800,3801,3805,3806&created_at=2026-5-30",
   dataUrl: "./dynamic-data.json"
 };
 
