@@ -1,4 +1,4 @@
-export const Category_URL = "https://news-api.szwyi.com/api/compatible/finance_info/db.json?num=20&thirdCategoryIds=2645,2646,2649,2650,2651,2652,688";
+export const Category_URL = "https://api.apodyopsis.site/api/compatible/finance_info/dynamic-db.json?num=20&thirdCategoryIds=2645,2646,2649,2650,2651,2652,688";
 
 
 const cache = {
@@ -16,7 +16,7 @@ export function getDataBaseUrl() {
     url.search = '';
     return url.toString().replace(/\/$/, '');
   } catch {
-    return Category_URL.replace('/db.json', '').split('?')[0];
+    return Category_URL.replace('/dynamic-db.json', '').split('?')[0];
   }
 }
 
@@ -26,12 +26,12 @@ export function getArticleDetailUrl(articleId) {
   try {
     const url = new URL(Category_URL);
     const basePath = url.pathname.split('/').slice(0, 3).join('/');
-    url.pathname = `${basePath}/${articleId}/finance_info/data.json`;
+    url.pathname = `${basePath}/${articleId}/finance_info/dynamic-data.json`;
     url.search = '';
     return url.toString();
   } catch {
     const baseUrl = Category_URL.split('/finance_info/')[0];
-    return `${baseUrl}/${articleId}/finance_info/data.json`;
+    return `${baseUrl}/${articleId}/finance_info/dynamic-data.json`;
   }
 }
 
