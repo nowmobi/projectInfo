@@ -223,10 +223,22 @@ function updateDomainInHTML(domain) {
                     return match;
                 });
                 
-                // 2. 更新logo-text中的域名
-                const logoTextRegex = /(<span\s+class=["']logo-text["']>)([^<]+)(<\/span>)/gi;
+                // 2. 更新logo-text中的域名（支持带其他class写法，如 class="logo-text xxx"）
+                const logoTextRegex = /(<span\s+class=["'][^"']*\blogo-text\b[^"']*["']\s*>)([^<]+)(<\/span>)/gi;
                 htmlContent = htmlContent.replace(logoTextRegex, (match, openTag, oldDomain, closeTag) => {
                     // 查找logo-text中的域名
+                    const domainMatch = oldDomain.match(/[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/);
+                    if (domainMatch) {
+                        modified = true;
+                        return openTag + oldDomain.replace(domainMatch[0], cleanDomain) + closeTag;
+                    }
+                    return match;
+                });
+                
+                
+                // 2.1 更新详情页顶部导航栏中的域名（class 包含 detail-nav-domain）
+                const detailNavDomainRegex = /(<span\s+class=["'][^"']*\bdetail-nav-domain\b[^"']*["']\s*>)([^<]*)(<\/span>)/gi;
+                htmlContent = htmlContent.replace(detailNavDomainRegex, (match, openTag, oldDomain, closeTag) => {
                     const domainMatch = oldDomain.match(/[a-zA-Z0-9][a-zA-Z0-9.-]*\.[a-zA-Z]{2,}/);
                     if (domainMatch) {
                         modified = true;

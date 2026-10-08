@@ -1,8 +1,8 @@
 
 
 :root {
-  --color1: #ecebc2;
-  --color2: #7d929f;
+  --color1: #e6e3c3;
+  --color2: #a7dbc8;
   --color2-rgba-18: rgba(181, 119, 67, 0.18);
   --color2-rgba-30: rgba(181, 119, 67, 0.3);
   --color2-rgba-15: rgba(181, 119, 67, 0.15);
@@ -890,6 +890,41 @@ body {
   position: relative;
   z-index: 1;
   box-sizing: border-box;
+}
+
+.detail-page .detail-nav {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 15px;
+  min-height: 40px;
+  padding: 0 52px;
+}
+
+.detail-page .detail-nav .back-button-header.detail-image-back {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-bottom: 0;
+  flex-shrink: 0;
+  z-index: 1;
+}
+
+.detail-page .detail-nav .logo-text {
+  color: #fff;
+  font-size: 18px;
+  max-width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.detail-page .detail-content-wrapper > .ads {
+  margin-bottom: 15px;
 }
 
 .detail-title-wrapper {
