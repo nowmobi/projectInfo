@@ -256,11 +256,16 @@ class ArticleDetailPage {
     return htmlContent.replace(
       /<img([^>]*?)src=["']([^"']+)["']([^>]*?)>/gi,
       (match, before, src, after) => {
-        if (src.startsWith("http://") || src.startsWith("https://")) {
-          return match;
-        }
-        const newSrc = remoteDataConfig.buildImageUrl(articleId, src);
-        return `<img${before}src="${newSrc}"${after}>`;
+        const isAbsolute =
+          src.startsWith("http://") || src.startsWith("https://");
+        const newSrc = isAbsolute
+          ? src
+          : remoteDataConfig.buildImageUrl(articleId, src);
+        const lazyAttrs =
+          before.indexOf("loading=") !== -1 || after.indexOf("loading=") !== -1
+            ? ""
+            : ' loading="lazy" decoding="async"';
+        return `<img${before}src="${newSrc}"${lazyAttrs}${after}>`;
       }
     );
   }
@@ -510,14 +515,13 @@ class ArticleDetailPage {
     try {
       const articles = await this.getArticlesData();
       
-      return articles
-        .filter((article) => {
+      return Utils.shuffle(
+        articles.filter((article) => {
           const hasValidId = article.id != null && article.id !== "" && String(article.id).trim() !== "";
           const isNotCurrent = String(article.id) !== String(currentId);
           return hasValidId && isNotCurrent;
         })
-        .sort(() => Math.random() - 0.5) 
-        .slice(0, limit);
+      ).slice(0, limit);
     } catch (error) {
       return [];
     }
@@ -547,7 +551,7 @@ class ArticleDetailPage {
           return `
             <a class="article-card" href="${detailHref}">
               <div class="article-image">
-                <img src="${articleImage}" alt="${articleTitle}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <img src="${articleImage}" alt="${articleTitle}" loading="lazy" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
                 <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #ba7ac7 0%, #9b6aa8 100%); color: white; align-items: center; justify-content: center; font-size: 12px; text-align: center; padding: 5px;">
                   <div>
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 4px;">

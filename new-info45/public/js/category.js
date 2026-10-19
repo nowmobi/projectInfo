@@ -370,7 +370,7 @@ class CategoryPage {
                       article
                     )}" alt="${
           article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+        }" loading="lazy" decoding="async" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>
@@ -517,7 +517,7 @@ class CategoryPage {
                        article
                      )}" alt="${
           article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+        }" loading="lazy" decoding="async" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
                  </div>
                  <div class="article-content">
                      <h3 class="article-title">${article.title}</h3>
@@ -598,7 +598,7 @@ class CategoryPage {
                       article
                     )}" alt="${
           article.title
-        }" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
+        }" loading="lazy" decoding="async" onerror="this.src='https://via.placeholder.com/300x200?text=Image+Not+Found'">
                 </div>
                 <div class="article-content">
                     <h3 class="article-title">${article.title}</h3>

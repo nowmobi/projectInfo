@@ -153,7 +153,11 @@ class HealthNewsApp {
       });
     }
 
-    window.addEventListener("scroll", () => this.handleScroll());
+    window.addEventListener(
+      "scroll",
+      Utils.throttle(() => this.handleScroll(), 100),
+      { passive: true }
+    );
     const sidebarToggle = document.getElementById("sidebarToggle");
     const sidebarMenu = document.getElementById("sidebarMenu");
     const sidebarClose = document.getElementById("sidebarClose");
@@ -443,12 +447,14 @@ class HealthNewsApp {
       return;
     }
 
+    homeArticleItems = Array.from(homeArticleItems);
+
     articles.forEach((article, index) => {
       if (index >= homeArticleItems.length) {
         const newContainer = document.createElement("div");
         newContainer.className = "home_article-item";
         articlesGrid.appendChild(newContainer);
-        homeArticleItems = document.querySelectorAll(".home_article-item");
+        homeArticleItems.push(newContainer);
       }
 
       
@@ -468,7 +474,7 @@ class HealthNewsApp {
           <div class="article-image">
             <img src="${imgUrl}" alt="${
         articleTitle
-      }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+      }" loading="lazy" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #ba7ac7 0%, #9b6aa8 100%); color: white; align-items: center; justify-content: center; font-size: 14px; text-align: center; padding: 10px;">
               <div>
                 <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 8px;">
@@ -512,8 +518,8 @@ class HealthNewsApp {
     const orderedCategories = this.categories.filter((cat) => cat.id !== "all");
 
     orderedCategories.forEach((category) => {
-      const categoryArticles = this.articles
-        .filter((article) => {
+      const categoryArticles = Utils.shuffle(
+        this.articles.filter((article) => {
           const articleTypeId = article.type
             ? article.type
                 .toLowerCase()
@@ -522,12 +528,11 @@ class HealthNewsApp {
             : "";
           return articleTypeId === category.id;
         })
-        .sort(() => Math.random() - 0.5)
-        .slice(0, limit);
+      ).slice(0, limit);
       topArticles.push(...categoryArticles);
     });
 
-    return topArticles.sort(() => Math.random() - 0.5);
+    return Utils.shuffle(topArticles);
   }
 
   renderTopArticles(count = 3) {
@@ -548,7 +553,7 @@ class HealthNewsApp {
       return;
     }
 
-    const shuffledArticles = [...validArticles].sort(() => Math.random() - 0.5);
+    const shuffledArticles = Utils.shuffle(validArticles);
     const topArticles = shuffledArticles.slice(0, count);
 
     topArticlesList.innerHTML = topArticles.map((article, index) => {
@@ -583,7 +588,7 @@ class HealthNewsApp {
       return;
     }
 
-    const shuffledArticles = [...validArticles].sort(() => Math.random() - 0.5);
+    const shuffledArticles = Utils.shuffle(validArticles);
     const randomArticles = shuffledArticles.slice(0, count);
 
     randomArticlesGrid.innerHTML = randomArticles.map(article => {
@@ -594,7 +599,7 @@ class HealthNewsApp {
 
       return `
         <div class="random-article-item" onclick="window.location.href='${detailHref}'">
-          <img src="${imgUrl}" alt="${articleTitle}" class="random-article-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <img src="${imgUrl}" alt="${articleTitle}" class="random-article-image" loading="lazy" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
           <div class="random-article-title">${articleTitle}</div>
         </div>
       `;
@@ -617,14 +622,13 @@ class HealthNewsApp {
   }
 
   getRecommendedArticles(currentId, limit = 3) {
-    return this.articles
-      .filter((article) => {
+    return Utils.shuffle(
+      this.articles.filter((article) => {
         const hasValidId = article.id != null && article.id !== "" && String(article.id).trim() !== "";
         const isNotCurrent = String(article.id) !== String(currentId);
         return hasValidId && isNotCurrent;
       })
-      .sort(() => Math.random() - 0.5)
-      .slice(0, limit);
+    ).slice(0, limit);
   }
 
   renderRecommendedArticles(currentId) {
@@ -645,7 +649,7 @@ class HealthNewsApp {
         <div class="article-image">
           <img src="${this.getArticleImage(article)}" alt="${
           article.title
-        }" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        }" loading="lazy" decoding="async" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
            <div class="placeholder-image" style="display: none; width: 100%; height: 100%; background: linear-gradient(135deg, #ba7ac7 0%, #9b6aa8 100%); color: white; align-items: center; justify-content: center; font-size: 12px; text-align: center; padding: 5px;">
              <div>
                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 4px;">
@@ -812,6 +816,15 @@ const Utils = {
         setTimeout(() => (inThrottle = false), limit);
       }
     };
+  },
+
+  shuffle(array) {
+    const result = array.slice();
+    for (let i = result.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [result[i], result[j]] = [result[j], result[i]];
+    }
+    return result;
   },
 
   decodeUnicode(str) {
