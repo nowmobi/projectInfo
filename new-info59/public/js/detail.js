@@ -19,11 +19,15 @@ class ArticleDetailPage {
   }
 
   async init() {
-    await this.loadArticleDetail();
-    this.loadArticlesData().then(() => {
-      this.renderRecommendedArticles();
-    });
+    await this.loadArticlesData();
+
+    if (!this.articleId) {
+      this.articleId = this.getRandomArticleId();
+    }
+
     this.setupEventListeners();
+    await this.loadArticleDetail();
+    this.renderRecommendedArticles();
   }
 
   async loadArticlesData() {
@@ -47,6 +51,26 @@ class ArticleDetailPage {
     }
   }
 
+  getRandomArticleId() {
+    if (!Array.isArray(this.articles) || this.articles.length === 0) {
+      return null;
+    }
+
+    const validIds = this.articles
+      .map((article) =>
+        article && article.id !== undefined && article.id !== null
+          ? String(article.id).trim()
+          : ""
+      )
+      .filter((id) => id !== "" && id !== "undefined" && id !== "null");
+
+    if (validIds.length === 0) {
+      return null;
+    }
+
+    return validIds[Math.floor(Math.random() * validIds.length)];
+  }
+
   async loadArticleDetail() {
     try {
       if (
@@ -54,12 +78,7 @@ class ArticleDetailPage {
         this.articleId === "undefined" ||
         this.articleId === "null"
       ) {
-        if (this.articles && this.articles.length > 0) {
-          const randomIndex = Math.floor(Math.random() * this.articles.length);
-          this.articleId = String(this.articles[randomIndex].id);
-        } else {
-          this.articleId = "1";
-        }
+        this.articleId = this.getRandomArticleId() || "1";
       }
 
       if (
