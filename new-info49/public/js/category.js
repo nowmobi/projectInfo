@@ -691,8 +691,7 @@ class CategoryPage {
   bindSmartBackButton() {
     const backButton = document.getElementById("smartBackButton");
     if (backButton) {
-      backButton.addEventListener("click", (e) => {
-        e.preventDefault();
+      backButton.addEventListener("click", () => {
         this.handleSmartBack();
       });
     }

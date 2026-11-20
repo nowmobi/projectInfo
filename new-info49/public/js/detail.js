@@ -624,8 +624,7 @@ class ArticleDetailPage {
   setupEventListeners() {
     const smartBackButton = document.getElementById("smartBackButton");
     if (smartBackButton) {
-      smartBackButton.addEventListener("click", (e) => {
-        e.preventDefault();
+      smartBackButton.addEventListener("click", () => {
         window.location.href = "index.html";
       });
     }
