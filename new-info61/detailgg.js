@@ -177,17 +177,32 @@ const loadBannerAd = (slotName, size, divId) => {
 };
 
 const loadAnchorAd = (slotName) => {
-  if (!slotName) return;
+  if (!slotName) return null;
   try {
-    const anchorSlot = googletag.defineOutOfPageSlot(
-      slotName,
-      googletag.enums.OutOfPageFormat.BOTTOM_ANCHOR
-    );
-    if (anchorSlot) {
-      anchorSlot.setTargeting("test", "anchor").addService(googletag.pubads());
+    const outOfPageFormat =
+      window.googletag &&
+      window.googletag.enums &&
+      window.googletag.enums.OutOfPageFormat;
+    const topAnchorFormat = outOfPageFormat && outOfPageFormat.TOP_ANCHOR;
+
+    if (!topAnchorFormat) {
+      console.warn("⚠️ TOP_ANCHOR format unavailable, skipping top anchor ad");
+      return null;
     }
+
+    const anchorSlot = window.googletag.defineOutOfPageSlot(
+      slotName,
+      topAnchorFormat
+    );
+
+    if (anchorSlot) {
+      anchorSlot.setTargeting("test", "anchor").addService(window.googletag.pubads());
+      return anchorSlot;
+    }
+    return null;
   } catch (error) {
     console.error("Error loading anchor ad:", error);
+    return null;
   }
 };
 
@@ -217,13 +232,24 @@ const initializeAllAds = () => {
   bannerAdList.forEach((ad) => loadBannerAd(ad.slot, ad.size, ad.divId));
 
   
-  anchorAdList.forEach((ad) => loadAnchorAd(ad.slot));
+  const anchorSlots = anchorAdList
+    .slice(0, 1)
+    .map((ad) => loadAnchorAd(ad.slot))
+    .filter(Boolean);
 
   
   interstitialAdList.forEach((ad) => loadInterstitialAd(ad.slot));
 
   window.googletag.pubads().enableSingleRequest();
   window.googletag.enableServices();
+
+  anchorSlots.forEach((slot) => {
+    try {
+      window.googletag.display(slot);
+    } catch (error) {
+      console.error("Error displaying anchor ad:", error);
+    }
+  });
 
   console.log("✅ All ad slots defined successfully.");
   console.log("🔍 Checking and displaying existing static ads...");
